@@ -15,8 +15,4 @@ public class LoginForm {
     @NotEmpty
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z[0-9]!@#$%^&*]{8,16}$")
     private String password;
-
-    @NotEmpty
-    @Size(min = 8, max = 16)
-    private String nickName;
 }
