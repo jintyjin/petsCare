@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<body>
+<div layout:fragment="content" class="container col-md-3 py-5">
+    <form action="loginForm.html" th:action th:object="${loginForm}" method="post">
+        <div>
+            <label for="loginId" th:text="#{label.user.loginId}">로그인 ID</label>
+            <input type="text" id="loginId" th:field="*{loginId}" class="form-control"
+                   th:errorclass="field-error">
+            <div class="field-error" th:errors="*{loginId}" />
+        </div>
+        <div>
+            <label for="password" th:text="#{label.user.password}">비밀번호</label>
+            <input type="password" id="password" th:field="*{password}"
+                   class="form-control"
+                   th:errorclass="field-error">
+            <div class="field-error" th:errors="*{password}" />
+        </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{button.login}">로그인</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='home.html'"
+                        th:onclick="|location.href='@{/user/new}'|"
+                        type="button"
+                        th:text="#{button.user.join}">취소</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
