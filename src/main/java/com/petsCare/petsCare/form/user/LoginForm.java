@@ -9,7 +9,7 @@ import lombok.Data;
 public class LoginForm {
 
     @NotEmpty
-    @Size(min = 8, max = 16)
+    @Size(min = 5, max = 16)
     private String loginId;
 
     @NotEmpty
