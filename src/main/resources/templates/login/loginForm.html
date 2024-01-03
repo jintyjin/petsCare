@@ -6,16 +6,17 @@
     <form action="loginForm.html" th:action th:object="${loginForm}" method="post">
         <div>
             <label for="loginId" th:text="#{label.user.loginId}">로그인 ID</label>
-            <input type="text" id="loginId" th:field="*{loginId}" class="form-control"
-                   th:errorclass="field-error">
-            <div class="field-error" th:errors="*{loginId}" />
+            <input type="text" id="loginId" th:field="*{loginId}"
+                   th:classappend="${error} and ${errorCode} == 1 ? 'form-control field-error' : 'form-control'">
         </div>
         <div>
             <label for="password" th:text="#{label.user.password}">비밀번호</label>
             <input type="password" id="password" th:field="*{password}"
-                   class="form-control"
-                   th:errorclass="field-error">
-            <div class="field-error" th:errors="*{password}" />
+                   th:classappend="${error} and ${errorCode} == 1 ? 'form-control field-error' : 'form-control'">
+            <div th:if="${error} and ${errorCode} == 1" th:text="#{${errorMessage}}" class="field-error">Wrong user or password</div>
+        </div>
+        <div>
+            <div th:if="${error} and ${errorCode} == 2" th:text="#{${errorMessage}}" class="field-error">Login error</div>
         </div>
         <hr class="my-4">
         <div class="row">
@@ -25,7 +26,7 @@
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
                         onclick="location.href='home.html'"
-                        th:onclick="|location.href='@{/user/new}'|"
+                        th:onclick="|location.href='@{/user/join}'|"
                         type="button"
                         th:text="#{button.user.join}">취소</button>
             </div>
