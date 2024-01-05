@@ -1,22 +1,33 @@
 package com.petsCare.petsCare.form.user;
 
-import jakarta.validation.constraints.NotEmpty;
+import com.petsCare.petsCare.entity.user.User;
+import com.petsCare.petsCare.validation.ValidationGroups;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Data
+@NoArgsConstructor
 public class UserJoinForm {
 
-    @NotEmpty
-    @Size(min = 5, max = 16)
+    @Pattern(regexp = "^[0-9a-zA-Z가-힣]{5,16}$", groups = ValidationGroups.PatternGroup.class)
     private String loginId;
 
-    @NotEmpty
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z[0-9]!@#$%^&*]{8,16}$")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z[0-9]!@#$%^&*]{8,16}$", groups = ValidationGroups.PatternGroup.class)
     private String password;
 
-    @NotEmpty
-    @Pattern(regexp = "^[0-9a-zA-Z가-힣]{4,16}$")
+    @Pattern(regexp = "^[0-9a-zA-Z가-힣]{5,16}$", groups = ValidationGroups.PatternGroup.class)
     private String nickName;
+
+    public UserJoinForm(String loginId, String password, String nickName) {
+        this.loginId = loginId;
+        this.password = password;
+        this.nickName = nickName;
+    }
+
+    public User createUser(BCryptPasswordEncoder bCryptPasswordEncoder) {
+        return new User(this.loginId, bCryptPasswordEncoder.encode(this.password), this.nickName);
+    }
 }
+
