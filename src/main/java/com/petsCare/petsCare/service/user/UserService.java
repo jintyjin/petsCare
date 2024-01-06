@@ -29,13 +29,13 @@ public class UserService {
         userRepository
                 .findByLoginId(user.getLoginId())
                 .ifPresent(byLoginId -> {
-                    throw new DuplicatedLoginIdException("existUser.userJoinForm.loginId");
+                    throw new DuplicatedLoginIdException("이미 존재하는 아이디입니다.");
                 });
 
         userRepository
                 .findByNickName(user.getNickName())
                 .ifPresent(byNickName -> {
-                    throw new DuplicatedNickNameException("existUser.userJoinForm.nickName");
+                    throw new DuplicatedNickNameException("이미 존재하는 닉네임입니다.");
                 });
 
         userRepository.save(user);
