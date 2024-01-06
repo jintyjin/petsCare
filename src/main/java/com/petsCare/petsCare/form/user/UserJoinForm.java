@@ -1,11 +1,9 @@
 package com.petsCare.petsCare.form.user;
 
-import com.petsCare.petsCare.entity.user.User;
 import com.petsCare.petsCare.validation.ValidationGroups;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Data
 @NoArgsConstructor
@@ -24,10 +22,6 @@ public class UserJoinForm {
         this.loginId = loginId;
         this.password = password;
         this.nickName = nickName;
-    }
-
-    public User createUser(BCryptPasswordEncoder bCryptPasswordEncoder) {
-        return new User(this.loginId, bCryptPasswordEncoder.encode(this.password), this.nickName);
     }
 }
 

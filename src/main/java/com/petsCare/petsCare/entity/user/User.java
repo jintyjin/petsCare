@@ -4,6 +4,7 @@ import com.petsCare.petsCare.entity.pet.Pet;
 import com.petsCare.petsCare.entity.base.BaseUserEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,6 +33,7 @@ public class User extends BaseUserEntity {
     @OneToMany(mappedBy = "user")
     private List<Pet> pets = new ArrayList<>();
 
+    @Builder
     public User(String loginId, String password, String nickName) {
         this.loginId = loginId;
         this.password = password;
