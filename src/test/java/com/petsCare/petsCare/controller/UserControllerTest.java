@@ -25,8 +25,8 @@ class UserControllerTest {
     void 회원_가입_검증() throws Exception {
         //given
         UserJoinForm userJoinForm1 = new UserJoinForm("", "", "");
-        UserJoinForm userJoinForm2 = new UserJoinForm("testUser", "testUser!23", "에세이르");
-        UserJoinForm userJoinForm3 = new UserJoinForm("testUser", "testUser!23", "에세이르123");
+        UserJoinForm userJoinForm2 = new UserJoinForm("testMember123", "testUser!23", "에세이르");
+        UserJoinForm userJoinForm3 = new UserJoinForm("testUser", "testUser!23", "에세이르1");
 
         //when
         ResultActions perform1 = mockMvc.perform(
