@@ -24,19 +24,23 @@ public class UserService {
 
     @Transactional
     public void joinUser(UserJoinForm userJoinForm) {
-        User user = userJoinForm.createUser(passwordEncoder);
-
         userRepository
-                .findByLoginId(user.getLoginId())
+                .findByLoginId(userJoinForm.getLoginId())
                 .ifPresent(byLoginId -> {
                     throw new DuplicatedLoginIdException("이미 존재하는 아이디입니다.");
                 });
 
         userRepository
-                .findByNickName(user.getNickName())
+                .findByNickName(userJoinForm.getNickName())
                 .ifPresent(byNickName -> {
                     throw new DuplicatedNickNameException("이미 존재하는 닉네임입니다.");
                 });
+
+        User user = User.builder()
+                .loginId(userJoinForm.getLoginId())
+                .password(passwordEncoder.encode(userJoinForm.getPassword()))
+                .nickName(userJoinForm.getNickName())
+                .build();
 
         userRepository.save(user);
     }
