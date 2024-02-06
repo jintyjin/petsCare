@@ -21,6 +21,11 @@ public class KaKaoResponse implements OAuth2Response {
     }
 
     @Override
+    public String getName() {
+        return this.getProvider() + " " + this.getProviderId();
+    }
+
+    @Override
     public String getNickName() {
         return ((Map<String, Object>) attribute.get("properties")).get("nickname").toString();
     }
