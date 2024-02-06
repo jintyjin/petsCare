@@ -38,7 +38,7 @@
       ```
       spring:
         datasource:
-          url: jdbc:h2:tcp://localhost/~/생성한 DB명;
+          url: jdbc:h2:tcp://localhost/~/생성한 DB명;
           username: 이름
           password: 암호
           driver-class-name: org.h2.Driver
