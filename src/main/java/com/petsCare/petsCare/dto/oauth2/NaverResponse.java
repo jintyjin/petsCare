@@ -21,6 +21,11 @@ public class NaverResponse implements OAuth2Response {
     }
 
     @Override
+    public String getName() {
+        return this.getProvider() + " " + this.getProviderId();
+    }
+
+    @Override
     public String getNickName() {
         return attribute.get("nickname").toString();
     }
