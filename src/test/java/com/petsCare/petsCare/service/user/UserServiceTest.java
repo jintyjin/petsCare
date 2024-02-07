@@ -28,22 +28,6 @@ class UserServiceTest {
 
     @Test
     @Transactional
-    void 비밀번호_암호화() {
-        //given
-        String pwd = "비밀번호123";
-
-        //when
-        String encodePwd = passwordEncoder.encode(pwd);
-        User user = new User("test", encodePwd, "테스트");
-        userRepository.save(user);
-        User findUser = userRepository.findByLoginId(user.getLoginId()).get();
-
-        //then
-        assertThat(BCrypt.checkpw(pwd, findUser.getPassword())).isTrue();
-    }
-
-    @Test
-    @Transactional
     void 회원_가입_닉네임_중복() {
         //given
         UserJoinForm userJoinForm1 = new UserJoinForm("testMember1234", "testMember!23", "에세이르12");

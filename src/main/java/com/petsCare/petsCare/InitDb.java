@@ -29,7 +29,13 @@ public class InitDb {
         private final BCryptPasswordEncoder passwordEncoder;
 
         public void dbInit1() {
-            User user = new User("testMember123", passwordEncoder.encode("testMember!23"), "에세이르123");
+            User user = User.builder()
+                    .provider("naver")
+                    .loginId("naver_testMember123")
+                    .nickName("에세이르123")
+                    .profileImage("jj.png")
+                    .role("ROLE_USER")
+                    .build();
             em.persist(user);
         }
     }

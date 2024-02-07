@@ -38,7 +38,6 @@ public class UserService {
 
         User user = User.builder()
                 .loginId(userJoinForm.getLoginId())
-                .password(passwordEncoder.encode(userJoinForm.getPassword()))
                 .nickName(userJoinForm.getNickName())
                 .build();
 
