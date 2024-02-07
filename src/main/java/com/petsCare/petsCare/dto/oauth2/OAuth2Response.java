@@ -8,7 +8,7 @@ public interface OAuth2Response extends Serializable {
 
     String getProviderId();
 
-    String getName();
+    String getLoginId();
 
     String getNickName();
 

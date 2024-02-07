@@ -21,8 +21,8 @@ public class KaKaoResponse implements OAuth2Response {
     }
 
     @Override
-    public String getName() {
-        return this.getProvider() + " " + this.getProviderId();
+    public String getLoginId() {
+        return this.getProvider() + "_" + this.getProviderId();
     }
 
     @Override
