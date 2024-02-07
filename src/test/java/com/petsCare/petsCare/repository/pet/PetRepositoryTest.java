@@ -27,8 +27,20 @@ class PetRepositoryTest {
     @Transactional
     void 펫_등록() {
         //given
-        User user1 = new User("test1", "123123", "테스트1");
-        User user2 = new User("test2", "123123", "테스트2");
+        User user1 = User.builder()
+                .provider("naver")
+                .loginId("naver_test1")
+                .nickName("테스트1")
+                .profileImage("jj.png")
+                .role("ROLE_USER")
+                .build();
+        User user2 = User.builder()
+                .provider("naver")
+                .loginId("naver_test2")
+                .nickName("테스트2")
+                .profileImage("jj.png")
+                .role("ROLE_USER")
+                .build();
         userRepository.save(user1);
         userRepository.save(user2);
         Pet pet1 = new Pet("이복댕1", "닥스훈트", 1, LocalDateTime.of(2014, 07, 31, 0, 0, 0), user1);
@@ -51,7 +63,13 @@ class PetRepositoryTest {
     @Transactional
     void 펫_가져오기() {
         //given
-        User user = new User("test", "123123", "테스트");
+        User user = User.builder()
+                .provider("naver")
+                .loginId("naver_jinjin")
+                .nickName("JJ")
+                .profileImage("jj.png")
+                .role("ROLE_USER")
+                .build();
         userRepository.save(user);
         Pet pet1 = new Pet("이복댕1", "닥스훈트", 1, LocalDateTime.of(2014, 07, 31, 0, 0, 0), user);
         Pet pet2 = new Pet("이복댕2", "닥스훈트", 1, LocalDateTime.of(2014, 07, 31, 0, 0, 0), user);

@@ -33,7 +33,13 @@ class WeightRepositoryTest {
     @Transactional
     void 체중_등록() {
         //given
-        User user = new User("test", "123123", "테스트");
+        User user = User.builder()
+                .provider("naver")
+                .loginId("naver_jinjin")
+                .nickName("JJ")
+                .profileImage("jj.png")
+                .role("ROLE_USER")
+                .build();
         userRepository.save(user);
         Pet pet = new Pet("이복댕", "닥스훈트", 1, LocalDateTime.of(2014, 07, 31, 0, 0, 0), user);
         petRepository.save(pet);
@@ -51,7 +57,13 @@ class WeightRepositoryTest {
     @Transactional
     void 반려동물_체중_가져오기() {
         //given
-        User user = new User("test", "123123", "테스트");
+        User user = User.builder()
+                .provider("naver")
+                .loginId("naver_jinjin")
+                .nickName("JJ")
+                .profileImage("jj.png")
+                .role("ROLE_USER")
+                .build();
         userRepository.save(user);
         Pet pet = new Pet("이복댕", "닥스훈트", 1, LocalDateTime.of(2014, 07, 31, 0, 0, 0), user);
         petRepository.save(pet);
