@@ -25,9 +25,21 @@ class DeletedUserRepositoryTest {
     @Transactional
     void 유저_탈퇴() {
         //given
-        User user = new User("test", "123123", "테스트");
+        User user = User.builder()
+                .provider("naver")
+                .loginId("naver_jinjin")
+                .nickName("JJ")
+                .profileImage("jj.png")
+                .role("ROLE_USER")
+                .build();
         userRepository.save(user);
-        DeletedUser deletedUser = new DeletedUser(user.getLoginId(), user.getPassword(), user.getNickName());
+        DeletedUser deletedUser = DeletedUser.builder()
+                .provider("naver")
+                .loginId("naver_jinjin")
+                .nickName("JJ")
+                .profileImage("jj.png")
+                .role("ROLE_USER")
+                .build();
 
         //when
         deletedUserRepository.save(deletedUser);

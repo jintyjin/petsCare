@@ -39,10 +39,11 @@ public class User extends BaseUserEntity {
     private List<Pet> pets = new ArrayList<>();
 
     @Builder
-    public User(String provider, String loginId, String nickName, String profileImage) {
+    public User(String provider, String loginId, String nickName, String profileImage, String role) {
         this.provider = provider;
         this.loginId = loginId;
         this.nickName = nickName;
         this.profileImage = profileImage;
+        this.role = role;
     }
 }

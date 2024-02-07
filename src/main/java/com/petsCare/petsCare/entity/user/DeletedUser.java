@@ -1,9 +1,7 @@
 package com.petsCare.petsCare.entity.user;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -14,28 +12,39 @@ import java.time.LocalDateTime;
 @Table(name = "DELETED_USER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
+@AllArgsConstructor
+@Builder
 public class DeletedUser {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
+    @Column(name = "user_provider")
+    private String provider;
+
     @Column(name = "user_login_id", unique = true)
     private String loginId;
 
-    @Column(name = "user_pwd")
-    private String password;
-
-    @Column(name = "user_nickname", unique = true)
+    @Column(name = "user_nickname")
     private String nickName;
+
+    @Column(name = "user_profile_image")
+    private String profileImage;
+
+    @Column(name = "user_role")
+    private String role;
 
     @CreatedDate
     @Column(name = "user_deleted_date", updatable = false)
     private LocalDateTime deletedDate;
 
-    public DeletedUser(String loginId, String password, String nickName) {
+    @Builder
+    public DeletedUser(String provider, String loginId, String nickName, String profileImage, String role) {
+        this.provider = provider;
         this.loginId = loginId;
-        this.password = password;
         this.nickName = nickName;
+        this.profileImage = profileImage;
+        this.role = role;
     }
 }
