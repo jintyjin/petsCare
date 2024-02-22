@@ -50,4 +50,8 @@ public class Pet {
         this.user = user;
         this.user.getPets().add(this);
     }
+
+    public void leave(LocalDateTime petLeaveDate) {
+        this.petLeaveDate = petLeaveDate;
+    }
 }

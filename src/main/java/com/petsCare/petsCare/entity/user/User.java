@@ -13,7 +13,6 @@ import java.util.List;
 @Table(name = "USERS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 public class User extends BaseUserEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
