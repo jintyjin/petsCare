@@ -1,16 +1,17 @@
 package com.petsCare.petsCare.repository.weight;
 
 import com.petsCare.petsCare.entity.pet.Pet;
-import com.petsCare.petsCare.entity.pet.PetStatus;
+import com.petsCare.petsCare.entity.pet.PetBreed;
+import com.petsCare.petsCare.entity.pet.PetType;
 import com.petsCare.petsCare.entity.user.User;
 import com.petsCare.petsCare.entity.weight.Weight;
+import com.petsCare.petsCare.repository.pet.PetBreedRepository;
 import com.petsCare.petsCare.repository.pet.PetRepository;
+import com.petsCare.petsCare.repository.pet.PetTypeRepository;
 import com.petsCare.petsCare.repository.user.UserRepository;
-import com.petsCare.petsCare.repository.weight.WeightRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -32,6 +33,12 @@ class WeightRepositoryTest {
     @Autowired
     WeightRepository weightRepository;
 
+    @Autowired
+    PetTypeRepository petTypeRepository;
+
+    @Autowired
+    PetBreedRepository petBreedRepository;
+
     @Test
     @Transactional
     void 체중_등록() {
@@ -44,7 +51,7 @@ class WeightRepositoryTest {
                 .role("ROLE_USER")
                 .build();
         userRepository.save(user);
-        Pet pet = new Pet("이복댕", null, 1, LocalDate.of(2014, 7, 31), user);
+        Pet pet = new Pet("이복댕", new PetBreed("닥스훈트", new PetType("강아지")), 1, LocalDate.of(2014, 7, 31), user);
         petRepository.save(pet);
 
         //when
@@ -68,7 +75,11 @@ class WeightRepositoryTest {
                 .role("ROLE_USER")
                 .build();
         userRepository.save(user);
-        Pet pet = new Pet("이복댕", null, 1, LocalDate.of(2014, 7, 31), user);
+        PetType petType = new PetType("강아지");
+        petTypeRepository.save(petType);
+        PetBreed petBreed = new PetBreed("닥스훈트", petType);
+        petBreedRepository.save(petBreed);
+        Pet pet = new Pet("이복댕", petBreed, 1, LocalDate.of(2014, 7, 31), user);
         petRepository.save(pet);
         Weight weight1 = new Weight(new BigDecimal(9.28), LocalDateTime.now(), pet);
         Weight weight2 = new Weight(new BigDecimal(9.21), LocalDateTime.now(), pet);
