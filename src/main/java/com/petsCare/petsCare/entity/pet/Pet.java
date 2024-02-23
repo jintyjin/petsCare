@@ -4,10 +4,11 @@ import com.petsCare.petsCare.entity.user.User;
 import com.petsCare.petsCare.entity.weight.Weight;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,17 +24,21 @@ public class Pet {
     @Column(name = "pet_name")
     private String petName;
 
-    @Column(name = "pet_type")
-    private String petType;
+    @Column(name = "pet_breed")
+    private PetBreed petBreed;
 
     @Column(name = "pet_gender")
     private int petGender;
 
     @Column(name = "pet_birth")
-    private LocalDateTime petBirth;
+    private LocalDate petBirth;
+
+    @Column(name = "pet_status")
+    @Enumerated(EnumType.STRING)
+    private PetStatus petStatus;
 
     @Column(name = "pet_leave_date")
-    private LocalDateTime petLeaveDate;
+    private LocalDate petLeaveDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -42,16 +47,18 @@ public class Pet {
     @OneToMany(mappedBy = "pet")
     List<Weight> weights = new ArrayList<>();
 
-    public Pet(String petName, String petType, int petGender, LocalDateTime petBirth, User user) {
+    @Builder
+    public Pet(String petName, PetBreed petBreed, int petGender, LocalDate petBirth, PetStatus petStatus, User user) {
         this.petName = petName;
-        this.petType = petType;
+        this.petBreed = petBreed;
         this.petGender = petGender;
         this.petBirth = petBirth;
+        this.petStatus = petStatus;
         this.user = user;
         this.user.getPets().add(this);
     }
 
-    public void leave(LocalDateTime petLeaveDate) {
+    public void leave(LocalDate petLeaveDate) {
         this.petLeaveDate = petLeaveDate;
     }
 }
