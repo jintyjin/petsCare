@@ -48,17 +48,18 @@ public class Pet {
     List<Weight> weights = new ArrayList<>();
 
     @Builder
-    public Pet(String petName, PetBreed petBreed, int petGender, LocalDate petBirth, PetStatus petStatus, User user) {
+    public Pet(String petName, PetBreed petBreed, int petGender, LocalDate petBirth, User user) {
         this.petName = petName;
         this.petBreed = petBreed;
         this.petGender = petGender;
         this.petBirth = petBirth;
-        this.petStatus = petStatus;
+        this.petStatus = PetStatus.NORMAL;
         this.user = user;
         this.user.getPets().add(this);
     }
 
     public void leave(LocalDate petLeaveDate) {
         this.petLeaveDate = petLeaveDate;
+        this.petStatus = PetStatus.LEAVE;
     }
 }

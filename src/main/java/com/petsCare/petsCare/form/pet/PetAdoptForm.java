@@ -2,6 +2,7 @@ package com.petsCare.petsCare.form.pet;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ public class PetAdoptForm {
 	private int petGender;
 
 	@NotBlank
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate petBirth;
 
 	@NotBlank

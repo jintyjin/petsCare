@@ -4,8 +4,10 @@ import com.petsCare.petsCare.entity.pet.Pet;
 import com.petsCare.petsCare.entity.pet.PetBreed;
 import com.petsCare.petsCare.entity.user.User;
 import com.petsCare.petsCare.exception.PetBreedCanNotFindException;
+import com.petsCare.petsCare.exception.PetCanNotFindException;
 import com.petsCare.petsCare.exception.UserCanNotFindException;
 import com.petsCare.petsCare.form.pet.PetAdoptForm;
+import com.petsCare.petsCare.form.pet.PetLeaveForm;
 import com.petsCare.petsCare.repository.pet.PetBreedRepository;
 import com.petsCare.petsCare.repository.pet.PetRepository;
 import com.petsCare.petsCare.repository.user.UserRepository;
@@ -51,10 +53,18 @@ public class PetService {
 				.petBreed(petBreed)
 				.petGender(petGender)
 				.petBirth(petBirth)
-				.petStatus(NORMAL)
 				.user(user)
 				.build();
 
 		petRepository.save(pet);
+	}
+
+	@Transactional
+	public void leave(PetLeaveForm petLeaveForm) {
+		PetCanNotFindException petCanNotFindException
+				= new PetCanNotFindException("canNotFindPet.petLeaveForm.petLeaveDate");
+		Pet pet = petRepository.findById(petLeaveForm.getPetId())
+				.orElseThrow(() -> petCanNotFindException);
+		pet.leave(petLeaveForm.getPetLeaveDate());
 	}
 }
