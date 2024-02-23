@@ -1,9 +1,11 @@
 package com.petsCare.petsCare.service.pet;
 
+import com.petsCare.petsCare.entity.pet.Pet;
 import com.petsCare.petsCare.entity.pet.PetBreed;
 import com.petsCare.petsCare.entity.pet.PetType;
 import com.petsCare.petsCare.entity.user.User;
 import com.petsCare.petsCare.form.pet.PetAdoptForm;
+import com.petsCare.petsCare.form.pet.PetLeaveForm;
 import com.petsCare.petsCare.repository.pet.PetBreedRepository;
 import com.petsCare.petsCare.repository.pet.PetRepository;
 import com.petsCare.petsCare.repository.user.UserRepository;
@@ -13,7 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.nio.charset.StandardCharsets;
@@ -59,6 +60,19 @@ class PetServiceTest {
 
 		//when //then
 		assertThatCode(() -> petService.adopt(petAdoptForm));
+	}
 
+	@Test
+	@DisplayName("반려 동물 상태 수정 성공")
+	void leaveSuccess() {
+		//given
+		PetLeaveForm petLeaveForm = new PetLeaveForm(1L, LocalDate.now());
+		when(petRepository.findById(1L))
+				.thenReturn(of(new Pet("꼬맹이", new PetBreed("닥스훈트", new PetType("강아지")), 0,
+						LocalDate.now(), new User("provider", "진세진", "닉네임", "profileImage", "USER"))));
+
+		//when //then
+		assertThatCode(() -> petService.leave(petLeaveForm));
+		verify(petRepository, atLeastOnce()).findById(1L);
 	}
 }
