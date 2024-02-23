@@ -1,6 +1,7 @@
 package com.petsCare.petsCare.repository.weight;
 
 import com.petsCare.petsCare.entity.pet.Pet;
+import com.petsCare.petsCare.entity.pet.PetStatus;
 import com.petsCare.petsCare.entity.user.User;
 import com.petsCare.petsCare.entity.weight.Weight;
 import com.petsCare.petsCare.repository.pet.PetRepository;
@@ -8,16 +9,18 @@ import com.petsCare.petsCare.repository.user.UserRepository;
 import com.petsCare.petsCare.repository.weight.WeightRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest
+@DataJpaTest
 class WeightRepositoryTest {
 
     @Autowired
@@ -41,7 +44,7 @@ class WeightRepositoryTest {
                 .role("ROLE_USER")
                 .build();
         userRepository.save(user);
-        Pet pet = new Pet("이복댕", "닥스훈트", 1, LocalDateTime.of(2014, 07, 31, 0, 0, 0), user);
+        Pet pet = new Pet("이복댕", null, 1, LocalDate.of(2014, 7, 31), PetStatus.NORMAL, user);
         petRepository.save(pet);
 
         //when
@@ -65,7 +68,7 @@ class WeightRepositoryTest {
                 .role("ROLE_USER")
                 .build();
         userRepository.save(user);
-        Pet pet = new Pet("이복댕", "닥스훈트", 1, LocalDateTime.of(2014, 07, 31, 0, 0, 0), user);
+        Pet pet = new Pet("이복댕", null, 1, LocalDate.of(2014, 7, 31), PetStatus.NORMAL, user);
         petRepository.save(pet);
         Weight weight1 = new Weight(new BigDecimal(9.28), LocalDateTime.now(), pet);
         Weight weight2 = new Weight(new BigDecimal(9.21), LocalDateTime.now(), pet);
