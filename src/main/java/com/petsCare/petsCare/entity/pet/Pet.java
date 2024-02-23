@@ -24,7 +24,8 @@ public class Pet {
     @Column(name = "pet_name")
     private String petName;
 
-    @Column(name = "pet_breed")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pet_breed_id")
     private PetBreed petBreed;
 
     @Column(name = "pet_gender")
@@ -56,6 +57,7 @@ public class Pet {
         this.petStatus = PetStatus.NORMAL;
         this.user = user;
         this.user.getPets().add(this);
+        this.petBreed.getPet().add(this);
     }
 
     public void leave(LocalDate petLeaveDate) {

@@ -5,6 +5,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,9 +21,12 @@ public class PetBreed {
 	@Column(name = "pet_breed")
 	private String breed;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pet_type_id")
 	private PetType petType;
+
+	@OneToMany(mappedBy = "petBreed")
+	private List<Pet> pet = new ArrayList<>();
 
 	public PetBreed(String breed, PetType petType) {
 		this.breed = breed;
