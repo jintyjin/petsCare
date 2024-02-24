@@ -1,6 +1,7 @@
 package com.petsCare.petsCare.form.pet;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,15 +19,22 @@ public class PetAdoptForm {
 	@NotBlank
 	private String breed;
 
-	@NotBlank
+	@NotNull
 	private int petGender;
 
-	@NotBlank
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate petBirth;
 
 	@NotBlank
 	private String loginId;
+
+	public PetAdoptForm() {
+	}
+
+	public PetAdoptForm(String loginId) {
+		this.loginId = loginId;
+	}
 
 	public PetAdoptForm(String petName, MultipartFile thumbnail, String breed, int petGender, LocalDate petBirth, String loginId) {
 		this.petName = petName;
