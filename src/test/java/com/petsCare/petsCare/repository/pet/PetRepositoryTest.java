@@ -1,20 +1,21 @@
 package com.petsCare.petsCare.repository.pet;
 
 import com.petsCare.petsCare.entity.pet.Pet;
+import com.petsCare.petsCare.entity.pet.PetBreed;
+import com.petsCare.petsCare.entity.pet.PetType;
 import com.petsCare.petsCare.entity.user.User;
-import com.petsCare.petsCare.repository.pet.PetRepository;
 import com.petsCare.petsCare.repository.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest
+@DataJpaTest
 class PetRepositoryTest {
 
     @Autowired
@@ -22,6 +23,12 @@ class PetRepositoryTest {
 
     @Autowired
     PetRepository petRepository;
+
+    @Autowired
+    PetTypeRepository petTypeRepository;
+
+    @Autowired
+    PetBreedRepository petBreedRepository;
 
     @Test
     @Transactional
@@ -43,9 +50,13 @@ class PetRepositoryTest {
                 .build();
         userRepository.save(user1);
         userRepository.save(user2);
-        Pet pet1 = new Pet("이복댕1", "닥스훈트", 1, LocalDateTime.of(2014, 07, 31, 0, 0, 0), user1);
-        Pet pet2 = new Pet("이복댕2", "닥스훈트", 1, LocalDateTime.of(2014, 07, 31, 0, 0, 0), user2);
-        Pet pet3 = new Pet("이복댕3", "닥스훈트", 1, LocalDateTime.of(2014, 07, 31, 0, 0, 0), user2);
+        PetType petType = new PetType("강아지");
+        petTypeRepository.save(petType);
+        PetBreed petBreed = new PetBreed("닥스훈트", petType);
+        petBreedRepository.save(petBreed);
+        Pet pet1 = new Pet("이복댕1", petBreed, 1, LocalDate.of(2014, 7, 31), user1);
+        Pet pet2 = new Pet("이복댕2", petBreed, 1, LocalDate.of(2014, 7, 31), user2);
+        Pet pet3 = new Pet("이복댕3", petBreed, 1, LocalDate.of(2014, 7, 31), user2);
         petRepository.save(pet1);
         petRepository.save(pet2);
         petRepository.save(pet3);
@@ -71,9 +82,13 @@ class PetRepositoryTest {
                 .role("ROLE_USER")
                 .build();
         userRepository.save(user);
-        Pet pet1 = new Pet("이복댕1", "닥스훈트", 1, LocalDateTime.of(2014, 07, 31, 0, 0, 0), user);
-        Pet pet2 = new Pet("이복댕2", "닥스훈트", 1, LocalDateTime.of(2014, 07, 31, 0, 0, 0), user);
-        Pet pet3 = new Pet("이복댕3", "닥스훈트", 1, LocalDateTime.of(2014, 07, 31, 0, 0, 0), user);
+        PetType petType = new PetType("강아지");
+        petTypeRepository.save(petType);
+        PetBreed petBreed = new PetBreed("닥스훈트", petType);
+        petBreedRepository.save(petBreed);
+        Pet pet1 = new Pet("이복댕1", petBreed, 1, LocalDate.of(2014, 7, 31), user);
+        Pet pet2 = new Pet("이복댕2", petBreed, 1, LocalDate.of(2014, 7, 31), user);
+        Pet pet3 = new Pet("이복댕3", petBreed, 1, LocalDate.of(2014, 7, 31), user);
         petRepository.save(pet1);
         petRepository.save(pet2);
         petRepository.save(pet3);
