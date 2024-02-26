@@ -1,7 +1,8 @@
-package com.petsCare.petsCare.controller;
+package com.petsCare.petsCare.controller.pet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.petsCare.petsCare.controller.PetController;
 import com.petsCare.petsCare.form.pet.PetAdoptForm;
 import com.petsCare.petsCare.service.pet.PetService;
 import org.aspectj.lang.annotation.Before;
@@ -17,13 +18,13 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
 import static com.nimbusds.common.contenttype.ContentType.IMAGE_JPEG;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = {PetController.class}, excludeAutoConfiguration = {SecurityAutoConfiguration.class, OAuth2ClientAutoConfiguration.class})
@@ -60,7 +61,7 @@ class PetControllerTest {
 		doNothing().when(petService).adopt(any(PetAdoptForm.class));
 
 		//when
-		ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.multipart(url)
+		ResultActions resultActions = mockMvc.perform(multipart(url)
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.param("petName", petName)
 				.param("breed", breed)
