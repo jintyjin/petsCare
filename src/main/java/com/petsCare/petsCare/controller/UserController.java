@@ -1,7 +1,6 @@
 package com.petsCare.petsCare.controller;
 
 import com.petsCare.petsCare.exception.DuplicatedLoginIdException;
-import com.petsCare.petsCare.exception.DuplicatedNickNameException;
 import com.petsCare.petsCare.form.user.UserJoinForm;
 import com.petsCare.petsCare.service.user.UserService;
 import com.petsCare.petsCare.validation.ValidationSequence;
@@ -38,10 +37,6 @@ public class UserController {
             userService.joinUser(userJoinForm);
         } catch (DuplicatedLoginIdException e) {
             FieldError fieldError = new FieldError("userJoinForm", "loginId", e.getMessage());
-            bindingResult.addError(fieldError);
-            return "/user/userJoinForm";
-        } catch (DuplicatedNickNameException e) {
-            FieldError fieldError = new FieldError("userJoinForm", "nickName", e.getMessage());
             bindingResult.addError(fieldError);
             return "/user/userJoinForm";
         }

@@ -32,7 +32,7 @@ public class InitDb {
             User user = User.builder()
                     .provider("naver")
                     .loginId("naver_testMember123")
-                    .nickName("에세이르123")
+                    .username("에세이르123")
                     .profileImage("jj.png")
                     .role("ROLE_USER")
                     .build();

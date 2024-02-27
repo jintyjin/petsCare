@@ -8,6 +8,7 @@ import com.petsCare.petsCare.exception.PetCanNotFindException;
 import com.petsCare.petsCare.exception.UserCanNotFindException;
 import com.petsCare.petsCare.form.pet.PetAdoptForm;
 import com.petsCare.petsCare.form.pet.PetLeaveForm;
+import com.petsCare.petsCare.form.pet.PetsForm;
 import com.petsCare.petsCare.repository.pet.PetBreedRepository;
 import com.petsCare.petsCare.repository.pet.PetRepository;
 import com.petsCare.petsCare.repository.user.UserRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static com.petsCare.petsCare.entity.pet.PetStatus.*;
 
@@ -29,24 +31,17 @@ public class PetService {
 	private final UserRepository userRepository;
 
 	@Transactional
-	public void adopt(PetAdoptForm petAdoptForm) {
+	public void adopt(PetAdoptForm petAdoptForm, User user) {
 		String petName = petAdoptForm.getPetName();
 		String breed = petAdoptForm.getBreed();
 		int petGender = petAdoptForm.getPetGender();
 		LocalDate petBirth = petAdoptForm.getPetBirth();
-		String loginId = petAdoptForm.getLoginId();
 
 		String breedErrorCode = "canNotFindBreed.petAdoptForm.breed";
 		PetBreedCanNotFindException petBreedCanNotFindException = new PetBreedCanNotFindException(breedErrorCode);
 
 		PetBreed petBreed = petBreedRepository.findByBreed(breed)
 				.orElseThrow(() -> petBreedCanNotFindException);
-
-		String userErrorCode = "canNotFindUser.petAdoptForm.loginId";
-		UserCanNotFindException userCanNotFindException = new UserCanNotFindException(userErrorCode);
-
-		User user = userRepository.findByLoginId(loginId)
-				.orElseThrow(() -> userCanNotFindException);
 
 		Pet pet = Pet.builder()
 				.petName(petName)
@@ -57,6 +52,10 @@ public class PetService {
 				.build();
 
 		petRepository.save(pet);
+	}
+
+	public List<PetsForm> showPets() {
+		return null;
 	}
 
 	@Transactional

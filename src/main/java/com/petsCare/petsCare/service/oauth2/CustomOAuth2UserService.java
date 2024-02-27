@@ -1,7 +1,7 @@
 package com.petsCare.petsCare.service.oauth2;
 
 import com.petsCare.petsCare.dto.oauth2.CustomOAuth2User;
-import com.petsCare.petsCare.dto.oauth2.KaKaoResponse;
+import com.petsCare.petsCare.dto.oauth2.GoogleResponse;
 import com.petsCare.petsCare.dto.oauth2.NaverResponse;
 import com.petsCare.petsCare.dto.oauth2.OAuth2Response;
 import com.petsCare.petsCare.entity.user.User;
@@ -30,26 +30,30 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2Response oAuth2Response = null;
         if (registrationId.equals("naver")) {
             oAuth2Response = new NaverResponse(oAuth2User.getAttributes());
-        } else if (registrationId.equals("kakao")) {
-            oAuth2Response = new KaKaoResponse(oAuth2User.getAttributes());
+        } else if (registrationId.equals("google")) {
+            oAuth2Response = new GoogleResponse(oAuth2User.getAttributes());
         } else {
             return null;
         }
 
         String role = "ROLE_USER";
-        Optional<User> findUser = userRepository.findByLoginId(oAuth2Response.getLoginId());
+        String loginId = oAuth2Response.getProvider() + "_" + oAuth2Response.getProviderId();
+        Optional<User> findUser = userRepository.findByLoginId(loginId);
+        User user = null;
         if (findUser.isEmpty()) {
-            User user = User.builder()
+            user = User.builder()
                     .provider(oAuth2Response.getProvider())
-                    .loginId(oAuth2Response.getLoginId())
-                    .nickName(oAuth2Response.getNickName())
+                    .loginId(loginId)
+                    .username(oAuth2Response.getName())
                     .profileImage(oAuth2Response.getProfileImage())
                     .role(role)
                     .build();
 
             userRepository.save(user);
+        } else {
+            user = findUser.get();
         }
 
-        return new CustomOAuth2User(oAuth2Response, role);
+        return new CustomOAuth2User(user);
     }
 }

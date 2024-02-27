@@ -5,6 +5,7 @@ import com.petsCare.petsCare.entity.base.BaseUserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @Table(name = "USERS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class User extends BaseUserEntity {
+public class User extends BaseUserEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -25,8 +26,8 @@ public class User extends BaseUserEntity {
     @Column(name = "user_login_id", unique = true)
     private String loginId;
 
-    @Column(name = "user_nickname")
-    private String nickName;
+    @Column(name = "user_username")
+    private String username;
 
     @Column(name = "user_profile_image")
     private String profileImage;
@@ -38,10 +39,10 @@ public class User extends BaseUserEntity {
     private List<Pet> pets = new ArrayList<>();
 
     @Builder
-    public User(String provider, String loginId, String nickName, String profileImage, String role) {
+    public User(String provider, String loginId, String username, String profileImage, String role) {
         this.provider = provider;
         this.loginId = loginId;
-        this.nickName = nickName;
+        this.username = username;
         this.profileImage = profileImage;
         this.role = role;
     }

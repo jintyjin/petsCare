@@ -1,16 +1,14 @@
 package com.petsCare.petsCare.dto.oauth2;
 
-import java.io.Serializable;
-
-public interface OAuth2Response extends Serializable {
+public interface OAuth2Response {
 
     String getProvider();
 
     String getProviderId();
 
-    String getLoginId();
+    String getEmail();
 
-    String getNickName();
+    String getName();
 
     String getProfileImage();
 }
