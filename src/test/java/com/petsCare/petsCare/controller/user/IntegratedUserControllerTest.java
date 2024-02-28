@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 public class IntegratedUserControllerTest {
 
 	@Autowired
@@ -25,6 +24,7 @@ public class IntegratedUserControllerTest {
 
 	@Test
 	@DisplayName("회원 가입 성공")
+	@Transactional
 	void joinSuccess() throws Exception {
 		//given
 		UserJoinForm userJoinForm1 = new UserJoinForm("", "", "");
