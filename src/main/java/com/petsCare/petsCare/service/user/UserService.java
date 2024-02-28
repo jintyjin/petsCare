@@ -2,7 +2,6 @@ package com.petsCare.petsCare.service.user;
 
 import com.petsCare.petsCare.entity.user.User;
 import com.petsCare.petsCare.exception.DuplicatedLoginIdException;
-import com.petsCare.petsCare.exception.DuplicatedNickNameException;
 import com.petsCare.petsCare.form.user.UserJoinForm;
 import com.petsCare.petsCare.repository.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -30,15 +29,9 @@ public class UserService {
                     throw new DuplicatedLoginIdException("이미 존재하는 아이디입니다.");
                 });
 
-        userRepository
-                .findByNickName(userJoinForm.getNickName())
-                .ifPresent(byNickName -> {
-                    throw new DuplicatedNickNameException("이미 존재하는 닉네임입니다.");
-                });
-
         User user = User.builder()
                 .loginId(userJoinForm.getLoginId())
-                .nickName(userJoinForm.getNickName())
+                .username(userJoinForm.getNickName())
                 .build();
 
         userRepository.save(user);

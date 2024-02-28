@@ -64,8 +64,4 @@ public class Pet {
         this.petLeaveDate = petLeaveDate;
         this.petStatus = PetStatus.LEAVE;
     }
-
-    public void leave(LocalDateTime petLeaveDate) {
-        this.petLeaveDate = petLeaveDate;
-    }
 }

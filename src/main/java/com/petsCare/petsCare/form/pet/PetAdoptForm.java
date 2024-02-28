@@ -26,22 +26,14 @@ public class PetAdoptForm {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate petBirth;
 
-	@NotBlank
-	private String loginId;
-
 	public PetAdoptForm() {
 	}
 
-	public PetAdoptForm(String loginId) {
-		this.loginId = loginId;
-	}
-
-	public PetAdoptForm(String petName, MultipartFile thumbnail, String breed, int petGender, LocalDate petBirth, String loginId) {
+	public PetAdoptForm(String petName, MultipartFile thumbnail, String breed, int petGender, LocalDate petBirth) {
 		this.petName = petName;
 		this.thumbnail = thumbnail;
 		this.breed = breed;
 		this.petGender = petGender;
 		this.petBirth = petBirth;
-		this.loginId = loginId;
 	}
 }

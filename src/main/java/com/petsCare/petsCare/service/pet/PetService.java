@@ -29,25 +29,17 @@ public class PetService {
 	private final UserRepository userRepository;
 
 	@Transactional
-	public void adopt(PetAdoptForm petAdoptForm) {
+	public void adopt(PetAdoptForm petAdoptForm, User user) {
 		String petName = petAdoptForm.getPetName();
 		String breed = petAdoptForm.getBreed();
 		int petGender = petAdoptForm.getPetGender();
 		LocalDate petBirth = petAdoptForm.getPetBirth();
-		String loginId = petAdoptForm.getLoginId();
-
 		String breedErrorCode = "canNotFindBreed.petAdoptForm.breed";
 		PetBreedCanNotFindException petBreedCanNotFindException = new PetBreedCanNotFindException(breedErrorCode);
 
 		PetBreed petBreed = petBreedRepository.findByBreed(breed)
 				.orElseThrow(() -> petBreedCanNotFindException);
-
-		String userErrorCode = "canNotFindUser.petAdoptForm.loginId";
-		UserCanNotFindException userCanNotFindException = new UserCanNotFindException(userErrorCode);
-
-		User user = userRepository.findByLoginId(loginId)
-				.orElseThrow(() -> userCanNotFindException);
-
+    
 		Pet pet = Pet.builder()
 				.petName(petName)
 				.petBreed(petBreed)

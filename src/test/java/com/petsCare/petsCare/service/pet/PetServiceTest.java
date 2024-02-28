@@ -50,16 +50,13 @@ class PetServiceTest {
 		String breed = "닥스훈트";
 		int petGender = 1;
 		LocalDate petBirth = LocalDate.now();
-		String loginId = "이복덩";
-		PetAdoptForm petAdoptForm = new PetAdoptForm(petName, thumbnail, breed, petGender, petBirth, loginId);
+		User user = new User("google", "google_loginId", "홍길동", "image.png", "ROLE_USER");
+		PetAdoptForm petAdoptForm = new PetAdoptForm(petName, thumbnail, breed, petGender, petBirth);
 		when(petBreedRepository.findByBreed(any(String.class)))
 				.thenReturn(of(new PetBreed("닥스훈트", new PetType("강아지"))));
 
-		when(userRepository.findByLoginId(any(String.class)))
-				.thenReturn(of(new User("provider", loginId, "닉네임", "profileImage", "USER")));
-
 		//when //then
-		assertThatCode(() -> petService.adopt(petAdoptForm));
+		assertThatCode(() -> petService.adopt(petAdoptForm, user));
 	}
 
 	@Test

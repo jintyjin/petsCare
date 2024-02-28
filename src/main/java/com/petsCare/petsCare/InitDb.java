@@ -1,5 +1,7 @@
 package com.petsCare.petsCare;
 
+import com.petsCare.petsCare.entity.pet.PetBreed;
+import com.petsCare.petsCare.entity.pet.PetType;
 import com.petsCare.petsCare.entity.user.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
@@ -32,11 +34,15 @@ public class InitDb {
             User user = User.builder()
                     .provider("naver")
                     .loginId("naver_testMember123")
-                    .nickName("에세이르123")
+                    .username("에세이르123")
                     .profileImage("jj.png")
                     .role("ROLE_USER")
                     .build();
             em.persist(user);
+            PetType petType = new PetType("강아지");
+            em.persist(petType);
+            PetBreed petBreed = new PetBreed("닥스훈트", petType);
+            em.persist(petBreed);
         }
     }
 }

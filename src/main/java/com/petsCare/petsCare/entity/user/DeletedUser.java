@@ -26,8 +26,8 @@ public class DeletedUser {
     @Column(name = "user_login_id", unique = true)
     private String loginId;
 
-    @Column(name = "user_nickname")
-    private String nickName;
+    @Column(name = "user_username")
+    private String username;
 
     @Column(name = "user_profile_image")
     private String profileImage;
@@ -40,10 +40,10 @@ public class DeletedUser {
     private LocalDateTime deletedDate;
 
     @Builder
-    public DeletedUser(String provider, String loginId, String nickName, String profileImage, String role) {
+    public DeletedUser(String provider, String loginId, String username, String profileImage, String role) {
         this.provider = provider;
         this.loginId = loginId;
-        this.nickName = nickName;
+        this.username = username;
         this.profileImage = profileImage;
         this.role = role;
     }

@@ -31,20 +31,19 @@ class PetRepositoryTest {
     PetBreedRepository petBreedRepository;
 
     @Test
-    @Transactional
     void 펫_등록() {
         //given
         User user1 = User.builder()
                 .provider("naver")
                 .loginId("naver_test1")
-                .nickName("테스트1")
+                .username("테스트1")
                 .profileImage("jj.png")
                 .role("ROLE_USER")
                 .build();
         User user2 = User.builder()
                 .provider("naver")
                 .loginId("naver_test2")
-                .nickName("테스트2")
+                .username("테스트2")
                 .profileImage("jj.png")
                 .role("ROLE_USER")
                 .build();
@@ -71,13 +70,12 @@ class PetRepositoryTest {
     }
 
     @Test
-    @Transactional
     void 펫_가져오기() {
         //given
         User user = User.builder()
                 .provider("naver")
                 .loginId("naver_jinjin")
-                .nickName("JJ")
+                .username("JJ")
                 .profileImage("jj.png")
                 .role("ROLE_USER")
                 .build();

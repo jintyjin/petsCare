@@ -1,5 +1,6 @@
 package com.petsCare.petsCare.dto.oauth2;
 
+import com.petsCare.petsCare.entity.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -10,12 +11,10 @@ import java.util.Map;
 
 public class CustomOAuth2User implements OAuth2User, Serializable {
 
-    private final OAuth2Response oAuth2Response;
-    private final String role;
+    private final User user;
 
-    public CustomOAuth2User(OAuth2Response oAuth2Response, String role) {
-        this.oAuth2Response = oAuth2Response;
-        this.role = role;
+    public CustomOAuth2User(User user) {
+        this.user = user;
     }
 
     @Override
@@ -30,7 +29,7 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
         collection.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return role;
+                return user.getRole();
             }
         });
 
@@ -39,14 +38,10 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
 
     @Override
     public String getName() {
-        return oAuth2Response.getNickName();
+        return user.getLoginId();
     }
 
-    public String getUsername() {
-        return oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
-    }
-
-    public String getProfileImage() {
-        return oAuth2Response.getProfileImage();
+    public User getUser() {
+        return this.user;
     }
 }
