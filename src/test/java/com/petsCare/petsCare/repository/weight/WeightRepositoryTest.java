@@ -12,7 +12,6 @@ import com.petsCare.petsCare.repository.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -40,13 +39,12 @@ class WeightRepositoryTest {
     PetBreedRepository petBreedRepository;
 
     @Test
-    @Transactional
     void 체중_등록() {
         //given
         User user = User.builder()
                 .provider("naver")
                 .loginId("naver_jinjin")
-                .nickName("JJ")
+                .username("JJ")
                 .profileImage("jj.png")
                 .role("ROLE_USER")
                 .build();
@@ -64,13 +62,12 @@ class WeightRepositoryTest {
     }
 
     @Test
-    @Transactional
     void 반려동물_체중_가져오기() {
         //given
         User user = User.builder()
                 .provider("naver")
                 .loginId("naver_jinjin")
-                .nickName("JJ")
+                .username("JJ")
                 .profileImage("jj.png")
                 .role("ROLE_USER")
                 .build();

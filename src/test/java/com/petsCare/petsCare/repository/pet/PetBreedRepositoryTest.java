@@ -13,7 +13,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
-@Transactional(readOnly = true)
 class PetBreedRepositoryTest {
 
 	@Autowired
@@ -23,7 +22,6 @@ class PetBreedRepositoryTest {
 	PetTypeRepository petTypeRepository;
 
 	@Test
-	@Transactional
 	@DisplayName("저장 및 불러오기 테스트")
 	void saveAndFind() {
 		//given

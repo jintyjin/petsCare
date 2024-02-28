@@ -6,6 +6,7 @@ import com.petsCare.petsCare.repository.user.DeletedUserRepository;
 import com.petsCare.petsCare.repository.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@DataJpaTest
 class DeletedUserRepositoryTest {
 
     @Autowired
@@ -22,13 +23,12 @@ class DeletedUserRepositoryTest {
     DeletedUserRepository deletedUserRepository;
 
     @Test
-    @Transactional
     void 유저_탈퇴() {
         //given
         User user = User.builder()
                 .provider("naver")
                 .loginId("naver_jinjin")
-                .nickName("JJ")
+                .username("JJ")
                 .profileImage("jj.png")
                 .role("ROLE_USER")
                 .build();
@@ -36,7 +36,7 @@ class DeletedUserRepositoryTest {
         DeletedUser deletedUser = DeletedUser.builder()
                 .provider("naver")
                 .loginId("naver_jinjin")
-                .nickName("JJ")
+                .username("JJ")
                 .profileImage("jj.png")
                 .role("ROLE_USER")
                 .build();
