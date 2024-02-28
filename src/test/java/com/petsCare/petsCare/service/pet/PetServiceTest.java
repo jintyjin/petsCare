@@ -6,6 +6,7 @@ import com.petsCare.petsCare.entity.pet.PetType;
 import com.petsCare.petsCare.entity.user.User;
 import com.petsCare.petsCare.form.pet.PetAdoptForm;
 import com.petsCare.petsCare.form.pet.PetLeaveForm;
+import com.petsCare.petsCare.form.pet.PetsForm;
 import com.petsCare.petsCare.repository.pet.PetBreedRepository;
 import com.petsCare.petsCare.repository.pet.PetRepository;
 import com.petsCare.petsCare.repository.user.UserRepository;
@@ -19,6 +20,8 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.nimbusds.common.contenttype.ContentType.*;
 import static java.util.Optional.*;
@@ -71,5 +74,26 @@ class PetServiceTest {
 		//when //then
 		assertThatCode(() -> petService.leave(petLeaveForm));
 		verify(petRepository, atLeastOnce()).findById(1L);
+	}
+
+	@Test
+	@DisplayName("반려 동물들 가져오기")
+	void petsSuccess() {
+		//given
+		List<Pet> pets = new ArrayList<>();
+		User user = new User("google", "google_loginId", "홍길동", "image.png", "ROLE_USER");
+		Pet pet1 = new Pet("이복댕", new PetBreed("닥스훈트", new PetType("강아지")), 1, LocalDate.now(), user);
+		Pet pet2 = new Pet("이복댕", new PetBreed("믹스견", new PetType("강아지")), 0, LocalDate.now(), user);
+		pets.add(pet1);
+		pets.add(pet2);
+
+		when(petRepository.findByUserId(user.getId()))
+				.thenReturn(pets);
+
+		//when
+		List<PetsForm> petsForms = petService.showPets(user);
+
+		//then
+		assertThat(petsForms.size()).isEqualTo(2);
 	}
 }
