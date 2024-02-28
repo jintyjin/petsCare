@@ -61,8 +61,8 @@ class PetRepositoryTest {
         petRepository.save(pet3);
 
         //when
-        List<Pet> findPetsByUser1 = petRepository.findByUser(user1);
-        List<Pet> findPetsByUser2 = petRepository.findByUser(user2);
+        List<Pet> findPetsByUser1 = petRepository.findByUserId(user1.getId());
+        List<Pet> findPetsByUser2 = petRepository.findByUserId(user2.getId());
 
         //then
         assertThat(findPetsByUser1.size()).isEqualTo(user1.getPets().size());
@@ -92,7 +92,7 @@ class PetRepositoryTest {
         petRepository.save(pet3);
 
         //when
-        List<Pet> findPets = petRepository.findByUser(user);
+        List<Pet> findPets = petRepository.findByUserId(user.getId());
 
         //then
         assertThat(findPets.size()).isEqualTo(3);

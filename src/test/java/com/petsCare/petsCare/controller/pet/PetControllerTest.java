@@ -3,9 +3,11 @@ package com.petsCare.petsCare.controller.pet;
 import com.petsCare.petsCare.controller.PetController;
 import com.petsCare.petsCare.entity.user.User;
 import com.petsCare.petsCare.form.pet.PetAdoptForm;
+import com.petsCare.petsCare.form.pet.PetsForm;
 import com.petsCare.petsCare.service.pet.PetService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -20,6 +22,8 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.nimbusds.common.contenttype.ContentType.IMAGE_JPEG;
 import static org.mockito.Mockito.*;
@@ -69,6 +73,26 @@ class PetControllerTest {
 		resultActions.andExpectAll(
 				status().is3xxRedirection(),
 				redirectedUrl("/")
+		);
+	}
+
+	@Test
+	@DisplayName("반려 동물 불러오기 성공")
+	void petsSuccess() throws Exception {
+		//given
+		String url = "/pets";
+
+		List<PetsForm> list = new ArrayList<>();
+
+		BDDMockito.given(petService.showPets(BDDMockito.any(User.class)))
+				.willReturn(list);
+
+		//when
+		ResultActions resultActions = mockMvc.perform(get(url));
+
+		//then
+		resultActions.andExpectAll(
+				status().isOk()
 		);
 	}
 }
