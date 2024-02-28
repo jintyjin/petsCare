@@ -46,7 +46,7 @@ public class PetController {
 
 		return "redirect:/";
 	}
-
+  
 	@GetMapping
 	public String pets(Model model, @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
 		model.addAttribute("petsForms", petService.showPets(oAuth2User.getUser()));

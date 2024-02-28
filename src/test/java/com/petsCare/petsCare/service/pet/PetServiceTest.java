@@ -76,7 +76,7 @@ class PetServiceTest {
 		verify(petRepository, atLeastOnce()).findById(1L);
 	}
 
-	@Test
+  @Test
 	@DisplayName("반려 동물들 가져오기")
 	void petsSuccess() {
 		//given

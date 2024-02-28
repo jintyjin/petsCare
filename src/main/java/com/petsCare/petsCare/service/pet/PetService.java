@@ -31,13 +31,13 @@ public class PetService {
 		String breed = petAdoptForm.getBreed();
 		int petGender = petAdoptForm.getPetGender();
 		LocalDate petBirth = petAdoptForm.getPetBirth();
-
+    
 		String breedErrorCode = "canNotFindBreed.petAdoptForm.breed";
 		PetBreedCanNotFindException petBreedCanNotFindException = new PetBreedCanNotFindException(breedErrorCode);
 
 		PetBreed petBreed = petBreedRepository.findByBreed(breed)
 				.orElseThrow(() -> petBreedCanNotFindException);
-
+    
 		Pet pet = Pet.builder()
 				.petName(petName)
 				.petBreed(petBreed)
