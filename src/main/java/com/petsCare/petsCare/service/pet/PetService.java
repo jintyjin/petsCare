@@ -50,7 +50,7 @@ public class PetService {
 	}
 
 	public List<PetsForm> showPets(User user) {
-		return petRepository.findByUser(user.getId())
+		return petRepository.findByUserId(user.getId())
 				.stream()
 				.map(pet -> new PetsForm(pet.getId(), pet.getPetName()))
 				.toList();
