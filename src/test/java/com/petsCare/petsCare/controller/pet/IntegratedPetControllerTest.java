@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@Transactional(readOnly = true)
 class IntegratedPetControllerTest {
 
 	@Autowired
@@ -60,6 +61,24 @@ class IntegratedPetControllerTest {
 		//then
 		resultActions.andExpectAll(
 				redirectedUrl("/")
+		);
+	}
+
+	@Test
+	@DisplayName("반려 동물 불러오기 성공")
+	void petsSuccess() throws Exception {
+		//given
+		String url = "/pets";
+		User user = userRepository.findById(1L).get();
+
+		//when
+		ResultActions resultActions = mockMvc.perform(get(url)
+				.with(SecurityMockMvcRequestPostProcessors.oauth2Login().oauth2User(new CustomOAuth2User(user)))
+		);
+
+		//then
+		resultActions.andExpectAll(
+				status().isOk()
 		);
 	}
 }
