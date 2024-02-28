@@ -1,11 +1,9 @@
 package com.petsCare.petsCare.controller.pet;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.petsCare.petsCare.controller.PetController;
+import com.petsCare.petsCare.entity.user.User;
 import com.petsCare.petsCare.form.pet.PetAdoptForm;
 import com.petsCare.petsCare.service.pet.PetService;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -37,13 +36,9 @@ class PetControllerTest {
 	@MockBean
 	PetService petService;
 
-	ObjectMapper objectMapper = new ObjectMapper();
-	
-	@Before("초기화")
-	public void before() {
-		objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-	}
-	
+	@MockBean
+	OAuth2AuthorizedClientService authorizedClientService;
+
 	@Test
 	@DisplayName("펫 등록 성공")
 	void adoptSuccess() throws Exception {
@@ -51,28 +46,29 @@ class PetControllerTest {
 		String url = "/pets/adopt";
 
 		String petName = "이복댕";
-		MockMultipartFile thumbnail = new MockMultipartFile("썸네일.png", "이복댕.png", IMAGE_JPEG.getType(), "이복댕.png".getBytes(StandardCharsets.UTF_8));
+		MockMultipartFile thumbnail = new MockMultipartFile("썸네일", "이복댕.png", IMAGE_JPEG.getType(), "이복댕.png".getBytes(StandardCharsets.UTF_8));
 
 		String breed = "닥스훈트";
 		int petGender = 1;
 		LocalDate petBirth = LocalDate.now();
 		String loginId = "naver_testMember123";
 
-		doNothing().when(petService).adopt(any(PetAdoptForm.class));
+		doNothing().when(petService).adopt(any(PetAdoptForm.class), any(User.class));
 
 		//when
 		ResultActions resultActions = mockMvc.perform(multipart(url)
+						.file(thumbnail)
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.param("petName", petName)
 				.param("breed", breed)
 				.param("petGender", String.valueOf(petGender))
 				.param("petBirth", String.valueOf(petBirth))
-				.param("loginId", loginId)
 		);
 
 		//then
 		resultActions.andExpectAll(
-				status().is3xxRedirection()
+				status().is3xxRedirection(),
+				redirectedUrl("/")
 		);
 	}
 }
