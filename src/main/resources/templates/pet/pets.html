@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<body>
+<div layout:fragment="content" class="container-fluid px-3 py-3 d-flex justify-content-center flex-wrap">
+    <div class="px-3 py-3" th:each="petsForm : ${petsForms}">
+        <div>
+            <a href="#" th:href="@{|/pets/${petsForm.id}|}">
+                <img src th:src="@{/images/pet/pet_thumbnail.png}" class="img-thumbnail" th:alt="${petsForm.name}" />
+            </a>
+        </div>
+        <div class="text-center">
+            <a href="#" th:href="@{|/pets/${petsForm.id}|}" th:text="${petsForm.name}">
+                펫
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
