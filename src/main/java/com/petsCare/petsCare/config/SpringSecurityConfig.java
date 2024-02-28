@@ -1,6 +1,6 @@
 package com.petsCare.petsCare.config;
 
-import com.petsCare.petsCare.service.oauth2.CustomOAuth2UserService;
+import com.petsCare.petsCare.oAuth2.CustomOAuth2UserService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

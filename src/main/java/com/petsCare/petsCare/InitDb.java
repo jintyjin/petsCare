@@ -1,16 +1,14 @@
 package com.petsCare.petsCare;
 
-import com.petsCare.petsCare.entity.pet.PetBreed;
-import com.petsCare.petsCare.entity.pet.PetType;
-import com.petsCare.petsCare.entity.user.User;
+import com.petsCare.petsCare.pet.entity.PetBreed;
+import com.petsCare.petsCare.pet.entity.PetType;
+import com.petsCare.petsCare.user.entity.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
 
 @Component
 @RequiredArgsConstructor
