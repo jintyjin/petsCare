@@ -14,15 +14,11 @@ import java.util.List;
 public class PetBreed {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "pet_breed_id")
-	private Long id;
-
 	@Column(name = "pet_breed")
 	private String breed;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pet_type_id")
+	@JoinColumn(name = "pet_type")
 	private PetType petType;
 
 	@OneToMany(mappedBy = "petBreed")

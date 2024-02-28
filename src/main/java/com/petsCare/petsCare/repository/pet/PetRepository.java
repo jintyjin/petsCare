@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface PetRepository extends JpaRepository<Pet, Long> {
 
-    List<Pet> findByUser(User user);
+    List<Pet> findByUser(Long userId);
 }

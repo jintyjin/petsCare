@@ -1,11 +1,9 @@
 package com.petsCare.petsCare.service.pet;
-
 import com.petsCare.petsCare.entity.pet.Pet;
 import com.petsCare.petsCare.entity.pet.PetBreed;
 import com.petsCare.petsCare.entity.user.User;
 import com.petsCare.petsCare.exception.PetBreedCanNotFindException;
 import com.petsCare.petsCare.exception.PetCanNotFindException;
-import com.petsCare.petsCare.exception.UserCanNotFindException;
 import com.petsCare.petsCare.form.pet.PetAdoptForm;
 import com.petsCare.petsCare.form.pet.PetLeaveForm;
 import com.petsCare.petsCare.form.pet.PetsForm;
@@ -15,11 +13,8 @@ import com.petsCare.petsCare.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.util.List;
-
-import static com.petsCare.petsCare.entity.pet.PetStatus.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -54,8 +49,11 @@ public class PetService {
 		petRepository.save(pet);
 	}
 
-	public List<PetsForm> showPets() {
-		return null;
+	public List<PetsForm> showPets(User user) {
+		return petRepository.findByUser(user.getId())
+				.stream()
+				.map(pet -> new PetsForm(pet.getId(), pet.getPetName()))
+				.toList();
 	}
 
 	@Transactional

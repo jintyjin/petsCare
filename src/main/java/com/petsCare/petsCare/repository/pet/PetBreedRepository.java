@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface PetBreedRepository extends JpaRepository<PetBreed, Long> {
 
-	List<PetBreed> findByPetType(PetType petType);
+	List<PetBreed> findByPetType(String petType);
 
 	Optional<PetBreed> findByBreed(String breed);
 }

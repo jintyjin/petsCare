@@ -14,10 +14,6 @@ import java.util.List;
 public class PetType {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "pet_type_id")
-	private Long id;
-
 	@Column(name = "pet_type")
 	private String type;
 
