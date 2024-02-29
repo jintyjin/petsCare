@@ -1,6 +1,6 @@
 package com.petsCare.petsCare.user.dto.form;
 
-import com.petsCare.petsCare.validation.ValidationGroups;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,19 +9,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserJoinForm {
 
-    @Pattern(regexp = "^[0-9a-zA-Z]{5,16}$", groups = ValidationGroups.PatternGroup.class)
+    @NotBlank
+    @Pattern(regexp = "^[0-9A-z]{5,16}$", message = "{validation.constraints.pattern.loginId}")
     private String loginId;
 
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z[0-9]!@#$%^&*]{8,16}$", groups = ValidationGroups.PatternGroup.class)
+    @NotBlank
+    @Pattern(regexp = "^(?=.*[0-9A-z])(?=.*[0-9])(?=.*[!@#$%^&*])[0-9A-z[0-9]!@#$%^&*]{8,16}$"
+            , message = "{validation.constraints.pattern.password}")
     private String password;
 
-    @Pattern(regexp = "^[0-9a-zA-Z가-힣]{5,16}$", groups = ValidationGroups.PatternGroup.class)
-    private String nickName;
+    @NotBlank
+    @Pattern(regexp = "^[가-힣]{2,4}$", message = "{validation.constraints.pattern.username}")
+    private String username;
 
-    public UserJoinForm(String loginId, String password, String nickName) {
+    public UserJoinForm(String loginId, String password, String username) {
         this.loginId = loginId;
         this.password = password;
-        this.nickName = nickName;
+        this.username = username;
     }
 }
 

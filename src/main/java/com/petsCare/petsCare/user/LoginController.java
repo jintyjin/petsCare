@@ -13,6 +13,6 @@ public class LoginController {
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("loginForm", new LoginForm());
-        return "/login/loginForm";
+        return "/user/loginForm";
     }
 }

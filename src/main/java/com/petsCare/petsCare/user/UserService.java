@@ -31,7 +31,7 @@ public class UserService {
 
         User user = User.builder()
                 .loginId(userJoinForm.getLoginId())
-                .username(userJoinForm.getNickName())
+                .username(userJoinForm.getUsername())
                 .build();
 
         userRepository.save(user);

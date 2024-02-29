@@ -1,9 +1,8 @@
 package com.petsCare.petsCare.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.petsCare.petsCare.user.exception.DuplicatedLoginIdException;
 import com.petsCare.petsCare.user.dto.form.UserJoinForm;
-import com.petsCare.petsCare.user.UserService;
-import com.petsCare.petsCare.validation.ValidationSequence;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping
 @AllArgsConstructor
 public class UserController {
 
@@ -28,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String join(@Validated(ValidationSequence.class) UserJoinForm userJoinForm, BindingResult bindingResult, Model model) {
+    public String join(@Validated UserJoinForm userJoinForm, BindingResult bindingResult, Model model) throws Exception {
         if (bindingResult.hasErrors()) {
             return "/user/userJoinForm";
         }

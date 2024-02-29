@@ -28,29 +28,29 @@ public class IntegratedUserControllerTest {
 	void joinSuccess() throws Exception {
 		//given
 		UserJoinForm userJoinForm1 = new UserJoinForm("", "", "");
-		UserJoinForm userJoinForm2 = new UserJoinForm("testMember123", "testUser!23", "에세이르");
-		UserJoinForm userJoinForm3 = new UserJoinForm("testUser", "testUser!23", "에세이르1");
+		UserJoinForm userJoinForm2 = new UserJoinForm("testMember123", "testUser!23", "진세진세진");
+		UserJoinForm userJoinForm3 = new UserJoinForm("testUser", "testUser!23", "진세진");
 
 		//when
 		ResultActions perform1 = mockMvc.perform(
-				multipart("/user/join")
+				multipart("/join")
 						.param("loginId", userJoinForm1.getLoginId())
 						.param("password", userJoinForm1.getPassword())
-						.param("nickName", userJoinForm1.getNickName())
+						.param("username", userJoinForm1.getUsername())
 						.contentType(MediaType.MULTIPART_FORM_DATA)
 		);
 		ResultActions perform2 = mockMvc.perform(
-				multipart("/user/join")
+				multipart("/join")
 						.param("loginId", userJoinForm2.getLoginId())
 						.param("password", userJoinForm2.getPassword())
-						.param("nickName", userJoinForm2.getNickName())
+						.param("username", userJoinForm2.getUsername())
 						.contentType(MediaType.MULTIPART_FORM_DATA)
 		);
 		ResultActions perform3 = mockMvc.perform(
-				multipart("/user/join")
+				multipart("/join")
 						.param("loginId", userJoinForm3.getLoginId())
 						.param("password", userJoinForm3.getPassword())
-						.param("nickName", userJoinForm3.getNickName())
+						.param("username", userJoinForm3.getUsername())
 						.contentType(MediaType.MULTIPART_FORM_DATA)
 		);
 

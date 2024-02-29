@@ -21,11 +21,11 @@
             </div>
         </div>
         <div>
-            <label for="nickName" class="form-label" th:text="#{label.user.nickName}">이름</label>
-            <input type="text" id="nickName" name="nickName" th:field="*{nickName}"
-                   th:errorclass="field-error" class="form-control" th:placeholder="#{placeholder.user.nickName}" />
-            <div class="field-error" th:errors="*{nickName}">
-                닉네임 오류
+            <label for="username" class="form-label" th:text="#{label.user.username}">이름</label>
+            <input type="text" id="username" name="username" th:field="*{username}"
+                   th:errorclass="field-error" class="form-control" th:placeholder="#{placeholder.user.username}" />
+            <div class="field-error" th:errors="*{username}">
+                이름 오류
             </div>
         </div>
         <hr class="my-4">
