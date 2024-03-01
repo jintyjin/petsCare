@@ -28,6 +28,9 @@ public class Memory {
 	@Enumerated(value = EnumType.STRING)
 	private MemoryStatus memoryStatus;
 
+	@Enumerated(value = EnumType.STRING)
+	private MemoryType memoryType;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pet_id")
 	private Pet pet;
