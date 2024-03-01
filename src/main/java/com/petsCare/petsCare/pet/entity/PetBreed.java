@@ -14,11 +14,11 @@ import java.util.List;
 public class PetBreed {
 
 	@Id
-	@Column(name = "pet_breed")
+	@Column(name = "breed_id")
 	private String breed;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pet_type")
+	@JoinColumn(name = "type_id")
 	private PetType petType;
 
 	@OneToMany(mappedBy = "petBreed")

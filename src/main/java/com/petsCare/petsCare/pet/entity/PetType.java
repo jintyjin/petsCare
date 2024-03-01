@@ -14,7 +14,7 @@ import java.util.List;
 public class PetType {
 
 	@Id
-	@Column(name = "pet_type")
+	@Column(name = "type_id")
 	private String type;
 
 	@OneToMany(mappedBy = "petType")
