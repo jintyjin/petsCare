@@ -1,5 +1,6 @@
 package com.petsCare.petsCare.pet.entity;
 
+import com.petsCare.petsCare.memory.entity.Memory;
 import com.petsCare.petsCare.user.entity.User;
 import com.petsCare.petsCare.weight.entity.Weight;
 import jakarta.persistence.*;
@@ -25,7 +26,7 @@ public class Pet {
     private String petName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pet_breed_id")
+    @JoinColumn(name = "breed_id")
     private PetBreed petBreed;
 
     @Column(name = "pet_gender")
@@ -46,6 +47,9 @@ public class Pet {
     private User user;
 
     @OneToMany(mappedBy = "pet")
+    List<Memory> memories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "pet")
     List<Weight> weights = new ArrayList<>();
 
     @Builder
@@ -58,6 +62,10 @@ public class Pet {
         this.user = user;
         this.user.getPets().add(this);
         this.petBreed.getPet().add(this);
+    }
+
+    public void makeMemory(Memory memory) {
+        this.memories.add(memory);
     }
 
     public void leave(LocalDate petLeaveDate) {
