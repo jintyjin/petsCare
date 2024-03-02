@@ -25,6 +25,9 @@ public class Memory {
 	@Embedded
 	private ManageTime manageTime;
 
+	@Embedded
+	private ImageSize imageSize;
+
 	@Enumerated(value = EnumType.STRING)
 	private MemoryStatus memoryStatus;
 
@@ -35,11 +38,12 @@ public class Memory {
 	@JoinColumn(name = "pet_id")
 	private Pet pet;
 
-	public Memory(UploadFile uploadFile, Gps gps, ManageTime manageTime, Pet pet) {
+	public Memory(UploadFile uploadFile, Gps gps, ManageTime manageTime, ImageSize imageSize, Pet pet) {
 		this.uploadFile = uploadFile;
 		this.gps = gps;
 		this.manageTime = manageTime;
 		this.memoryStatus = MemoryStatus.NORMAL;
+		this.imageSize = imageSize;
 		this.pet = pet;
 	}
 }
