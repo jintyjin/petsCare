@@ -37,7 +37,7 @@ public class Memory {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pet_id")
 	private Pet pet;
-
+  
 	public Memory(UploadFile uploadFile, Gps gps, ManageTime manageTime, ImageSize imageSize, Pet pet) {
 		this.uploadFile = uploadFile;
 		this.gps = gps;
