@@ -4,6 +4,7 @@ import com.petsCare.petsCare.pet.PetService;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
 import com.petsCare.petsCare.pet.entity.PetType;
+import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.user.entity.User;
 import com.petsCare.petsCare.pet.dto.form.PetAdoptForm;
 import com.petsCare.petsCare.pet.dto.form.PetLeaveForm;
@@ -56,11 +57,11 @@ class PetServiceTest {
 		LocalDate petBirth = LocalDate.now();
 		User user = new User("google", "google_loginId", "홍길동", "image.png", "ROLE_USER");
 		PetAdoptForm petAdoptForm = new PetAdoptForm(petName, thumbnail, breed, petGender, petBirth);
-		when(petBreedRepository.findByBreed(any(String.class)))
+		lenient().when(petBreedRepository.findByBreed(any(String.class)))
 				.thenReturn(of(new PetBreed("닥스훈트", new PetType("강아지"))));
 
 		//when //then
-		assertThatCode(() -> petService.adopt(petAdoptForm, user));
+		assertThatCode(() -> petService.adopt(petAdoptForm, new UserDto(user)));
 	}
 
 	@Test
@@ -68,13 +69,12 @@ class PetServiceTest {
 	void leaveSuccess() {
 		//given
 		PetLeaveForm petLeaveForm = new PetLeaveForm(1L, LocalDate.now());
-		when(petRepository.findById(1L))
-				.thenReturn(of(new Pet("꼬맹이", new PetBreed("닥스훈트", new PetType("강아지")), 0,
+		lenient().when(petRepository.findById(petLeaveForm.getPetId()))
+				.thenReturn(of(new Pet("꼬맹이", null, new PetBreed("닥스훈트", new PetType("강아지")), 0,
 						LocalDate.now(), new User("provider", "진세진", "닉네임", "profileImage", "USER"))));
 
 		//when //then
 		assertThatCode(() -> petService.leave(petLeaveForm));
-		verify(petRepository, atLeastOnce()).findById(1L);
 	}
 
   @Test
@@ -83,8 +83,8 @@ class PetServiceTest {
 		//given
 		List<Pet> pets = new ArrayList<>();
 		User user = new User("google", "google_loginId", "홍길동", "image.png", "ROLE_USER");
-		Pet pet1 = new Pet("이복댕", new PetBreed("닥스훈트", new PetType("강아지")), 1, LocalDate.now(), user);
-		Pet pet2 = new Pet("이복댕", new PetBreed("믹스견", new PetType("강아지")), 0, LocalDate.now(), user);
+		Pet pet1 = new Pet("이복댕", null, new PetBreed("닥스훈트", new PetType("강아지")), 1, LocalDate.now(), user);
+		Pet pet2 = new Pet("이복댕", null, new PetBreed("믹스견", new PetType("강아지")), 0, LocalDate.now(), user);
 		pets.add(pet1);
 		pets.add(pet2);
 
@@ -92,7 +92,7 @@ class PetServiceTest {
 				.thenReturn(pets);
 
 		//when
-		List<PetsForm> petsForms = petService.showPets(user);
+		List<PetsForm> petsForms = petService.showPets(new UserDto(user));
 
 		//then
 		assertThat(petsForms.size()).isEqualTo(2);

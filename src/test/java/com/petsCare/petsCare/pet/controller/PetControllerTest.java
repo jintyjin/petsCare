@@ -1,7 +1,7 @@
 package com.petsCare.petsCare.pet.controller;
 
 import com.petsCare.petsCare.pet.PetController;
-import com.petsCare.petsCare.user.entity.User;
+import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.pet.dto.form.PetAdoptForm;
 import com.petsCare.petsCare.pet.dto.form.PetsForm;
 import com.petsCare.petsCare.pet.PetService;
@@ -57,7 +57,7 @@ class PetControllerTest {
 		LocalDate petBirth = LocalDate.now();
 		String loginId = "naver_testMember123";
 
-		doNothing().when(petService).adopt(any(PetAdoptForm.class), any(User.class));
+		doNothing().when(petService).adopt(any(PetAdoptForm.class), any(UserDto.class));
 
 		//when
 		ResultActions resultActions = mockMvc.perform(multipart(url)
@@ -84,7 +84,7 @@ class PetControllerTest {
 
 		List<PetsForm> list = new ArrayList<>();
 
-		BDDMockito.given(petService.showPets(BDDMockito.any(User.class)))
+		BDDMockito.given(petService.showPets(BDDMockito.any(UserDto.class)))
 				.willReturn(list);
 
 		//when
