@@ -38,12 +38,17 @@ public class Memory {
 	@JoinColumn(name = "pet_id")
 	private Pet pet;
   
-	public Memory(UploadFile uploadFile, Gps gps, ManageTime manageTime, ImageSize imageSize, Pet pet) {
+	public Memory(UploadFile uploadFile, Gps gps, ManageTime manageTime, ImageSize imageSize, MemoryType memoryType, Pet pet) {
 		this.uploadFile = uploadFile;
 		this.gps = gps;
 		this.manageTime = manageTime;
 		this.memoryStatus = MemoryStatus.NORMAL;
 		this.imageSize = imageSize;
+		this.memoryType = memoryType;
 		this.pet = pet;
+	}
+
+	public void delete() {
+		this.memoryStatus = MemoryStatus.DELETE;
 	}
 }
