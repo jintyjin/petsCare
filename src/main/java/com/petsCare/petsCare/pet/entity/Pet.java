@@ -25,6 +25,9 @@ public class Pet {
     @Column(name = "pet_name")
     private String petName;
 
+    @Column(name = "pet_profile")
+    private String profile;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "breed_id")
     private PetBreed petBreed;
@@ -53,8 +56,9 @@ public class Pet {
     List<Weight> weights = new ArrayList<>();
 
     @Builder
-    public Pet(String petName, PetBreed petBreed, int petGender, LocalDate petBirth, User user) {
+    public Pet(String petName, String profile, PetBreed petBreed, int petGender, LocalDate petBirth, User user) {
         this.petName = petName;
+        this.profile = profile;
         this.petBreed = petBreed;
         this.petGender = petGender;
         this.petBirth = petBirth;
@@ -66,6 +70,10 @@ public class Pet {
 
     public void makeMemory(Memory memory) {
         this.memories.add(memory);
+    }
+
+    public void changeProfile(String profile) {
+        this.profile = profile;
     }
 
     public void leave(LocalDate petLeaveDate) {
