@@ -50,7 +50,7 @@ class WeightRepositoryTest {
                 .role("ROLE_USER")
                 .build();
         userRepository.save(user);
-        Pet pet = new Pet("이복댕", new PetBreed("닥스훈트", new PetType("강아지")), 1, LocalDate.of(2014, 7, 31), user);
+        Pet pet = new Pet("이복댕", null, new PetBreed("닥스훈트", new PetType("강아지")), 1, LocalDate.of(2014, 7, 31), user);
         petRepository.save(pet);
 
         //when
@@ -77,7 +77,7 @@ class WeightRepositoryTest {
         petTypeRepository.save(petType);
         PetBreed petBreed = new PetBreed("닥스훈트", petType);
         petBreedRepository.save(petBreed);
-        Pet pet = new Pet("이복댕", petBreed, 1, LocalDate.of(2014, 7, 31), user);
+        Pet pet = new Pet("이복댕", null, petBreed, 1, LocalDate.of(2014, 7, 31), user);
         petRepository.save(pet);
         Weight weight1 = new Weight(new BigDecimal(9.28), LocalDateTime.now(), pet);
         Weight weight2 = new Weight(new BigDecimal(9.21), LocalDateTime.now(), pet);

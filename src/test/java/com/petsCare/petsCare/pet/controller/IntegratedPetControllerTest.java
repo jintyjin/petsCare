@@ -1,6 +1,7 @@
 package com.petsCare.petsCare.pet.controller;
 
 import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
+import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.user.entity.User;
 import com.petsCare.petsCare.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -50,7 +51,7 @@ class IntegratedPetControllerTest {
 		//when
 		ResultActions resultActions = mockMvc.perform(multipart(url)
 						.file(thumbnail)
-						.with(SecurityMockMvcRequestPostProcessors.oauth2Login().oauth2User(new CustomOAuth2User(user)))
+						.with(SecurityMockMvcRequestPostProcessors.oauth2Login().oauth2User(new CustomOAuth2User(new UserDto(user))))
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.param("petName", petName)
 				.param("breed", breed)
@@ -73,7 +74,7 @@ class IntegratedPetControllerTest {
 
 		//when
 		ResultActions resultActions = mockMvc.perform(get(url)
-				.with(SecurityMockMvcRequestPostProcessors.oauth2Login().oauth2User(new CustomOAuth2User(user)))
+				.with(SecurityMockMvcRequestPostProcessors.oauth2Login().oauth2User(new CustomOAuth2User(new UserDto(user))))
 		);
 
 		//then

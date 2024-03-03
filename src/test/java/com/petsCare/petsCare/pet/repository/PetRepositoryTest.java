@@ -55,9 +55,9 @@ class PetRepositoryTest {
         petTypeRepository.save(petType);
         PetBreed petBreed = new PetBreed("닥스훈트", petType);
         petBreedRepository.save(petBreed);
-        Pet pet1 = new Pet("이복댕1", petBreed, 1, LocalDate.of(2014, 7, 31), user1);
-        Pet pet2 = new Pet("이복댕2", petBreed, 1, LocalDate.of(2014, 7, 31), user2);
-        Pet pet3 = new Pet("이복댕3", petBreed, 1, LocalDate.of(2014, 7, 31), user2);
+        Pet pet1 = new Pet("이복댕1", null, petBreed, 1, LocalDate.of(2014, 7, 31), user1);
+        Pet pet2 = new Pet("이복댕2", null, petBreed, 1, LocalDate.of(2014, 7, 31), user2);
+        Pet pet3 = new Pet("이복댕3", null, petBreed, 1, LocalDate.of(2014, 7, 31), user2);
         petRepository.save(pet1);
         petRepository.save(pet2);
         petRepository.save(pet3);
@@ -86,9 +86,9 @@ class PetRepositoryTest {
         petTypeRepository.save(petType);
         PetBreed petBreed = new PetBreed("닥스훈트", petType);
         petBreedRepository.save(petBreed);
-        Pet pet1 = new Pet("이복댕1", petBreed, 1, LocalDate.of(2014, 7, 31), user);
-        Pet pet2 = new Pet("이복댕2", petBreed, 1, LocalDate.of(2014, 7, 31), user);
-        Pet pet3 = new Pet("이복댕3", petBreed, 1, LocalDate.of(2014, 7, 31), user);
+        Pet pet1 = new Pet("이복댕1", null, petBreed, 1, LocalDate.of(2014, 7, 31), user);
+        Pet pet2 = new Pet("이복댕2", null, petBreed, 1, LocalDate.of(2014, 7, 31), user);
+        Pet pet3 = new Pet("이복댕3", null, petBreed, 1, LocalDate.of(2014, 7, 31), user);
         petRepository.save(pet1);
         petRepository.save(pet2);
         petRepository.save(pet3);

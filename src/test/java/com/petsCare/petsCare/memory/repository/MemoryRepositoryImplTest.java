@@ -67,10 +67,10 @@ class MemoryRepositoryImplTest {
 		String petName = "이복댕";
 		int petGender = 1;
 		LocalDate petBirth = LocalDate.of(2014, 7, 31);
-		Pet pet = new Pet(petName, petBreed, petGender, petBirth, user);
+		Pet pet = new Pet(petName, null, petBreed, petGender, petBirth, user);
 		Memory memory = new Memory(new UploadFile("image.jpeg", UUID.randomUUID() + ".jpeg"),
 				new Gps(new BigDecimal("0.1"), new BigDecimal("0.1")),
-				new ManageTime(LocalDateTime.now()), new ImageSize(1920, 1080), pet);
+				new ManageTime(LocalDateTime.now()), new ImageSize(1920, 1080), MemoryType.IMAGE, pet);
 
 		petRepository.save(pet);
 		memoryRepository.save(memory);
