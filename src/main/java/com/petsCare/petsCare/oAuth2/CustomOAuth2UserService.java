@@ -4,6 +4,7 @@ import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
 import com.petsCare.petsCare.oAuth2.dto.response.GoogleResponse;
 import com.petsCare.petsCare.oAuth2.dto.response.NaverResponse;
 import com.petsCare.petsCare.oAuth2.dto.response.OAuth2Response;
+import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.user.entity.User;
 import com.petsCare.petsCare.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user = findUser.get();
         }
 
-        return new CustomOAuth2User(user);
+        return new CustomOAuth2User(new UserDto(user));
     }
 }

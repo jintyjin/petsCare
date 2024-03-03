@@ -41,14 +41,14 @@ public class PetController {
 			return "/pet/petAdoptForm";
 		}
 
-		petService.adopt(petAdoptForm, oAuth2User.getUser());
+		petService.adopt(petAdoptForm, oAuth2User.getUserDto());
 
 		return "redirect:/";
 	}
   
 	@GetMapping
 	public String pets(Model model, @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
-		model.addAttribute("petsForms", petService.showPets(oAuth2User.getUser()));
+		model.addAttribute("petsForms", petService.showPets(oAuth2User.getUserDto()));
 
 		return "/pet/pets";
 	}

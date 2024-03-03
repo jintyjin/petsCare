@@ -1,6 +1,6 @@
 package com.petsCare.petsCare.oAuth2.dto;
 
-import com.petsCare.petsCare.user.entity.User;
+import com.petsCare.petsCare.user.dto.UserDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class CustomOAuth2User implements OAuth2User, Serializable {
 
-    private final User user;
+    private final UserDto user;
 
-    public CustomOAuth2User(User user) {
+    public CustomOAuth2User(UserDto user) {
         this.user = user;
     }
 
@@ -41,7 +41,7 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
         return user.getLoginId();
     }
 
-    public User getUser() {
+    public UserDto getUserDto() {
         return this.user;
     }
 }
