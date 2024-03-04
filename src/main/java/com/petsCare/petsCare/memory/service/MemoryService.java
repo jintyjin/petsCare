@@ -7,15 +7,18 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.exif.GpsDirectory;
 import com.petsCare.petsCare.memory.dto.form.MemoryMakeForm;
+import com.petsCare.petsCare.memory.dto.form.MemorySimpleForm;
 import com.petsCare.petsCare.memory.entity.*;
 import com.petsCare.petsCare.memory.repository.JpaMemoryRepository;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.exception.PetCanNotFindException;
 import com.petsCare.petsCare.pet.repository.PetRepository;
 import com.petsCare.petsCare.user.dto.UserDto;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -80,6 +83,11 @@ public class MemoryService {
 		}
 
 		return filePathList;
+	}
+
+	public List<MemorySimpleForm> reminisce(@Nullable Long petId, Pageable pageable) {
+		return memoryRepository.findSimpleFormByPet(petId, pageable)
+				.getContent();
 	}
 
 	private void deleteMemory(List<String> filePathList) {
