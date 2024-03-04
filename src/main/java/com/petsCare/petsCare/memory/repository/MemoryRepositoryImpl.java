@@ -35,6 +35,8 @@ public class MemoryRepositoryImpl implements MemoryRepository {
 						memory.manageTime.imageTime.desc(),
 						memory.id.desc()
 				)
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
 				.fetch();
 
 		JPAQuery<Long> countQuery = jpaQueryFactory
