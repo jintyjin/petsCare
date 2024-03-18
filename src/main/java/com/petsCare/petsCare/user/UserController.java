@@ -1,9 +1,8 @@
 package com.petsCare.petsCare.user;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.petsCare.petsCare.user.exception.DuplicatedLoginIdException;
 import com.petsCare.petsCare.user.dto.form.UserJoinForm;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
