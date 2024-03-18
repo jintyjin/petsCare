@@ -1,15 +1,12 @@
 package com.petsCare.petsCare.memory.service;
 
 import com.petsCare.petsCare.memory.dto.form.MemoryMakeForm;
-import com.petsCare.petsCare.memory.entity.Memory;
-import com.petsCare.petsCare.memory.repository.JpaMemoryRepository;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
 import com.petsCare.petsCare.pet.entity.PetType;
 import com.petsCare.petsCare.pet.repository.PetRepository;
 import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.user.entity.User;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +17,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;

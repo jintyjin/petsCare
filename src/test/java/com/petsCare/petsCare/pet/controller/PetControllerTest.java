@@ -1,10 +1,12 @@
 package com.petsCare.petsCare.pet.controller;
 
+import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
 import com.petsCare.petsCare.pet.PetController;
 import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.pet.dto.form.PetAdoptForm;
 import com.petsCare.petsCare.pet.dto.form.PetsForm;
 import com.petsCare.petsCare.pet.PetService;
+import com.petsCare.petsCare.user.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
@@ -17,6 +19,7 @@ import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -57,12 +60,17 @@ class PetControllerTest {
 		LocalDate petBirth = LocalDate.now();
 		String loginId = "naver_testMember123";
 
+		User user = new User(1L, "local", "testuser", "Test User", "test.jpg", "ROLE_USER", new ArrayList<>());
+		UserDto userDto = new UserDto(user);
+
 		doNothing().when(petService).adopt(any(PetAdoptForm.class), any(UserDto.class));
 
 		//when
 		ResultActions resultActions = mockMvc.perform(multipart(url)
 						.file(thumbnail)
+				.with(SecurityMockMvcRequestPostProcessors.oauth2Login().oauth2User(new CustomOAuth2User(new UserDto(user))))
 				.contentType(MediaType.MULTIPART_FORM_DATA)
+				.flashAttr("userDto", userDto)
 				.param("petName", petName)
 				.param("breed", breed)
 				.param("petGender", String.valueOf(petGender))
@@ -87,8 +95,12 @@ class PetControllerTest {
 		BDDMockito.given(petService.showPets(BDDMockito.any(UserDto.class)))
 				.willReturn(list);
 
+		User user = new User(1L, "local", "testuser", "Test User", "test.jpg", "ROLE_USER", new ArrayList<>());
+		UserDto userDto = new UserDto(user);
+
 		//when
-		ResultActions resultActions = mockMvc.perform(get(url));
+		ResultActions resultActions = mockMvc.perform(get(url)
+				.flashAttr("userDto", userDto));
 
 		//then
 		resultActions.andExpectAll(
