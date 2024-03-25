@@ -16,8 +16,8 @@ public class PetAdoptForm {
 
 	private MultipartFile thumbnail;
 
-	@NotBlank
-	private String breed;
+	@NotNull
+	private Long breedId;
 
 	@NotNull
 	private int petGender;
@@ -29,10 +29,10 @@ public class PetAdoptForm {
 	public PetAdoptForm() {
 	}
 
-	public PetAdoptForm(String petName, MultipartFile thumbnail, String breed, int petGender, LocalDate petBirth) {
+	public PetAdoptForm(String petName, MultipartFile thumbnail, Long breedId, int petGender, LocalDate petBirth) {
 		this.petName = petName;
 		this.thumbnail = thumbnail;
-		this.breed = breed;
+		this.breedId = breedId;
 		this.petGender = petGender;
 		this.petBirth = petBirth;
 	}

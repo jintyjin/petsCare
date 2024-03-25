@@ -13,8 +13,11 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PetBreed {
 
-	@Id
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "breed_id")
+	private Long id;
+
+	@Column(name = "breed_pet")
 	private String breed;
 
 	@ManyToOne(fetch = FetchType.LAZY)
