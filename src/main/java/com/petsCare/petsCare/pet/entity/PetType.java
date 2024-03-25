@@ -13,8 +13,11 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PetType {
 
-	@Id
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "type_id")
+	private Long id;
+
+	@Column(name = "type_pet")
 	private String type;
 
 	@OneToMany(mappedBy = "petType")
