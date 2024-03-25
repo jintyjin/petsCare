@@ -5,7 +5,7 @@ import com.petsCare.petsCare.pet.PetController;
 import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.pet.dto.form.PetAdoptForm;
 import com.petsCare.petsCare.pet.dto.form.PetsForm;
-import com.petsCare.petsCare.pet.PetService;
+import com.petsCare.petsCare.pet.service.PetService;
 import com.petsCare.petsCare.user.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

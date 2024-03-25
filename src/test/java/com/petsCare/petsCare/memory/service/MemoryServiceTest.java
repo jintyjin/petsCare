@@ -1,6 +1,6 @@
 package com.petsCare.petsCare.memory.service;
 
-import com.petsCare.petsCare.memory.dto.form.MemoryMakeForm;
+import com.petsCare.petsCare.memory.dto.form.MemoryForm;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
 import com.petsCare.petsCare.pet.entity.PetType;
@@ -66,9 +66,9 @@ class MemoryServiceTest {
 		given(petRepository.findById(anyLong()))
 				.willReturn(ofNullable(pet));
 
-		MemoryMakeForm memoryMakeForm = new MemoryMakeForm(1L, list);
+		MemoryForm memoryForm = new MemoryForm();
 
 		//when // then
-		assertThatCode(() -> memoryService.make(memoryMakeForm, new UserDto(user)));
+		assertThatCode(() -> memoryService.make(memoryForm, new UserDto(user)));
 	}
 }

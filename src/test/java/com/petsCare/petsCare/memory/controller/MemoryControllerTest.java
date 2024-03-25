@@ -1,6 +1,6 @@
 package com.petsCare.petsCare.memory.controller;
 
-import com.petsCare.petsCare.memory.dto.form.MemoryMakeForm;
+import com.petsCare.petsCare.memory.dto.form.MemoryForm;
 import com.petsCare.petsCare.memory.service.MemoryService;
 import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.user.entity.User;
@@ -41,9 +41,9 @@ class MemoryControllerTest {
 	void makeSuccess() throws Exception {
 		//given
 		MockMultipartFile file = new MockMultipartFile(UUID.randomUUID().toString(), "1234.jpg", "image/jpg", new FileInputStream("/Users/jinsejin/Desktop/files/images/" + "/KakaoTalk_20200629_004002411.jpg"));
-		MemoryMakeForm memoryMakeForm = new MemoryMakeForm(1L, List.of(file));
+		MemoryForm memoryMakeForm = new MemoryForm();
 
-		given(memoryService.make(any(MemoryMakeForm.class), any(UserDto.class)))
+		given(memoryService.make(any(MemoryForm.class), any(UserDto.class)))
 				.willReturn(new ArrayList<>());
 
 		String url = "/memory/make";

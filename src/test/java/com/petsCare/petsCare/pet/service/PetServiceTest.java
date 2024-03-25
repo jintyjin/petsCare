@@ -1,6 +1,5 @@
 package com.petsCare.petsCare.pet.service;
 
-import com.petsCare.petsCare.pet.PetService;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
 import com.petsCare.petsCare.pet.entity.PetType;
@@ -52,11 +51,10 @@ class PetServiceTest {
 		//given
 		String petName = "이복댕";
 		MockMultipartFile thumbnail = new MockMultipartFile("썸네일.png", "이복댕.png", IMAGE_JPEG.getType(), "이복댕.png".getBytes(StandardCharsets.UTF_8));
-		String breed = "닥스훈트";
 		int petGender = 1;
 		LocalDate petBirth = LocalDate.now();
 		User user = new User("google", "google_loginId", "홍길동", "image.png", "ROLE_USER");
-		PetAdoptForm petAdoptForm = new PetAdoptForm(petName, thumbnail, breed, petGender, petBirth);
+		PetAdoptForm petAdoptForm = new PetAdoptForm(petName, thumbnail, 1L, petGender, petBirth);
 		lenient().when(petBreedRepository.findByBreed(any(String.class)))
 				.thenReturn(of(new PetBreed("닥스훈트", new PetType("강아지"))));
 
