@@ -6,7 +6,7 @@ import com.drew.lang.GeoLocation;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.exif.GpsDirectory;
-import com.petsCare.petsCare.memory.dto.form.MemoryMakeForm;
+import com.petsCare.petsCare.memory.dto.form.MemoryForm;
 import com.petsCare.petsCare.memory.dto.form.MemorySimpleForm;
 import com.petsCare.petsCare.memory.entity.*;
 import com.petsCare.petsCare.memory.repository.JpaMemoryRepository;
@@ -51,14 +51,14 @@ public class MemoryService {
 	private String fileDir;
 
 	@Transactional
-	public List<String> make(MemoryMakeForm memoryMakeForm, UserDto userDto) {
+	public List<String> make(MemoryForm memoryForm, UserDto userDto) {
 		PetCanNotFindException petCanNotFindException
 				= new PetCanNotFindException(getMessage("validation.constraints.canNotFindPet.message"));
 
-		Pet pet = petRepository.findById(memoryMakeForm.getPetId())
+		Pet pet = petRepository.findById(memoryForm.getPetId())
 				.orElseThrow(() -> petCanNotFindException);
 
-		List<MultipartFile> files = memoryMakeForm.getFiles();
+		List<MultipartFile> files = memoryForm.getFiles();
 
 		String loginId = userDto.getLoginId();
 		LocalDateTime today = LocalDateTime.now();
