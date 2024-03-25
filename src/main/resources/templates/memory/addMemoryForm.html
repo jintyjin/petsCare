@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<body>
+<div layout:fragment="content" class="container-fluid px-3 py-3 d-flex justify-content-center flex-wrap">
+    <form action="" th:action th:object="${memoryForm}" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="petId" class="form-label" th:text="#{label.memory.pet.name}">펫</label>
+            <select id="petId" name="petId" th:value="*{petId}"
+                    class="form-select" aria-label="form-select">
+                <option th:value th:text="#{label.memory.pet.name}">펫 선택</option>
+                <option th:each="petIdAndName : ${petIdAndNameForms}" th:value="${petIdAndName.id}" th:text="${petIdAndName.name}"></option>
+            </select>
+            <div class="field-error" th:errors="*{petId}">
+                펫 선택 오류
+            </div>
+        </div>
+        <div>
+            <label for="files" class="form-label" th:text="#{label.memory.memories}">사진</label>
+            <input type="file" accept="image/jpg, image/jpeg, image/png, video/mp4"
+                   id="files" name="files" th:field="*{files}" multiple="multiple"
+                   class="form-control" />
+            <div class="field-error" th:errors="*{files}">
+                파일 오류
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="row row-cols-2">
+            <div class="col">
+                <button class="w-100 btn btn-primary" type="submit" th:text="#{button.memory.save}">저장</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-primary" type="reset" th:text="#{button.reset}">초기화</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
