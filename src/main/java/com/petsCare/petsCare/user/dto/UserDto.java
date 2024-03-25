@@ -3,8 +3,10 @@ package com.petsCare.petsCare.user.dto;
 import com.petsCare.petsCare.user.entity.User;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class UserDto {
+public class UserDto implements Serializable {
 
 	private Long id;
 

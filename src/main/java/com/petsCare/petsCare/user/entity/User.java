@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "USERS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class User extends BaseUserEntity implements Serializable {
+public class User extends BaseUserEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
