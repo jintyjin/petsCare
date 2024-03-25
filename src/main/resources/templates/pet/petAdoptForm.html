@@ -21,11 +21,29 @@
             </div>
         </div>
         <div>
+            <label for="breedId" class="form-label" th:text="#{label.pet.petBreed}">종 선택</label>
+            <div style="display:flex;">
+                <select id="typeId" name="typeId"
+                        class="form-select" aria-label="form-select">
+                    <option th:value th:text="#{label.pet.select.petType}">종류 선택</option>
+                    <option th:each="petTypeIdAndNameForm : ${petTypeIdAndNameForms}" th:value="${petTypeIdAndNameForm.id}"
+                            th:text="${petTypeIdAndNameForm.type}"></option>
+                </select>
+                <select id="breedId" name="breedId"
+                        class="form-select" aria-label="form-select">
+                    <option th:value th:text="#{label.pet.select.petBreed}">종 선택</option>
+                </select>
+            </div>
+            <div class="field-error" th:errors="*{breedId}">
+                종 선택 오류
+            </div>
+        </div>
+        <div>
             <div th:text="#{label.pet.gender}"></div>
             <div th:each="petGender : ${petGenders}" class="form-check form-check-inline">
                 <input type="radio" th:field="*{petGender}" th:value="${petGender.gender}" class="form-check-input">
                 <label th:for="${#ids.prev('petGender')}" th:text="${petGender.name()}" class="form-check-label">
-                    BOOK
+                    PetGender
                 </label>
             </div>
         </div>
