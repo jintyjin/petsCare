@@ -1,4 +1,5 @@
-package com.petsCare.petsCare.pet;
+package com.petsCare.petsCare.pet.service;
+import com.petsCare.petsCare.pet.dto.form.PetIdAndNameForm;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
 import com.petsCare.petsCare.user.dto.UserDto;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
 
 import static java.util.Locale.*;
 
@@ -35,7 +35,7 @@ public class PetService {
 	@Transactional
 	public void adopt(PetAdoptForm petAdoptForm, UserDto userDto) {
 		String petName = petAdoptForm.getPetName();
-		String breed = petAdoptForm.getBreed();
+		Long breedId = petAdoptForm.getBreedId();
 		int petGender = petAdoptForm.getPetGender();
 		LocalDate petBirth = petAdoptForm.getPetBirth();
 
@@ -48,9 +48,9 @@ public class PetService {
 		PetBreedCanNotFindException petBreedCanNotFindException
 				= new PetBreedCanNotFindException(getMessage("validation.constraints.canNotFindBreed.message"));
 
-		PetBreed petBreed = petBreedRepository.findByBreed(breed)
+		PetBreed petBreed = petBreedRepository.findById(breedId)
 				.orElseThrow(() -> petBreedCanNotFindException);
-    
+
 		Pet pet = Pet.builder()
 				.petName(petName)
 				.petBreed(petBreed)
@@ -60,6 +60,13 @@ public class PetService {
 				.build();
 
 		petRepository.save(pet);
+	}
+
+	public List<PetIdAndNameForm> showPets(Long id) {
+		return petRepository.findByUserId(id)
+				.stream()
+				.map(pet -> new PetIdAndNameForm(pet))
+				.toList();
 	}
 
 	public List<PetsForm> showPets(UserDto userDto) {
