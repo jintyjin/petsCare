@@ -37,9 +37,31 @@
     }
   </style>
   <script>
+    function selectPetType(petTypeId) {
+      $('#breedId').children('option:not(:first)').remove();
+      if (petTypeId != '') {
+        $.ajax({
+          url : "/pets/petBreeds/" + petTypeId,
+          type : "get",
+          contentType:"application/json;charset=UTF-8",
+          async: false,
+          success : function(data) {
+            if (data == null) {
+              alert('Error');
+            }
+            for (idx in data) {
+              var value = data[idx];
+              $('#breedId').append("<option value='" + value.id + "'>" + value.breed + "</option>")
+            }
+          },
+          error: function(xhr, status, error){
+             alert(xhr.responseText);
+          },
+        });
+      }
+    }
   </script>
 </head>
 <body>
-
 </body>
 </html>

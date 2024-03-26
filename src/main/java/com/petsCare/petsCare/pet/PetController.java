@@ -1,8 +1,10 @@
 package com.petsCare.petsCare.pet;
 
 import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
+import com.petsCare.petsCare.pet.dto.form.PetBreedIdAndName;
 import com.petsCare.petsCare.pet.entity.PetGender;
 import com.petsCare.petsCare.pet.dto.form.PetAdoptForm;
+import com.petsCare.petsCare.pet.service.PetBreedService;
 import com.petsCare.petsCare.pet.service.PetService;
 import com.petsCare.petsCare.pet.service.PetTypeService;
 import com.petsCare.petsCare.user.dto.UserDto;
@@ -12,10 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class PetController {
 
 	private final PetService petService;
 	private final PetTypeService petTypeService;
+	private final PetBreedService petBreedService;
 
 	@ModelAttribute("petGenders")
 	public PetGender[] petGenders() {
@@ -36,6 +38,12 @@ public class PetController {
 		model.addAttribute("petAdoptForm", new PetAdoptForm());
 
 		return "/pet/petAdoptForm";
+	}
+
+	@GetMapping("/petBreeds/{petTypeId}")
+	@ResponseBody
+	public List<PetBreedIdAndName> petBreeds(@PathVariable Long petTypeId) {
+		return petBreedService.showPetBreeds(petTypeId);
 	}
 
 	@PostMapping("/adopt")

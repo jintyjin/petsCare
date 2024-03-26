@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface PetBreedRepository extends JpaRepository<PetBreed, Long> {
 
-	List<PetBreed> findByPetTypeType(String petType);
+	List<PetBreed> findByPetTypeId(Long petTypeId);
 
 	Optional<PetBreed> findByBreed(String breed);
 }

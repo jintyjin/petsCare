@@ -23,7 +23,7 @@
         <div>
             <label for="breedId" class="form-label" th:text="#{label.pet.petBreed}">종 선택</label>
             <div style="display:flex;">
-                <select id="typeId" name="typeId"
+                <select id="typeId" name="typeId" onchange th:onchange="selectPetType(this.value)"
                         class="form-select" aria-label="form-select">
                     <option th:value th:text="#{label.pet.select.petType}">종류 선택</option>
                     <option th:each="petTypeIdAndNameForm : ${petTypeIdAndNameForms}" th:value="${petTypeIdAndNameForm.id}"
