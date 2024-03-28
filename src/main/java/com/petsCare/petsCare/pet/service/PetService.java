@@ -1,4 +1,5 @@
 package com.petsCare.petsCare.pet.service;
+import com.petsCare.petsCare.memory.service.MemoryService;
 import com.petsCare.petsCare.pet.dto.form.PetIdAndNameForm;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
@@ -10,7 +11,7 @@ import com.petsCare.petsCare.pet.dto.form.PetAdoptForm;
 import com.petsCare.petsCare.pet.dto.form.PetLeaveForm;
 import com.petsCare.petsCare.pet.dto.form.PetsForm;
 import com.petsCare.petsCare.pet.repository.PetBreedRepository;
-import com.petsCare.petsCare.pet.repository.PetRepository;
+import com.petsCare.petsCare.pet.repository.JpaPetRepository;
 import com.petsCare.petsCare.user.exception.UserCanNotFindException;
 import com.petsCare.petsCare.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,11 @@ import static java.util.Locale.*;
 @RequiredArgsConstructor
 public class PetService {
 
-	private final PetRepository petRepository;
+	private final JpaPetRepository jpaPetRepository;
 	private final PetBreedRepository petBreedRepository;
 	private final UserRepository userRepository;
 	private final MessageSource messageSource;
+	private final MemoryService memoryService;
 
 	@Transactional
 	public void adopt(PetAdoptForm petAdoptForm, UserDto userDto) {
@@ -59,21 +61,20 @@ public class PetService {
 				.user(user)
 				.build();
 
-		petRepository.save(pet);
+		jpaPetRepository.save(pet);
+
+		pet.changeProfile(memoryService.saveMemory(List.of(petAdoptForm.getThumbnail()), userDto.getLoginId(), pet));
 	}
 
 	public List<PetIdAndNameForm> showPets(Long id) {
-		return petRepository.findByUserId(id)
+		return jpaPetRepository.findByUserId(id)
 				.stream()
 				.map(pet -> new PetIdAndNameForm(pet))
 				.toList();
 	}
 
 	public List<PetsForm> showPets(UserDto userDto) {
-		return petRepository.findByUserId(userDto.getId())
-				.stream()
-				.map(pet -> new PetsForm(pet.getId(), pet.getPetName()))
-				.toList();
+		return jpaPetRepository.showPets(userDto.getId());
 	}
 
 	@Transactional
@@ -81,7 +82,7 @@ public class PetService {
 		PetCanNotFindException petCanNotFindException
 				= new PetCanNotFindException(getMessage("validation.constraints.canNotFindPet.message"));
 
-		Pet pet = petRepository.findById(petLeaveForm.getPetId())
+		Pet pet = jpaPetRepository.findById(petLeaveForm.getPetId())
 				.orElseThrow(() -> petCanNotFindException);
 		pet.leave(petLeaveForm.getPetLeaveDate());
 	}

@@ -6,7 +6,7 @@ import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
 import com.petsCare.petsCare.pet.entity.PetType;
 import com.petsCare.petsCare.pet.repository.PetBreedRepository;
-import com.petsCare.petsCare.pet.repository.PetRepository;
+import com.petsCare.petsCare.pet.repository.JpaPetRepository;
 import com.petsCare.petsCare.pet.repository.PetTypeRepository;
 import com.petsCare.petsCare.user.entity.User;
 import com.petsCare.petsCare.user.repository.UserRepository;
@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.*;
 class MemoryRepositoryImplTest {
 
 	@Autowired
-	PetRepository petRepository;
+	JpaPetRepository jpaPetRepository;
 
 	@Autowired
 	UserRepository userRepository;
@@ -72,7 +72,7 @@ class MemoryRepositoryImplTest {
 				new Gps(new BigDecimal("0.1"), new BigDecimal("0.1")),
 				new ManageTime(LocalDateTime.now()), new ImageSize(1920, 1080), MemoryType.IMAGE, pet);
 
-		petRepository.save(pet);
+		jpaPetRepository.save(pet);
 		memoryRepository.save(memory);
 
 		//when

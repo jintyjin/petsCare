@@ -4,7 +4,7 @@ import com.petsCare.petsCare.memory.dto.form.MemoryForm;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
 import com.petsCare.petsCare.pet.entity.PetType;
-import com.petsCare.petsCare.pet.repository.PetRepository;
+import com.petsCare.petsCare.pet.repository.JpaPetRepository;
 import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.user.entity.User;
 import org.junit.jupiter.api.DisplayName;
@@ -34,7 +34,7 @@ class MemoryServiceTest {
 	MemoryService memoryService;
 
 	@Mock
-	PetRepository petRepository;
+	JpaPetRepository jpaPetRepository;
 
 	@Mock
 	MessageSource messageSource;
@@ -63,7 +63,7 @@ class MemoryServiceTest {
 		PetType petType = new PetType("강아지");
 		PetBreed petBreed = new PetBreed("닥스훈트", petType);
 		Pet pet = new Pet("이복댕", "null", petBreed, 1, LocalDate.now(), user);
-		given(petRepository.findById(anyLong()))
+		given(jpaPetRepository.findById(anyLong()))
 				.willReturn(ofNullable(pet));
 
 		MemoryForm memoryForm = new MemoryForm();

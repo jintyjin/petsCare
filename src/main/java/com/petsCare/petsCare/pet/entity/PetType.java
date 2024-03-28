@@ -20,7 +20,7 @@ public class PetType {
 	@Column(name = "type_pet")
 	private String type;
 
-	@OneToMany(mappedBy = "petType")
+	@OneToMany(mappedBy = "petType", cascade = CascadeType.ALL)
 	private List<PetBreed> petBreedList = new ArrayList<>();
 
 	public PetType(String type) {

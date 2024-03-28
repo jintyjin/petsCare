@@ -12,7 +12,7 @@ import com.petsCare.petsCare.memory.entity.*;
 import com.petsCare.petsCare.memory.repository.JpaMemoryRepository;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.exception.PetCanNotFindException;
-import com.petsCare.petsCare.pet.repository.PetRepository;
+import com.petsCare.petsCare.pet.repository.JpaPetRepository;
 import com.petsCare.petsCare.user.dto.UserDto;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ import static java.util.Locale.KOREAN;
 @RequiredArgsConstructor
 public class MemoryService {
 
-	private final PetRepository petRepository;
+	private final JpaPetRepository jpaPetRepository;
 	private final JpaMemoryRepository memoryRepository;
 	private final MessageSource messageSource;
 
@@ -51,21 +51,28 @@ public class MemoryService {
 	private String fileDir;
 
 	@Transactional
-	public List<String> make(MemoryForm memoryForm, UserDto userDto) {
+	public void make(MemoryForm memoryForm, UserDto userDto) {
 		PetCanNotFindException petCanNotFindException
 				= new PetCanNotFindException(getMessage("validation.constraints.canNotFindPet.message"));
 
-		Pet pet = petRepository.findById(memoryForm.getPetId())
+		Pet pet = jpaPetRepository.findById(memoryForm.getPetId())
 				.orElseThrow(() -> petCanNotFindException);
 
 		List<MultipartFile> files = memoryForm.getFiles();
 
 		String loginId = userDto.getLoginId();
+
+		saveMemory(files, loginId, pet);
+	}
+
+	public String saveMemory(List<MultipartFile> files, String loginId, Pet pet) {
 		LocalDateTime today = LocalDateTime.now();
 
 		String path = makeFolders(loginId, today);
 
 		List<String> filePathList = new ArrayList<>();
+
+		String thumbnail = "";
 
 		try {
 			for (MultipartFile file : files) {
@@ -76,13 +83,18 @@ public class MemoryService {
 
 				String savePath = saveImage(filePath, file);
 
-				saveMemory(today, file, saveFileName, savePath, pet);
+				saveFileName = new StringBuilder(filePath).substring(fileDir.length());
+
+				thumbnail = saveFileName;
+
+				saveMemoryData(today, file, saveFileName, savePath, pet);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			deleteMemory(filePathList);
 		}
 
-		return filePathList;
+		return thumbnail;
 	}
 
 	public List<MemorySimpleForm> reminisce(@Nullable Long petId, Pageable pageable) {
@@ -99,7 +111,7 @@ public class MemoryService {
 		}
 	}
 
-	private void saveMemory(LocalDateTime today, MultipartFile file, String saveFileName, String savePath, Pet pet) throws ImageProcessingException, IOException {
+	private void saveMemoryData(LocalDateTime today, MultipartFile file, String saveFileName, String savePath, Pet pet) throws ImageProcessingException, IOException {
 		UploadFile uploadFile = new UploadFile(file.getOriginalFilename(), saveFileName);
 		File saveFile = new File(savePath);
 		Gps gps = extractGps(saveFile);
@@ -111,19 +123,19 @@ public class MemoryService {
 	}
 
 	private String makeFolders(String loginId, LocalDateTime today) {
-		String[] paths = {fileDir, "/" + loginId, "/" + today.format(DateTimeFormatter.ofPattern("yyyyMMdd"))};
+		String[] paths = {fileDir, loginId, "/" + today.format(DateTimeFormatter.ofPattern("yyyyMMdd"))};
 
-		String path = "";
+		StringBuilder path = new StringBuilder();
 
 		for (String p : paths) {
-			path += p;
-			File file = new File(path);
+			path.append(p);
+			File file = new File(path.toString());
 			if (!file.exists()) {
 				file.mkdir();
 			}
 		}
 
-		return path;
+		return path.toString();
 	}
 
 	private String saveImage(String path, MultipartFile file) throws IOException {

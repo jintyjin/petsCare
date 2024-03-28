@@ -9,7 +9,7 @@ import com.petsCare.petsCare.pet.dto.form.PetAdoptForm;
 import com.petsCare.petsCare.pet.dto.form.PetLeaveForm;
 import com.petsCare.petsCare.pet.dto.form.PetsForm;
 import com.petsCare.petsCare.pet.repository.PetBreedRepository;
-import com.petsCare.petsCare.pet.repository.PetRepository;
+import com.petsCare.petsCare.pet.repository.JpaPetRepository;
 import com.petsCare.petsCare.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ class PetServiceTest {
 	PetService petService;
 
 	@Mock
-	PetRepository petRepository;
+	JpaPetRepository jpaPetRepository;
 
 	@Mock
 	PetBreedRepository petBreedRepository;
@@ -67,7 +67,7 @@ class PetServiceTest {
 	void leaveSuccess() {
 		//given
 		PetLeaveForm petLeaveForm = new PetLeaveForm(1L, LocalDate.now());
-		lenient().when(petRepository.findById(petLeaveForm.getPetId()))
+		lenient().when(jpaPetRepository.findById(petLeaveForm.getPetId()))
 				.thenReturn(of(new Pet("꼬맹이", null, new PetBreed("닥스훈트", new PetType("강아지")), 0,
 						LocalDate.now(), new User("provider", "진세진", "닉네임", "profileImage", "USER"))));
 
@@ -86,7 +86,7 @@ class PetServiceTest {
 		pets.add(pet1);
 		pets.add(pet2);
 
-		when(petRepository.findByUserId(user.getId()))
+		when(jpaPetRepository.findByUserId(user.getId()))
 				.thenReturn(pets);
 
 		//when

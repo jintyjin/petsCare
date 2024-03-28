@@ -2,6 +2,8 @@ package com.petsCare.petsCare.memory.controller;
 
 import com.petsCare.petsCare.memory.dto.form.MemoryForm;
 import com.petsCare.petsCare.memory.service.MemoryService;
+import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
+import com.petsCare.petsCare.pet.service.PetService;
 import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.user.entity.User;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +21,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.BDDMockito.*;
@@ -36,6 +37,9 @@ class MemoryControllerTest {
 	@MockBean
 	MemoryService memoryService;
 
+	@MockBean
+	PetService petService;
+
 	@Test
 	@DisplayName("추억 만들기 성공")
 	void makeSuccess() throws Exception {
@@ -43,10 +47,9 @@ class MemoryControllerTest {
 		MockMultipartFile file = new MockMultipartFile(UUID.randomUUID().toString(), "1234.jpg", "image/jpg", new FileInputStream("/Users/jinsejin/Desktop/files/images/" + "/KakaoTalk_20200629_004002411.jpg"));
 		MemoryForm memoryMakeForm = new MemoryForm();
 
-		given(memoryService.make(any(MemoryForm.class), any(UserDto.class)))
-				.willReturn(new ArrayList<>());
+		doNothing().when(memoryService).make(any(MemoryForm.class), any(UserDto.class));
 
-		String url = "/memory/make";
+		String url = "/memories/make";
 
 		User user = new User(1L, "local", "testuser", "Test User", "test.jpg", "ROLE_USER", new ArrayList<>());
 		UserDto userDto = new UserDto(user);
@@ -55,8 +58,7 @@ class MemoryControllerTest {
 		ResultActions resultActions = mockMvc.perform(multipart(url)
 						.file("files", file.getBytes())
 				.contentType(MediaType.MULTIPART_FORM_DATA)
-				.flashAttr("userDto", userDto)
-				.param("petId", memoryMakeForm.getPetId().toString())
+				.flashAttr("oAuth2User", new CustomOAuth2User(userDto))
 		);
 
 		//then

@@ -6,10 +6,9 @@ import com.petsCare.petsCare.pet.entity.PetType;
 import com.petsCare.petsCare.user.entity.User;
 import com.petsCare.petsCare.weight.entity.Weight;
 import com.petsCare.petsCare.pet.repository.PetBreedRepository;
-import com.petsCare.petsCare.pet.repository.PetRepository;
+import com.petsCare.petsCare.pet.repository.JpaPetRepository;
 import com.petsCare.petsCare.pet.repository.PetTypeRepository;
 import com.petsCare.petsCare.user.repository.UserRepository;
-import com.petsCare.petsCare.weight.repository.WeightRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -28,7 +27,7 @@ class WeightRepositoryTest {
     UserRepository userRepository;
 
     @Autowired
-    PetRepository petRepository;
+	JpaPetRepository jpaPetRepository;
 
     @Autowired
     WeightRepository weightRepository;
@@ -51,7 +50,7 @@ class WeightRepositoryTest {
                 .build();
         userRepository.save(user);
         Pet pet = new Pet("이복댕", null, new PetBreed("닥스훈트", new PetType("강아지")), 1, LocalDate.of(2014, 7, 31), user);
-        petRepository.save(pet);
+        jpaPetRepository.save(pet);
 
         //when
         Weight weight = new Weight(new BigDecimal(9.28), LocalDateTime.now(), pet);
@@ -78,7 +77,7 @@ class WeightRepositoryTest {
         PetBreed petBreed = new PetBreed("닥스훈트", petType);
         petBreedRepository.save(petBreed);
         Pet pet = new Pet("이복댕", null, petBreed, 1, LocalDate.of(2014, 7, 31), user);
-        petRepository.save(pet);
+        jpaPetRepository.save(pet);
         Weight weight1 = new Weight(new BigDecimal(9.28), LocalDateTime.now(), pet);
         Weight weight2 = new Weight(new BigDecimal(9.21), LocalDateTime.now(), pet);
         Weight weight3 = new Weight(new BigDecimal(9.35), LocalDateTime.now(), pet);

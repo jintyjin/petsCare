@@ -3,9 +3,6 @@ package com.petsCare.petsCare.pet.repository;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
 import com.petsCare.petsCare.pet.entity.PetType;
-import com.petsCare.petsCare.pet.repository.PetBreedRepository;
-import com.petsCare.petsCare.pet.repository.PetRepository;
-import com.petsCare.petsCare.pet.repository.PetTypeRepository;
 import com.petsCare.petsCare.user.entity.User;
 import com.petsCare.petsCare.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -18,13 +15,13 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
-class PetRepositoryTest {
+class JpaPetRepositoryTest {
 
     @Autowired
     UserRepository userRepository;
 
     @Autowired
-    PetRepository petRepository;
+    JpaPetRepository jpaPetRepository;
 
     @Autowired
     PetTypeRepository petTypeRepository;
@@ -58,13 +55,13 @@ class PetRepositoryTest {
         Pet pet1 = new Pet("이복댕1", null, petBreed, 1, LocalDate.of(2014, 7, 31), user1);
         Pet pet2 = new Pet("이복댕2", null, petBreed, 1, LocalDate.of(2014, 7, 31), user2);
         Pet pet3 = new Pet("이복댕3", null, petBreed, 1, LocalDate.of(2014, 7, 31), user2);
-        petRepository.save(pet1);
-        petRepository.save(pet2);
-        petRepository.save(pet3);
+        jpaPetRepository.save(pet1);
+        jpaPetRepository.save(pet2);
+        jpaPetRepository.save(pet3);
 
         //when
-        List<Pet> findPetsByUser1 = petRepository.findByUserId(user1.getId());
-        List<Pet> findPetsByUser2 = petRepository.findByUserId(user2.getId());
+        List<Pet> findPetsByUser1 = jpaPetRepository.findByUserId(user1.getId());
+        List<Pet> findPetsByUser2 = jpaPetRepository.findByUserId(user2.getId());
 
         //then
         assertThat(findPetsByUser1.size()).isEqualTo(user1.getPets().size());
@@ -89,12 +86,12 @@ class PetRepositoryTest {
         Pet pet1 = new Pet("이복댕1", null, petBreed, 1, LocalDate.of(2014, 7, 31), user);
         Pet pet2 = new Pet("이복댕2", null, petBreed, 1, LocalDate.of(2014, 7, 31), user);
         Pet pet3 = new Pet("이복댕3", null, petBreed, 1, LocalDate.of(2014, 7, 31), user);
-        petRepository.save(pet1);
-        petRepository.save(pet2);
-        petRepository.save(pet3);
+        jpaPetRepository.save(pet1);
+        jpaPetRepository.save(pet2);
+        jpaPetRepository.save(pet3);
 
         //when
-        List<Pet> findPets = petRepository.findByUserId(user.getId());
+        List<Pet> findPets = jpaPetRepository.findByUserId(user.getId());
 
         //then
         assertThat(findPets.size()).isEqualTo(3);

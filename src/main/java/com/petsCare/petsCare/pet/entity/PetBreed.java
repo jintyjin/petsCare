@@ -24,12 +24,11 @@ public class PetBreed {
 	@JoinColumn(name = "type_id")
 	private PetType petType;
 
-	@OneToMany(mappedBy = "petBreed")
+	@OneToMany(mappedBy = "petBreed", cascade = CascadeType.ALL)
 	private List<Pet> pet = new ArrayList<>();
 
 	public PetBreed(String breed, PetType petType) {
 		this.breed = breed;
 		this.petType = petType;
-		this.petType.getPetBreedList().add(this);
 	}
 }

@@ -35,7 +35,7 @@ public class User extends BaseUserEntity {
     @Column(name = "user_role")
     private String role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Pet> pets = new ArrayList<>();
 
     @Builder

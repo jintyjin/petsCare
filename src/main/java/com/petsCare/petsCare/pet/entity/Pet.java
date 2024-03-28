@@ -49,7 +49,7 @@ public class Pet {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "pet")
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
     List<Memory> memories = new ArrayList<>();
 
     @OneToMany(mappedBy = "pet")
@@ -64,8 +64,6 @@ public class Pet {
         this.petBirth = petBirth;
         this.petStatus = PetStatus.NORMAL;
         this.user = user;
-        this.user.getPets().add(this);
-        this.petBreed.getPet().add(this);
     }
 
     public void makeMemory(Memory memory) {

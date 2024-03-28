@@ -4,10 +4,18 @@
 <body>
 <div layout:fragment="content" class="container-fluid px-3 py-3 d-flex justify-content-center flex-wrap">
     <div class="px-3 py-3" th:each="petsForm : ${petsForms}">
-        <div>
+        <div th:if="${petsForm.type == null}">
             <a href="#" th:href="@{|/pets/${petsForm.id}|}">
                 <img src th:src="@{/images/pet/pet_thumbnail.png}" class="img-thumbnail" th:alt="${petsForm.name}" />
             </a>
+        </div>
+        <div th:if="${petsForm.type != null}">
+            <a th:if="${petsForm.type == T(com.petsCare.petsCare.memory.entity.MemoryType).IMAGE}" href="#" th:href="@{|/pets/${petsForm.id}|}">
+                <img src th:src="@{|/images/${petsForm.path}|}" class="img-thumbnail" th:alt="${petsForm.name}" />
+            </a>
+            <video controls th:if="${petsForm.type == T(com.petsCare.petsCare.memory.entity.MemoryType).VIDEO}">
+                <source src th:src="@{|/images/${petsForm.path}|}">
+            </video>
         </div>
         <div class="text-center">
             <a href="#" th:href="@{|/pets/${petsForm.id}|}" th:text="${petsForm.name}">

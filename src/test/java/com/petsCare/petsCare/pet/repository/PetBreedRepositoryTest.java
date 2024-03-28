@@ -41,8 +41,8 @@ class PetBreedRepositoryTest {
 		petBreedRepository.save(dog2);
 		petBreedRepository.save(tiger);
 
-		List<PetBreed> dogs = petBreedRepository.findByPetTypeType(dogType.getType());
-		List<PetBreed> cats = petBreedRepository.findByPetTypeType(catType.getType());
+		List<PetBreed> dogs = petBreedRepository.findByPetTypeId(dogType.getId());
+		List<PetBreed> cats = petBreedRepository.findByPetTypeId(catType.getId());
 
 		//then
 		assertThat(dogs.size()).isEqualTo(2);
