@@ -6,7 +6,7 @@
     <div class="px-3 py-3" th:each="petsForm : ${petsForms}">
         <div th:if="${petsForm.type == null}">
             <a href="#" th:href="@{|/pets/${petsForm.id}|}">
-                <img src th:src="@{/images/pet/pet_thumbnail.png}" class="img-thumbnail" th:alt="${petsForm.name}" />
+                <img src th:src="@{/asset/pet/pet_thumbnail.png}" class="img-thumbnail" th:alt="${petsForm.name}" />
             </a>
         </div>
         <div th:if="${petsForm.type != null}">
