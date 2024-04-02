@@ -1,15 +1,12 @@
 package com.petsCare.petsCare.pet.service;
 import com.petsCare.petsCare.memory.service.MemoryService;
-import com.petsCare.petsCare.pet.dto.form.PetIdAndNameForm;
+import com.petsCare.petsCare.pet.dto.form.*;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
 import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.user.entity.User;
 import com.petsCare.petsCare.pet.exception.PetBreedCanNotFindException;
 import com.petsCare.petsCare.pet.exception.PetCanNotFindException;
-import com.petsCare.petsCare.pet.dto.form.PetAdoptForm;
-import com.petsCare.petsCare.pet.dto.form.PetLeaveForm;
-import com.petsCare.petsCare.pet.dto.form.PetsForm;
 import com.petsCare.petsCare.pet.repository.PetBreedRepository;
 import com.petsCare.petsCare.pet.repository.JpaPetRepository;
 import com.petsCare.petsCare.user.exception.UserCanNotFindException;
@@ -75,6 +72,10 @@ public class PetService {
 
 	public List<PetsForm> showPets(UserDto userDto) {
 		return jpaPetRepository.showPets(userDto.getId());
+	}
+
+	public PetDetailForm showPetDetail(Long petId) {
+		return jpaPetRepository.showPetDetail(petId);
 	}
 
 	@Transactional
