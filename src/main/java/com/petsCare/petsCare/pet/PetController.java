@@ -67,4 +67,11 @@ public class PetController {
 
 		return "/pet/pets";
 	}
+
+	@GetMapping("/{petId}")
+	public String pet(Model model, @PathVariable Long petId) {
+		model.addAttribute("petDetailForm", petService.showPetDetail(petId));
+
+		return "/pet/pet";
+	}
 }
