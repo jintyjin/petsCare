@@ -1,7 +1,9 @@
 package com.petsCare.petsCare.pet.repository;
 
 import com.petsCare.petsCare.memory.entity.QMemory;
+import com.petsCare.petsCare.pet.dto.form.PetDetailForm;
 import com.petsCare.petsCare.pet.dto.form.PetsForm;
+import com.petsCare.petsCare.pet.dto.form.QPetDetailForm;
 import com.petsCare.petsCare.pet.dto.form.QPetsForm;
 import com.petsCare.petsCare.pet.entity.QPet;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -31,5 +33,18 @@ public class PetRepositoryImpl implements PetRepository {
 				.leftJoin(memory)
 				.on(pet.profile.eq(memory.uploadFile.saveFileName))
 				.fetch();
+	}
+
+	@Override
+	public PetDetailForm showPetDetail(Long petId) {
+		return jpaQueryFactory
+				.select(new QPetDetailForm(
+						pet, memory.memoryType
+				))
+				.from(pet)
+				.where(pet.id.eq(petId))
+				.leftJoin(memory)
+				.on(pet.profile.eq(memory.uploadFile.saveFileName))
+				.fetchOne();
 	}
 }
