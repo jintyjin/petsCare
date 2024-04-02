@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<body>
+<div layout:fragment="content" class="container-fluid px-3 py-3 d-flex justify-content-center flex-wrap">
+    <div class="px-3 py-3 text-center">
+        <form action="" th:action th:object="${petDetailForm}" method="post" th:onsubmit="@{|return confirm('#{label.petDetail.onSubmit}');|}">
+            <input type="hidden" name="id" th:field="*{id}" />
+            <input type="hidden" name="name" th:field="*{name}" />
+            <input type="hidden" name="gender" th:field="*{gender}" />
+            <input type="hidden" name="breed" th:field="*{breed}" />
+            <input type="hidden" name="type" th:field="*{type}" />
+            <input type="hidden" name="path" th:field="*{path}" />
+            <input type="hidden" name="petStatus" th:field="*{petStatus}" />
+            <input type="hidden" name="bornTime" th:field="*{bornTime}" />
+            <input type="hidden" name="leaveTime" th:field="*{leaveTime}" />
+            <div class="text-center" th:if="*{type == null}" style="cursor:pointer">
+                <img src th:src="@{/images/pet_thumbnail.png}" class="img-thumbnail" th:alt="*{name}" />
+            </div>
+            <div th:if="*{type != null}" style="cursor:pointer">
+                <img th:if="*{type == T(com.petsCare.petsCare.memory.entity.MemoryType).IMAGE}" src th:src="@{|/images/*{path}|}" class="img-thumbnail" th:alt="*{name}" />
+                <video controls th:if="*{type == T(com.petsCare.petsCare.memory.entity.MemoryType).VIDEO}">
+                    <source src th:src="@{|/images/*{path}|}">
+                </video>
+            </div>
+            <div class="text-center" th:text="@{|*{name}(*{gender}, *{breed})|}">
+            </div>
+            <div class="text-center"
+                 th:text="${petDetailForm.petStatus == T(com.petsCare.petsCare.pet.entity.PetStatus).LEAVE ? petDetailForm.bornTime + '~' + petDetailForm.leaveTime : petDetailForm.bornTime}">
+            </div>
+            <div><hr class="my-4"></div>
+            <div class="text-center">
+                <button class="btn btn-primary" type="button" th:text="#{button.pet.weight}" onclick="" th:onclick="|window.open('@{|/weights/*{id}|}')|">몸무게</button>
+            </div>
+            <div th:if="*{petStatus == T(com.petsCare.petsCare.pet.entity.PetStatus).NORMAL}">
+                <hr class="my-4">
+                <label for="leaveTime" class="form-label" th:text="#{label.pet.leaveTime}">별이 된 날</label>
+                <input type="date" id="leaveTime" th:field="*{leaveTime}"
+                       th:errorclass="field-error" class="form-control" />
+                <div class="field-error" th:errors="*{leaveTime}">
+                    별이 된 날 오류
+                </div>
+                <hr class="my-4">
+                <div class="row">
+                    <div>
+                        <button class="w-100 btn btn-primary" type="submit" th:text="#{button.pet.save}">저장</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
