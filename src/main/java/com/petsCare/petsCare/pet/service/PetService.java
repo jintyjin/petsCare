@@ -57,7 +57,7 @@ public class PetService {
 				.petName(petName)
 				.petBreed(petBreed)
 				.petGender(petGender)
-				.petBirth(petBirth)
+				.bornTime(petBirth)
 				.user(user)
 				.build();
 

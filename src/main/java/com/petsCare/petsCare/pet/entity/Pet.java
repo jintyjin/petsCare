@@ -35,15 +35,12 @@ public class Pet {
     @Column(name = "pet_gender")
     private int petGender;
 
-    @Column(name = "pet_birth")
-    private LocalDate petBirth;
-
     @Column(name = "pet_status")
     @Enumerated(EnumType.STRING)
     private PetStatus petStatus;
 
-    @Column(name = "pet_leave_date")
-    private LocalDate petLeaveDate;
+    @Embedded
+    private TogetherTime togetherTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -56,12 +53,12 @@ public class Pet {
     List<Weight> weights = new ArrayList<>();
 
     @Builder
-    public Pet(String petName, String profile, PetBreed petBreed, int petGender, LocalDate petBirth, User user) {
+    public Pet(String petName, String profile, PetBreed petBreed, int petGender, LocalDate bornTime, User user) {
         this.petName = petName;
         this.profile = profile;
         this.petBreed = petBreed;
         this.petGender = petGender;
-        this.petBirth = petBirth;
+        this.togetherTime = new TogetherTime(bornTime);
         this.petStatus = PetStatus.NORMAL;
         this.user = user;
     }
@@ -74,8 +71,8 @@ public class Pet {
         this.profile = profile;
     }
 
-    public void leave(LocalDate petLeaveDate) {
-        this.petLeaveDate = petLeaveDate;
+    public void leave(LocalDate leaveTime) {
+        this.togetherTime.leave(leaveTime);
         this.petStatus = PetStatus.LEAVE;
     }
 }
