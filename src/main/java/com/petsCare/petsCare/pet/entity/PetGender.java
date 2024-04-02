@@ -12,4 +12,14 @@ public enum PetGender {
 	public int getGender() {
 		return gender;
 	}
+
+	public static PetGender getLabel(int gender) {
+		for (PetGender petGender : PetGender.values()) {
+			if (petGender.getGender() == gender) {
+				return petGender;
+			}
+		}
+
+		throw new IllegalArgumentException("올바르지 않은 성별 값입니다.");
+	}
 }

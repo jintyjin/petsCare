@@ -2,6 +2,7 @@ package com.petsCare.petsCare.pet.repository;
 
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
+import com.petsCare.petsCare.pet.entity.PetGender;
 import com.petsCare.petsCare.pet.entity.PetType;
 import com.petsCare.petsCare.user.entity.User;
 import com.petsCare.petsCare.user.repository.UserRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -95,5 +97,9 @@ class JpaPetRepositoryTest {
 
         //then
         assertThat(findPets.size()).isEqualTo(3);
+        for (Pet pet : findPets) {
+            System.out.println("pet.getPetGender() = " + pet.getPetGender());
+            System.out.println("PetGender.getLabel(pet.getPetGender()) = " + PetGender.getLabel(pet.getPetGender()));
+        }
     }
 }
