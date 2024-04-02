@@ -1,5 +1,6 @@
 package com.petsCare.petsCare.pet.repository;
 
+import com.petsCare.petsCare.pet.dto.form.PetDetailForm;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
 import com.petsCare.petsCare.pet.entity.PetGender;
@@ -101,5 +102,32 @@ class JpaPetRepositoryTest {
             System.out.println("pet.getPetGender() = " + pet.getPetGender());
             System.out.println("PetGender.getLabel(pet.getPetGender()) = " + PetGender.getLabel(pet.getPetGender()));
         }
+    }
+
+    @Test
+    void 펫_상세정보_가져오기() {
+        //given
+        User user = User.builder()
+                .provider("naver")
+                .loginId("naver_jinjin")
+                .username("JJ")
+                .profileImage("jj.png")
+                .role("ROLE_USER")
+                .build();
+        userRepository.save(user);
+        PetType petType = new PetType("강아지");
+        petTypeRepository.save(petType);
+        PetBreed petBreed = new PetBreed("닥스훈트", petType);
+        petBreedRepository.save(petBreed);
+        Pet pet = new Pet("이복댕1", null, petBreed, 1, LocalDate.of(2014, 7, 31), user);
+        jpaPetRepository.save(pet);
+
+        //when
+        PetDetailForm petDetailForm = jpaPetRepository.showPetDetail(pet.getId());
+
+        //then
+        assertThat(PetGender.getLabel(pet.getPetGender()).toString()).isEqualTo(petDetailForm.getGender());
+        assertThat(pet.getId()).isEqualTo(petDetailForm.getId());
+        assertThat(pet.getPetBreed().getBreed()).isEqualTo(petDetailForm.getBreed());
     }
 }
