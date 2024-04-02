@@ -2,6 +2,9 @@ package com.petsCare.petsCare.pet.controller;
 
 import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
 import com.petsCare.petsCare.pet.PetController;
+import com.petsCare.petsCare.pet.dto.form.PetDetailForm;
+import com.petsCare.petsCare.pet.service.PetBreedService;
+import com.petsCare.petsCare.pet.service.PetTypeService;
 import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.pet.dto.form.PetAdoptForm;
 import com.petsCare.petsCare.pet.dto.form.PetsForm;
@@ -9,7 +12,6 @@ import com.petsCare.petsCare.pet.service.PetService;
 import com.petsCare.petsCare.user.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.nimbusds.common.contenttype.ContentType.IMAGE_JPEG;
+import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -45,6 +48,12 @@ class PetControllerTest {
 
 	@MockBean
 	OAuth2AuthorizedClientService authorizedClientService;
+
+	@MockBean
+	PetTypeService petTypeService;
+
+	@MockBean
+	PetBreedService petBreedService;
 
 	@Test
 	@DisplayName("펫 등록 성공")
@@ -72,7 +81,7 @@ class PetControllerTest {
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.flashAttr("userDto", userDto)
 				.param("petName", petName)
-				.param("breed", breed)
+				.param("breedId", "1")
 				.param("petGender", String.valueOf(petGender))
 				.param("petBirth", String.valueOf(petBirth))
 		);
@@ -92,7 +101,7 @@ class PetControllerTest {
 
 		List<PetsForm> list = new ArrayList<>();
 
-		BDDMockito.given(petService.showPets(BDDMockito.any(UserDto.class)))
+		given(petService.showPets(any(UserDto.class)))
 				.willReturn(list);
 
 		User user = new User(1L, "local", "testuser", "Test User", "test.jpg", "ROLE_USER", new ArrayList<>());
@@ -101,6 +110,23 @@ class PetControllerTest {
 		//when
 		ResultActions resultActions = mockMvc.perform(get(url)
 				.flashAttr("userDto", userDto));
+
+		//then
+		resultActions.andExpectAll(
+				status().isOk()
+		);
+	}
+
+	@Test
+	@DisplayName("펫 상세 정보 가져오기")
+	void petDetailSuccess() throws Exception {
+		//given
+		String url = "/pets/1";
+		given(petService.showPetDetail(any(Long.class)))
+				.willReturn(any(PetDetailForm.class));
+
+		//when
+		ResultActions resultActions = mockMvc.perform(get(url));
 
 		//then
 		resultActions.andExpectAll(
