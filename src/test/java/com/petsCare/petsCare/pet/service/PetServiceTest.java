@@ -1,5 +1,6 @@
 package com.petsCare.petsCare.pet.service;
 
+import com.petsCare.petsCare.pet.dto.form.PetDetailForm;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
 import com.petsCare.petsCare.pet.entity.PetType;
@@ -14,6 +15,7 @@ import com.petsCare.petsCare.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -28,6 +30,7 @@ import static com.nimbusds.common.contenttype.ContentType.*;
 import static java.util.Optional.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -75,7 +78,7 @@ class PetServiceTest {
 		assertThatCode(() -> petService.leave(petLeaveForm));
 	}
 
-  @Test
+  	@Test
 	@DisplayName("반려 동물들 가져오기")
 	void petsSuccess() {
 		//given
@@ -94,5 +97,16 @@ class PetServiceTest {
 
 		//then
 		assertThat(petsForms.size()).isEqualTo(2);
+	}
+
+	@Test
+	@DisplayName("펫 상세 정보 가져오기")
+	void petDetailSuccess() {
+		//given
+		given(jpaPetRepository.showPetDetail(any(Long.class)))
+				.willReturn(any(PetDetailForm.class));
+
+		//when //then
+		assertThatCode(() -> petService.showPetDetail(1L));
 	}
 }
