@@ -1,9 +1,9 @@
 package com.petsCare.petsCare.pet;
 
 import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
-import com.petsCare.petsCare.pet.dto.form.PetBreedIdAndName;
+import com.petsCare.petsCare.pet.dto.form.*;
+import com.petsCare.petsCare.pet.dto.validation.PetLeaveGroup;
 import com.petsCare.petsCare.pet.entity.PetGender;
-import com.petsCare.petsCare.pet.dto.form.PetAdoptForm;
 import com.petsCare.petsCare.pet.service.PetBreedService;
 import com.petsCare.petsCare.pet.service.PetService;
 import com.petsCare.petsCare.pet.service.PetTypeService;
@@ -60,7 +60,7 @@ public class PetController {
 
 		return "redirect:/";
 	}
-  
+
 	@GetMapping
 	public String pets(Model model, @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
 		model.addAttribute("petsForms", petService.showPets(oAuth2User.getUserDto()));
@@ -73,5 +73,16 @@ public class PetController {
 		model.addAttribute("petDetailForm", petService.showPetDetail(petId));
 
 		return "/pet/pet";
+	}
+
+	@PostMapping("/{petId}")
+	public String pet(@Validated(PetLeaveGroup.class) PetDetailForm petDetailForm, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return "/pet/pet";
+		}
+
+		petService.leave(petDetailForm);
+
+		return "redirect:/pets/" + petDetailForm.getId();
 	}
 }

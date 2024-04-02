@@ -1,10 +1,12 @@
 package com.petsCare.petsCare.pet.dto.form;
 
 import com.petsCare.petsCare.memory.entity.MemoryType;
+import com.petsCare.petsCare.pet.dto.validation.PetLeaveGroup;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetGender;
 import com.petsCare.petsCare.pet.entity.PetStatus;
 import com.querydsl.core.annotations.QueryProjection;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,6 +30,7 @@ public class PetDetailForm {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate bornTime;
 
+    @NotNull(groups = {PetLeaveGroup.class})
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate leaveTime;
 

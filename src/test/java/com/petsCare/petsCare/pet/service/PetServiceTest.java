@@ -7,7 +7,6 @@ import com.petsCare.petsCare.pet.entity.PetType;
 import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.user.entity.User;
 import com.petsCare.petsCare.pet.dto.form.PetAdoptForm;
-import com.petsCare.petsCare.pet.dto.form.PetLeaveForm;
 import com.petsCare.petsCare.pet.dto.form.PetsForm;
 import com.petsCare.petsCare.pet.repository.PetBreedRepository;
 import com.petsCare.petsCare.pet.repository.JpaPetRepository;
@@ -15,7 +14,6 @@ import com.petsCare.petsCare.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -31,7 +29,6 @@ import static java.util.Optional.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PetServiceTest {
@@ -69,13 +66,13 @@ class PetServiceTest {
 	@DisplayName("반려 동물 상태 수정 성공")
 	void leaveSuccess() {
 		//given
-		PetLeaveForm petLeaveForm = new PetLeaveForm(1L, LocalDate.now());
-		lenient().when(jpaPetRepository.findById(petLeaveForm.getPetId()))
+		PetDetailForm petDetailForm = new PetDetailForm();
+		lenient().when(jpaPetRepository.findById(petDetailForm.getId()))
 				.thenReturn(of(new Pet("꼬맹이", null, new PetBreed("닥스훈트", new PetType("강아지")), 0,
 						LocalDate.now(), new User("provider", "진세진", "닉네임", "profileImage", "USER"))));
 
 		//when //then
-		assertThatCode(() -> petService.leave(petLeaveForm));
+		assertThatCode(() -> petService.leave(petDetailForm));
 	}
 
   	@Test

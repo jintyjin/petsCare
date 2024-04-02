@@ -13,7 +13,6 @@
             <input type="hidden" name="path" th:field="*{path}" />
             <input type="hidden" name="petStatus" th:field="*{petStatus}" />
             <input type="hidden" name="bornTime" th:field="*{bornTime}" />
-            <input type="hidden" name="leaveTime" th:field="*{leaveTime}" />
             <div class="text-center" th:if="*{type == null}" style="cursor:pointer">
                 <img src th:src="@{/images/pet_thumbnail.png}" class="img-thumbnail" th:alt="*{name}" />
             </div>
