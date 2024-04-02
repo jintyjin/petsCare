@@ -1,5 +1,6 @@
 package com.petsCare.petsCare.memory.dto.form;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -13,6 +14,6 @@ public class MemoryForm {
 	@NotNull
 	private Long petId;
 
-	@Size(min = 1)
+	@NotEmpty
 	private List<MultipartFile> files;
 }

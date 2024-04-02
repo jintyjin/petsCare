@@ -60,7 +60,9 @@ public class PetService {
 
 		jpaPetRepository.save(pet);
 
-		pet.changeProfile(memoryService.saveMemory(List.of(petAdoptForm.getThumbnail()), userDto.getLoginId(), pet));
+		if (!petAdoptForm.getThumbnail().isEmpty()) {
+			pet.changeProfile(memoryService.saveMemory(List.of(petAdoptForm.getThumbnail()), userDto.getLoginId(), pet));
+		}
 	}
 
 	public List<PetIdAndNameForm> showPets(Long id) {

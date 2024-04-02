@@ -24,7 +24,6 @@ public class ImageController {
 	@GetMapping("/images/{loginId}/{folder}/{filename}")
 	public Resource showImage(@PathVariable String loginId, @PathVariable String folder,
 							  @PathVariable String filename) throws MalformedURLException {
-		log.info("filename = " + fileDir + loginId + "/" + folder + "/" + filename);
 		return new UrlResource("file:" + fileDir + loginId + "/" + folder + "/" + filename);
 	}
 }

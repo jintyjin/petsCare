@@ -6,6 +6,7 @@ import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
 import com.petsCare.petsCare.pet.service.PetService;
 import com.petsCare.petsCare.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +15,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/memories")
 @RequiredArgsConstructor
+@Slf4j
 public class MemoryController {
 
 	private final MemoryService memoryService;

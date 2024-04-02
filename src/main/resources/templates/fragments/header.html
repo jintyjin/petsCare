@@ -66,6 +66,14 @@
         });
       }
     }
+    function checkFiles(form) {
+      var files = form.querySelector('input[type="file"]').files;
+      var length = files.length;
+      if (length > 0) {
+        return true;
+      }
+      return false;
+    }
   </script>
 </head>
 <body>

@@ -3,13 +3,13 @@
       layout:decorate="~{fragments/layout}">
 <body>
 <div layout:fragment="content" class="container-fluid px-3 py-3 d-flex justify-content-center flex-wrap">
-    <form action="" th:action th:object="${memoryForm}" method="post" enctype="multipart/form-data">
+    <form action="" th:action th:object="${memoryForm}" method="post" enctype="multipart/form-data" onsubmit="return checkFiles(this);">
         <div>
             <label for="petId" class="form-label" th:text="#{label.memory.pet.name}">펫</label>
             <select id="petId" name="petId" th:value="*{petId}"
                     class="form-select" aria-label="form-select">
                 <option th:value th:text="#{label.memory.pet.name}">펫 선택</option>
-                <option th:each="petIdAndName : ${petIdAndNameForms}" th:value="${petIdAndName.id}" th:text="${petIdAndName.name}"></option>
+                <option th:each="petIdAndNameForm : ${petIdAndNameForms}" th:value="${petIdAndNameForm.id}" th:text="${petIdAndNameForm.name}"></option>
             </select>
             <div class="field-error" th:errors="*{petId}">
                 펫 선택 오류
@@ -19,7 +19,7 @@
             <label for="files" class="form-label" th:text="#{label.memory.memories}">사진</label>
             <input type="file" accept="image/jpg, image/jpeg, image/png, video/mp4"
                    id="files" name="files" th:field="*{files}" multiple="multiple"
-                   class="form-control" />
+                   class="form-control" required />
             <div class="field-error" th:errors="*{files}">
                 파일 오류
             </div>
