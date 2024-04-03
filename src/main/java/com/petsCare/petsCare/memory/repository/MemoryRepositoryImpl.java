@@ -25,7 +25,7 @@ public class MemoryRepositoryImpl implements MemoryRepository {
 	public Page<MemorySimpleForm> findSimpleFormByPet(Long petId, Pageable pageable) {
 		List<MemorySimpleForm> content = jpaQueryFactory
 				.select(new QMemorySimpleForm(
-						memory.id, memory.memoryType.stringValue(), memory.uploadFile.saveFileName
+						memory.id, memory.memoryType, memory.uploadFile.saveFileName
 				))
 				.from(memory)
 				.where(

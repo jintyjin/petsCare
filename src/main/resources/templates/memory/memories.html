@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<body>
+<div layout:fragment="content" class="container-fluid px-3 py-3 d-flex justify-content-center flex-wrap">
+    <div class="px-3 py-3" th:each="reminiscence : ${reminiscences}">
+        <div th:if="${reminiscence.type != null}">
+            <a th:if="${reminiscence.type == T(com.petsCare.petsCare.memory.entity.MemoryType).IMAGE}" href="#" th:href="@{|/memories/memory/${reminiscence.memoryId}|}">
+                <img src th:src="@{|/images/${reminiscence.path}|}" class="img-thumbnail" th:alt="${reminiscence.type}" />
+            </a>
+            <video controls th:if="${reminiscence.type == T(com.petsCare.petsCare.memory.entity.MemoryType).VIDEO}">
+                <source src th:src="@{|/images/${reminiscence.path}|}">
+            </video>
+        </div>
+    </div>
+</div>
+</body>
+</html>

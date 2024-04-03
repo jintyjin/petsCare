@@ -76,7 +76,7 @@ public class MemoryService {
 
 		try {
 			for (MultipartFile file : files) {
-				String saveFileName = UUID.randomUUID().toString() + UUID.randomUUID().toString().replaceAll("-", "_") + "." + file.getContentType().split("/")[1];
+				String saveFileName = UUID.randomUUID().toString().replaceAll("-", "_") + "." + file.getContentType().split("/")[1];
 
 				String filePath = path + "/" + saveFileName;
 				filePathList.add(filePath);

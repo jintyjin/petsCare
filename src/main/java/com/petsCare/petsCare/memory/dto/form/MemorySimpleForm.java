@@ -1,5 +1,6 @@
 package com.petsCare.petsCare.memory.dto.form;
 
+import com.petsCare.petsCare.memory.entity.MemoryType;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,12 +11,12 @@ public class MemorySimpleForm {
 
 	private Long memoryId;
 
-	private String type;
+	private MemoryType type;
 
 	private String path;
 
 	@QueryProjection
-	public MemorySimpleForm(Long memoryId, String type, String path) {
+	public MemorySimpleForm(Long memoryId, MemoryType type, String path) {
 		this.memoryId = memoryId;
 		this.type = type;
 		this.path = path;
