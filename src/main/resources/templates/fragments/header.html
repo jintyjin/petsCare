@@ -41,8 +41,26 @@
     video {
         max-height:225px;
     }
+    /* memory.html 시작 */
+    .SxgK2b {
+      border-radius: 28px;
+      cursor: pointer;
+      position: absolute;
+      text-align: center;
+      transition: all 0.5s linear;
+      left: 50%;
+      margin-left: -27px;
+      opacity: 0;
+      fill: white;
+    }
+    .Cwtbxf:hover {
+	  background-color:rgba(26,115,232,.25);
+	  border-radius:50%;
+    }
+    /* memory.html 종료 */
   </style>
   <script>
+    /* 펫 등록 폼 시작 */
     function selectPetType(petTypeId) {
       $('#breedId').children('option:not(:first)').remove();
       if (petTypeId != '') {
@@ -66,6 +84,8 @@
         });
       }
     }
+    /* 펫 등록 폼 종료 */
+    /* 메모리 등록 폼 시작 */
     function checkFiles(form) {
       var files = form.querySelector('input[type="file"]').files;
       var length = files.length;
@@ -74,6 +94,17 @@
       }
       return false;
     }
+    /* 메모리 등록 폼 종료 */
+    /* 펫별 메모리 페이지 시작 */
+    function showImageMenu(id) {
+      var parent = document.getElementById(id);
+      parent.getElementsByClassName('SxgK2b')[0].style.opacity = 1;
+    }
+    function hideImageMenu(id) {
+      var parent = document.getElementById(id);
+      parent.getElementsByClassName('SxgK2b')[0].style.opacity = 0;
+    }
+    /* 펫별 메모리 페이지 종료 */
   </script>
 </head>
 <body>

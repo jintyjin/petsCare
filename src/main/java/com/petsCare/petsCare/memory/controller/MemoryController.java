@@ -48,4 +48,11 @@ public class MemoryController {
 
 		return "redirect:/";
 	}
+
+	@GetMapping("/memory")
+	public String memory(@AuthenticationPrincipal CustomOAuth2User oAuth2User, Model model) {
+		model.addAttribute("petsForms", petService.showPets(oAuth2User.getUserDto()));
+
+		return "/memory/memory";
+	}
 }
