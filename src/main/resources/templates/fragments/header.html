@@ -19,6 +19,7 @@
   <script th:src="@{http://code.jquery.com/jquery-1.11.3.min.js}"
           src="http://code.jquery.com/jquery-1.11.3.min.js">
   </script>
+  <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f03997c9ab3ebbb5b7ec9d5eab20e0e3&libraries=services"></script>
   <style>
     a {
         color: black;
@@ -58,6 +59,245 @@
 	  border-radius:50%;
     }
     /* memory.html 종료 */
+    /* detail.html 시작 */
+    /* 배경 */
+    .KJca8b {
+      background-color:#000;
+      position:absolute;
+      left:0;
+      right:0;
+      top:0;
+      bottom:0;
+    }
+    /* 메뉴 바 */
+    .SmZ4Wd {
+      align-items:center;
+      display:flex;
+      justify-content:space-between;
+      background-color:transparent;
+      color:#fff;
+      height:64px;
+      left:0;
+      padding:0 14px;
+      position:absolute;
+      right:0;
+      top:0;
+      z-index:200;
+      transform:translateZ(0);
+      transition:all 0.5s linear;
+    }
+    .VfPpkd-Bz112c-LgbsSe {
+      /* margin:8px 0; */
+      text-align:center;
+      vertical-align:bottom;
+      z-index:0;
+      display:inline-block;
+      position:relative;
+      box-sizing:border-box;
+      border:none;
+      outline:none;
+      background-color:transparent;
+      fill:currentColor;
+      text-decoration:none;
+      cursor:pointer;
+      width:48px;
+      height:48px;
+      padding:12px;
+      --mdc-ripple-fg-size:0x;
+      --mdc-ripple-left:0;
+      --mdc-ripple-top:0;
+      --mdc-ripple-fg-scale:1;
+      --mdc-ripple-fg-translate-end:0;
+      --mdc-ripple-fg-translate-start:0;
+      -webkit-tap-highlight-color:rgba(0,0,0,0);
+      will-change:transform,opacity;
+      transition:all 0.5s linear;
+      //color:#fff;
+    }
+    .VfPpkd-Bz112c-LgbsSe:hover {
+	  background-color:rgba(90,90,90,.25);
+	  border-radius:50%;
+    }
+    .WpHeLc {
+      position:relative;
+      top:-4px;
+    }
+    .JUQOtc {
+      fill:#fff;
+    }
+    .xvKqge {
+      color:#fff;
+      display:flex;
+      flex:1 1 auto;
+      justify-content:flex-end;
+    }
+    .c9yG5b {
+      align-items: center;
+      display: inline-flex;
+	  transition:all 0.5s linear;
+    }
+    .G6iPcb {
+      margin: 8px 0;
+      display: inline-block;
+      min-width: 0;
+      vertical-align: bottom;
+    }
+    .O8EXO {
+      color:#fff;
+    }
+    .yHy1rc {
+      z-index:0;
+    }
+    /* 이미지 div */
+    .VmkiKe {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        overflow: hidden;
+        text-align: center;
+        transition: all 0.5s linear;
+    }
+    .VmkiKe:after {
+      display:inline-block;
+      height:100%;
+      content:"";
+      vertical-align:middle;
+    }
+    /* 사이드 바 */
+    .sideBar {
+        position:absolute;
+        top:0;
+        bottom:0;
+        right:0;
+        width:360px;
+        overflow-y:auto;
+        transform:translate3d(360px, 0, 0);
+        transition:transform 0.5s linear;
+        background-color:#fff;
+        z-index:1;
+    }
+    .IMbeAf {
+      font-family: "Google Sans",Roboto,Arial,sans-serif;
+      line-height: 1.5rem;
+      font-size: 1.125rem;
+      letter-spacing: 0;
+      font-weight: 400;
+      display: flex;
+      -ms-flex-pack: justify;
+      align-items: center;
+      -ms-flex-align: center;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      padding: 8px;
+    }
+    .zE2Vqb {
+      padding: 20px 24px;
+    }
+    .qURWqc {
+      font-family: Roboto,Arial,sans-serif;
+      line-height: 1.5rem;
+      font-size: 1rem;
+      letter-spacing: .00625em;
+      font-weight: 400;
+      /* white-space: pre-wrap; */
+      word-wrap: break-word;
+    }
+    .Mna4i {
+      line-height: 1.5rem;
+      position: relative;
+    }
+    .n4jc2d {
+      padding-bottom: 1px;
+      /* white-space: pre-wrap; */
+      word-wrap: break-word;
+    }
+    .ajQY2 {
+      border: none;
+      border-bottom: 1px solid rgba(0,0,0,.12);
+      bottom: 0;
+      box-sizing: border-box;
+      color: inherit;
+      display: block;
+      font: inherit;
+      height: 100%;
+      letter-spacing: inherit;
+      margin: 0;
+      outline: none;
+      overflow: hidden;
+      padding: 0;
+      resize: none;
+      top: 0;
+      transition: .3s cubic-bezier(.4,0,.2,1) all;
+      width: 100%;
+    }
+    .ajQY2:focus {
+      border-bottom: 1px solid rgb(66,133,244);
+    }
+    .wiOkb {
+      color: rgb(95,99,104);
+      display: flex;
+      padding: 14px 24px;
+      font-family: Roboto,Arial,sans-serif;
+      line-height: 1rem;
+      font-size: .6875rem;
+      letter-spacing: .0727272727em;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    .Kd04rd {
+      position: relative;
+    }
+    .Kd04rd:hover {
+        background-color: rgb(241,243,244);
+    }
+    .ffq9nc {
+      display: flex;
+      padding: 18px 24px;
+    }
+    .dNjXAc {
+      height: 24px;
+      min-width: 40px;
+      width: 40px;
+    }
+    .Y0p3Ue {
+      fill:rgba(0,0,0,.54);
+    }
+    .rCexAf {
+      margin: 0;
+      overflow: hidden;
+    }
+    .R9U8ab {
+      color: rgb(60,64,67);
+      word-wrap: break-word;
+      font-family: Roboto,Arial,sans-serif;
+      line-height: 1.5rem;
+      font-size: 1rem;
+      letter-spacing: .00625em;
+      font-weight: 400;
+    }
+    .oBMhZb {
+      align-items: center;
+      color: rgb(95,99,104);
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 0;
+      font-family: Roboto,Arial,sans-serif;
+      line-height: 1.25rem;
+      font-size: .875rem;
+      letter-spacing: .0142857143em;
+      font-weight: 400;
+    }
+    .cFLCHe {
+      display: block;
+      background-color: #fff;
+      background-position: 50% 50%;
+      background-size: 360px;
+      height: 360px;
+      text-align: center;
+    }
+    /* detail.html 종료 */
   </style>
   <script>
     /* 펫 등록 폼 시작 */
@@ -105,6 +345,103 @@
       parent.getElementsByClassName('SxgK2b')[0].style.opacity = 0;
     }
     /* 펫별 메모리 페이지 종료 */
+    /* 메모리 상세 페이지 시작 */
+    function showDetailSideBar() {
+      let right = '0px';
+      let pushRight = '360px';
+      pushSideBar(right);
+      pushAsideTopMenu(pushRight);
+      pushAsideImage(pushRight);
+      let info = document.getElementsByClassName('info')[0];
+      info.setAttribute('onclick', 'hideDetailSideBar()');
+    }
+    function hideDetailSideBar() {
+      let right = '360px';
+      let pushRight = '0px';
+      pushSideBar(right);
+      pushAsideTopMenu(pushRight);
+      pushAsideImage(pushRight);
+      let info = document.getElementsByClassName('info')[0];
+      info.setAttribute('onclick', 'showDetailSideBar()');
+    }
+    function pushSideBar(right) {
+      let className = 'sideBar';
+      let sideBar = document.getElementsByClassName(className)[0];
+      sideBar.style.transform = 'translate3d(' + right + ', 0, 0)';
+    }
+    function pushAsideTopMenu(right) {
+      let topMenuName = 'SmZ4Wd';
+      let topMenu = document.getElementsByClassName(topMenuName)[0];
+      topMenu.style.right = right;
+    }
+    function pushAsideImage(right) {
+      let imageDivName = 'VmkiKe';
+      let imageDiv = document.getElementsByClassName(imageDivName)[0];
+      imageDiv.style.right = right;
+    }
+    function changeMemoryInfo(info, memoryId) {
+      var json = {"memoryId" : memoryId, "info" : info}
+
+      $.ajax({
+        url : "/memories/memory/detail/update/info",
+        type : "post",
+        data : JSON.stringify(json),
+        contentType:"application/json;charset=UTF-8",
+	    async: false,
+	    success : function(data) {
+	      if (data == null) {
+	        alert('Error');
+	      }
+	    },
+	    error: function(xhr, status, error){
+	       alert(xhr.responseText);
+	    },
+      });
+    }
+    function showMap(latitude, longitude) {
+      if (latitude != null && longitude != null) {
+        showAddress(latitude, longitude);  // 주소 표시 함수
+        var map = makeMap(latitude, longitude);
+        drawMarker(latitude, longitude, map, 'start');
+      }
+    }
+    function showAddress(x, y) {
+      var geocoder = new kakao.maps.services.Geocoder();
+
+      var coord = new kakao.maps.LatLng(x, y);
+      var callback = function(result, status) {
+          if (status === kakao.maps.services.Status.OK) {
+              var address = document.getElementById('address');
+              address.innerText = result[0].address.address_name;
+          }
+      };
+
+      geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+    }
+    function makeMap(latitude, longitude) {
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
+            level: 5 // 지도의 확대 레벨
+        };
+        // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+        return new kakao.maps.Map(mapContainer, mapOption);
+    }
+
+    function drawMarker(latitude, longitude, map, opt) {
+        var markerPosition  = new kakao.maps.LatLng(latitude, longitude);
+
+        var imageSrc = '';
+
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            position : markerPosition
+        });
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        marker.setMap(map);
+    }
+    /* 메모리 상세 페이지 종료 */
   </script>
 </head>
 <body>

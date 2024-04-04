@@ -6,6 +6,7 @@ import com.drew.lang.GeoLocation;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.exif.GpsDirectory;
+import com.petsCare.petsCare.memory.dto.form.MemoryDetailForm;
 import com.petsCare.petsCare.memory.dto.form.MemoryForm;
 import com.petsCare.petsCare.memory.dto.form.MemorySimpleForm;
 import com.petsCare.petsCare.memory.entity.*;
@@ -100,6 +101,10 @@ public class MemoryService {
 	public List<MemorySimpleForm> reminisce(@Nullable Long petId, Pageable pageable) {
 		return memoryRepository.findSimpleFormByPet(petId, pageable)
 				.getContent();
+	}
+
+	public MemoryDetailForm showMemoryDetail(Long memoryId) {
+		return memoryRepository.findMemoryDetailById(memoryId);
 	}
 
 	private void deleteMemory(List<String> filePathList) {

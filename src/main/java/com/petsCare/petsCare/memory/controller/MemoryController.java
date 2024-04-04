@@ -1,7 +1,6 @@
 package com.petsCare.petsCare.memory.controller;
 
 import com.petsCare.petsCare.memory.dto.form.MemoryForm;
-import com.petsCare.petsCare.memory.dto.form.MemorySimpleForm;
 import com.petsCare.petsCare.memory.service.MemoryService;
 import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
 import com.petsCare.petsCare.pet.service.PetService;
@@ -18,9 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/memories")
@@ -62,9 +58,16 @@ public class MemoryController {
 	}
 
 	@GetMapping("/{petId}")
-	public String memories(@PathVariable(required = false) Long petId, Model model, Pageable pageable) {
-		model.addAttribute("reminiscences", memoryService.reminisce(petId, pageable)) ;
+	public String memories(@PathVariable Long petId, Model model, Pageable pageable) {
+		model.addAttribute("reminiscences", memoryService.reminisce(petId, pageable));
 
 		return "/memory/memories";
+	}
+
+	@GetMapping("/detail/{memoryId}")
+	public String memoryDetail(@PathVariable Long memoryId, Model model) {
+		model.addAttribute("memoryDetailForm", memoryService.showMemoryDetail(memoryId));
+
+		return "/memory/detail";
 	}
 }
