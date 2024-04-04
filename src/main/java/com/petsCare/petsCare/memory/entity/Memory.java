@@ -37,6 +37,9 @@ public class Memory {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pet_id")
 	private Pet pet;
+
+	@Column(name = "memory_info")
+	private String info;
   
 	public Memory(UploadFile uploadFile, Gps gps, ManageTime manageTime, ImageSize imageSize, MemoryType memoryType, Pet pet) {
 		this.uploadFile = uploadFile;
@@ -46,6 +49,7 @@ public class Memory {
 		this.imageSize = imageSize;
 		this.memoryType = memoryType;
 		this.pet = pet;
+		this.info = "";
 	}
 
 	public void delete() {

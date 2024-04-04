@@ -1,6 +1,8 @@
 package com.petsCare.petsCare.memory.repository;
 
+import com.petsCare.petsCare.memory.dto.form.MemoryDetailForm;
 import com.petsCare.petsCare.memory.dto.form.MemorySimpleForm;
+import com.petsCare.petsCare.memory.dto.form.QMemoryDetailForm;
 import com.petsCare.petsCare.memory.dto.form.QMemorySimpleForm;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -47,6 +49,14 @@ public class MemoryRepositoryImpl implements MemoryRepository {
 				);
 
 		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+	}
+
+	public MemoryDetailForm findMemoryDetailById(Long memoryId) {
+		return jpaQueryFactory
+				.select(new QMemoryDetailForm(memory))
+				.from(memory)
+				.where(memory.id.eq(memoryId))
+				.fetchOne();
 	}
 
 	private BooleanExpression petIdEq(Long petId) {
