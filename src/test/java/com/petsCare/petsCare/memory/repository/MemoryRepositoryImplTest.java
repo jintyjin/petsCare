@@ -1,5 +1,6 @@
 package com.petsCare.petsCare.memory.repository;
 
+import com.petsCare.petsCare.memory.dto.form.MemoryDetailForm;
 import com.petsCare.petsCare.memory.dto.form.MemorySimpleForm;
 import com.petsCare.petsCare.memory.entity.*;
 import com.petsCare.petsCare.pet.entity.Pet;
@@ -81,5 +82,43 @@ class MemoryRepositoryImplTest {
 
 		//then
 		assertThat(memorySimpleForms).extracting("memoryId").containsExactly(1L);
+	}
+
+	@Test
+	@DisplayName("추억 상세 정보 가져오기 성공")
+	void findMemoryDetailSuccess() {
+		//given
+		User user = User.builder()
+				.provider("naver")
+				.loginId("testMember123")
+				.username("에세이르123")
+				.profileImage("jj.png")
+				.role("ROLE_USER")
+				.build();
+		userRepository.save(user);
+
+		PetType petType = new PetType("강아지");
+		petTypeRepository.save(petType);
+
+		PetBreed petBreed = new PetBreed("닥스훈트", petType);
+		petBreedRepository.save(petBreed);
+
+		String petName = "이복댕";
+		int petGender = 1;
+		LocalDate petBirth = LocalDate.of(2014, 7, 31);
+		Pet pet = new Pet(petName, null, petBreed, petGender, petBirth, user);
+		Memory memory = new Memory(new UploadFile("image.jpeg", UUID.randomUUID() + ".jpeg"),
+				new Gps(new BigDecimal("0.1"), new BigDecimal("0.1")),
+				new ManageTime(LocalDateTime.now()), new ImageSize(1920, 1080), MemoryType.IMAGE, pet);
+
+		pet.makeMemory(memory);
+
+		jpaPetRepository.save(pet);
+
+		//when
+		MemoryDetailForm memoryDetailForm = memoryRepository.findMemoryDetailById(memory.getId());
+
+		//then
+		assertThat(memory.getId()).isEqualTo(memoryDetailForm.getId());
 	}
 }
