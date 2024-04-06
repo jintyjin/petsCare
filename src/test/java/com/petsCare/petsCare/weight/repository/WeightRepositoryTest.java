@@ -15,7 +15,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -53,7 +52,7 @@ class WeightRepositoryTest {
         jpaPetRepository.save(pet);
 
         //when
-        Weight weight = new Weight(new BigDecimal(9.28), LocalDateTime.now(), pet);
+        Weight weight = new Weight(new BigDecimal(9.28), LocalDate.now(), pet);
         weightRepository.save(weight);
         Weight findWeight = weightRepository.findById(weight.getId()).get();
 
@@ -78,10 +77,10 @@ class WeightRepositoryTest {
         petBreedRepository.save(petBreed);
         Pet pet = new Pet("이복댕", null, petBreed, 1, LocalDate.of(2014, 7, 31), user);
         jpaPetRepository.save(pet);
-        Weight weight1 = new Weight(new BigDecimal(9.28), LocalDateTime.now(), pet);
-        Weight weight2 = new Weight(new BigDecimal(9.21), LocalDateTime.now(), pet);
-        Weight weight3 = new Weight(new BigDecimal(9.35), LocalDateTime.now(), pet);
-        Weight weight4 = new Weight(new BigDecimal(9.25), LocalDateTime.now(), pet);
+        Weight weight1 = new Weight(new BigDecimal(9.28), LocalDate.now(), pet);
+        Weight weight2 = new Weight(new BigDecimal(9.21), LocalDate.now(), pet);
+        Weight weight3 = new Weight(new BigDecimal(9.35), LocalDate.now(), pet);
+        Weight weight4 = new Weight(new BigDecimal(9.25), LocalDate.now(), pet);
         weightRepository.save(weight1);
         weightRepository.save(weight2);
         weightRepository.save(weight3);
