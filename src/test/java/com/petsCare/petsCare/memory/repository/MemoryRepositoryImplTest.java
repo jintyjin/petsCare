@@ -9,6 +9,7 @@ import com.petsCare.petsCare.pet.entity.PetType;
 import com.petsCare.petsCare.pet.repository.PetBreedRepository;
 import com.petsCare.petsCare.pet.repository.JpaPetRepository;
 import com.petsCare.petsCare.pet.repository.PetTypeRepository;
+import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.user.entity.User;
 import com.petsCare.petsCare.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -78,7 +79,7 @@ class MemoryRepositoryImplTest {
 
 		//when
 		Page<MemorySimpleForm> memorySimpleForms =
-				memoryRepository.findSimpleFormByPet(pet.getId(), PageRequest.of(0, 1));
+				memoryRepository.findSimpleFormByPet(new UserDto(user), pet.getId(), PageRequest.of(0, 1));
 
 		//then
 		assertThat(memorySimpleForms).extracting("memoryId").containsExactly(1L);

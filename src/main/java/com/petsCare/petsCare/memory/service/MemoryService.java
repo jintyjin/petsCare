@@ -98,8 +98,8 @@ public class MemoryService {
 		return thumbnail;
 	}
 
-	public List<MemorySimpleForm> reminisce(@Nullable Long petId, Pageable pageable) {
-		return memoryRepository.findSimpleFormByPet(petId, pageable)
+	public List<MemorySimpleForm> reminisce(UserDto userDto, @Nullable Long petId, Pageable pageable) {
+		return memoryRepository.findSimpleFormByPet(userDto, petId, pageable)
 				.getContent();
 	}
 

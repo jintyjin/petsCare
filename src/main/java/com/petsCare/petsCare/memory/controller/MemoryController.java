@@ -58,8 +58,9 @@ public class MemoryController {
 	}
 
 	@GetMapping("/{petId}")
-	public String memories(@PathVariable Long petId, Model model, Pageable pageable) {
-		model.addAttribute("reminiscences", memoryService.reminisce(petId, pageable));
+	public String memories(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
+						   @PathVariable Long petId, Model model, Pageable pageable) {
+		model.addAttribute("reminiscences", memoryService.reminisce(oAuth2User.getUserDto(), petId, pageable));
 
 		return "/memory/memories";
 	}
