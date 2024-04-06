@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -23,16 +23,15 @@ public class Weight {
     private BigDecimal weight;
 
     @Column(name = "weight_date")
-    private LocalDateTime date;
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pet_id")
     private Pet pet;
 
-    public Weight(BigDecimal weight, LocalDateTime date, Pet pet) {
+    public Weight(BigDecimal weight, LocalDate date, Pet pet) {
         this.weight = weight;
         this.date = date;
         this.pet = pet;
-        this.pet.getWeights().add(this);
     }
 }

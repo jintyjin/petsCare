@@ -49,7 +49,7 @@ public class Pet {
     @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
     List<Memory> memories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "pet")
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
     List<Weight> weights = new ArrayList<>();
 
     @Builder
@@ -65,6 +65,10 @@ public class Pet {
 
     public void makeMemory(Memory memory) {
         this.memories.add(memory);
+    }
+
+    public void measurement(Weight weight) {
+        this.weights.add(weight);
     }
 
     public void changeProfile(String profile) {
