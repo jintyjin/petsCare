@@ -66,8 +66,9 @@ public class MemoryController {
 	}
 
 	@GetMapping("/detail/{memoryId}")
-	public String memoryDetail(@PathVariable Long memoryId, Model model) {
-		model.addAttribute("memoryDetailForm", memoryService.showMemoryDetail(memoryId));
+	public String memoryDetail(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
+			@PathVariable Long memoryId, Model model) {
+		model.addAttribute("memoryDetailForm", memoryService.showMemoryDetail(oAuth2User.getUserDto(), memoryId));
 
 		return "/memory/detail";
 	}

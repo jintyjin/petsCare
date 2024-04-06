@@ -9,5 +9,5 @@ import org.springframework.data.domain.Pageable;
 public interface MemoryRepository {
 	Page<MemorySimpleForm> findSimpleFormByPet(UserDto userDto, Long petId, Pageable pageable);
 
-	MemoryDetailForm findMemoryDetailById(Long memoryId);
+	MemoryDetailForm findMemoryDetailById(UserDto userDto, Long memoryId);
 }

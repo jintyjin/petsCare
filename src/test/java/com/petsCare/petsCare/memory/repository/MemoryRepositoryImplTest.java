@@ -117,7 +117,7 @@ class MemoryRepositoryImplTest {
 		jpaPetRepository.save(pet);
 
 		//when
-		MemoryDetailForm memoryDetailForm = memoryRepository.findMemoryDetailById(memory.getId());
+		MemoryDetailForm memoryDetailForm = memoryRepository.findMemoryDetailById(new UserDto(user), memory.getId());
 
 		//then
 		assertThat(memory.getId()).isEqualTo(memoryDetailForm.getId());

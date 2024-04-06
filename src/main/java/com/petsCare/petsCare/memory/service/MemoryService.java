@@ -103,8 +103,8 @@ public class MemoryService {
 				.getContent();
 	}
 
-	public MemoryDetailForm showMemoryDetail(Long memoryId) {
-		return memoryRepository.findMemoryDetailById(memoryId);
+	public MemoryDetailForm showMemoryDetail(UserDto userDto, Long memoryId) {
+		return memoryRepository.findMemoryDetailById(userDto, memoryId);
 	}
 
 	private void deleteMemory(List<String> filePathList) {

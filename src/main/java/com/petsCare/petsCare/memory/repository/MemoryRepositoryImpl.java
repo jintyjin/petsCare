@@ -57,11 +57,14 @@ public class MemoryRepositoryImpl implements MemoryRepository {
 		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
 	}
 
-	public MemoryDetailForm findMemoryDetailById(Long memoryId) {
+	public MemoryDetailForm findMemoryDetailById(UserDto userDto, Long memoryId) {
 		return jpaQueryFactory
 				.select(new QMemoryDetailForm(memory))
 				.from(memory)
-				.where(memory.id.eq(memoryId))
+				.where(
+						memory.id.eq(memoryId),
+						memory.pet.user.id.eq(userDto.getId())
+				)
 				.fetchOne();
 	}
 
