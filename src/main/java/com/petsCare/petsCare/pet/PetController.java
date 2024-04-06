@@ -27,15 +27,11 @@ public class PetController {
 	private final PetTypeService petTypeService;
 	private final PetBreedService petBreedService;
 
-	@ModelAttribute("petGenders")
-	public PetGender[] petGenders() {
-		return PetGender.values();
-	}
-
 	@GetMapping("/adopt")
 	public String adopt(Model model) {
 		model.addAttribute("petTypeIdAndNameForms", petTypeService.showPetTypes());
 		model.addAttribute("petAdoptForm", new PetAdoptForm());
+		model.addAttribute("petGenders", PetGender.values());
 
 		return "/pet/petAdoptForm";
 	}
@@ -53,19 +49,13 @@ public class PetController {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("petTypeIdAndNameForms", petTypeService.showPetTypes());
+			model.addAttribute("petGenders", PetGender.values());
 			return "/pet/petAdoptForm";
 		}
 
 		petService.adopt(petAdoptForm, userDto);
 
 		return "redirect:/";
-	}
-
-	@GetMapping
-	public String pets(Model model, @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
-		model.addAttribute("petsForms", petService.showPets(oAuth2User.getUserDto()));
-
-		return "/pet/pets";
 	}
 
 	@GetMapping("/{petId}")
@@ -84,5 +74,12 @@ public class PetController {
 		petService.leave(petDetailForm);
 
 		return "redirect:/pets/" + petDetailForm.getId();
+	}
+
+	@GetMapping
+	public String pets(Model model, @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+		model.addAttribute("petsForms", petService.showPets(oAuth2User.getUserDto()));
+
+		return "/pet/pets";
 	}
 }
