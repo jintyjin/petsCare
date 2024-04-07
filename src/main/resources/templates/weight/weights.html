@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<body>
+<div class="container-fluid px-3 py-3 d-flex justify-content-center flex-wrap">
+    <form name="weightForm" action="" th:action="@{/weights/measure}" th:object="${weightForm}" method="post" th:onsubmit="return checkWeightData();">
+        <input type="hidden" th:field="*{petId}" />
+        <input type="hidden" th:field="*{petName}" />
+        <div class="px-3 py-3 text-center">
+            <div id="petWeightChart" style="width:1200px; height:500px;"></div>
+            <script th:inline="javascript">
+                window.onload = showChart([[*{weightDtoList}]], [[*{petName}]]);
+            </script>
+        </div>
+        <div class="px-3 py-3">
+            <div class="row justify-content-md-center" th:each="weightDto, itemStat : *{weightDtoList}">
+                <input type="hidden" th:field="*{weightDtoList[__${itemStat.index}__].weightId}" />
+                <input type="hidden" th:field="*{weightDtoList[__${itemStat.index}__].date}" />
+                <input type="hidden" th:field="*{weightDtoList[__${itemStat.index}__].weight}" />
+                <div class="col-md-auto" th:text="${weightDto.date}"></div>
+                <div class="col-md-auto" th:text="@{|${weightDto.weight} kg|}"></div>
+                <div class="col-md-auto">
+                    <button type="button" class="btn-close" aria-label="Close"
+                            onclick=""
+                            th:onclick="|deleteWeight('delete?id=${weightDto.weightId}&petId=*{petId}', '#{confirm.weight.delete}');|"></button>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row justify-content-md-center">
+                <div class="col-md-2 text-center">
+                    <input type="date" id="date" name="date" th:field="*{date}"
+                           th:errorclass="field-error" class="form-control" />
+                    <div class="field-error" th:errors="*{date}">
+                        측정일 오류
+                    </div>
+                </div>
+                <div class="col-md-2 text-center">
+                    <input type="number" step="0.01" id="weight" min="0" max="100" name="weight" th:field="*{weight}"
+                           th:errorclass="field-error" class="form-control" />
+                    <div class="field-error" th:errors="*{weight}">
+                        몸무게 오류
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    kg
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row justify-content-md-center">
+                <button class="btn btn-primary col-md-2" type="submit" th:text="#{button.pet.save}">저장</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

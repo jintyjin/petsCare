@@ -1,20 +1,23 @@
 package com.petsCare.petsCare.weight.dto;
 
+import com.petsCare.petsCare.weight.entity.Weight;
 import com.querydsl.core.annotations.QueryProjection;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
+@NoArgsConstructor
 public class WeightDto {
 
     @NotNull
-    private Long id;
+    private Long weightId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
@@ -24,10 +27,9 @@ public class WeightDto {
     @Digits(integer=2, fraction=2)
     private BigDecimal weight;
 
-    @QueryProjection
-    public WeightDto(Long id, LocalDate date, BigDecimal weight) {
-        this.id = id;
-        this.date = date;
-        this.weight = weight;
+    public WeightDto(Weight weight) {
+        this.weightId = weight.getId();
+        this.date = weight.getDate();
+        this.weight = weight.getWeight();
     }
 }

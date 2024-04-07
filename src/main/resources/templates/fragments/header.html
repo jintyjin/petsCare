@@ -442,6 +442,72 @@
         marker.setMap(map);
     }
     /* 메모리 상세 페이지 종료 */
+    /* 체중 페이지 시작 */
+    function showChart(weightsArr, petName) {
+      var weights = [];
+      for (var i = 0; i < weightsArr.length; i++) {
+        weights.push({
+          x : new Date(weightsArr[i].date),
+          y : weightsArr[i].weight
+        });
+      }
+      var chart = new CanvasJS.Chart("petWeightChart",
+      {
+          title: {
+              text: petName
+          },
+          axisX:{
+            title: "",
+            valueFormatString: "YYYY-MM-DD",
+          },
+          axisY: {
+            title: "",
+		    suffix: " kg",
+		    includeZero: true
+        },
+        data: [{
+          type: "spline",
+          xValueType: "dateTime",
+          xValueFormatString: "YYYY-MM-DD",
+          yValueFormatString: "#,##0.## kg",
+          dataPoints: weights
+        }]
+      });
+      chart.render();
+    }
+    function isEmpty(data) {
+      if (data == "") {
+        return true;
+      }
+
+      return false;
+    }
+    function checkWeightData() {
+      var form = document.weightForm;
+      var dateVal = form.date.value;
+      var weightVal = form.weight.value;
+
+      if (isEmpty(dateVal)) {
+        alert("[[#{NotNull.weightForm.date}]]");
+        return false;
+      } else if (isSameDate(dateVal)) {
+        alert("[[#{existDate.weightForm.date}]]");
+        return false;
+      }
+
+      if (isEmpty(weightVal)) {
+        alert("[[#{NotNull.weightForm.weight}]]");
+        return false;
+      }
+
+      return true;
+    }
+    function deleteWeight(page, text) {
+      if (confirm(text)) {
+        window.location.replace(page);
+      }
+    }
+    /* 체중 페이지 종료 */
   </script>
 </head>
 <body>

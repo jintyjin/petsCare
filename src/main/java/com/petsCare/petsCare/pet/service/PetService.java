@@ -82,12 +82,19 @@ public class PetService {
 
 	@Transactional
 	public void leave(PetDetailForm petDetailForm) {
+		Pet pet = findPet(petDetailForm.getId());
+
+		pet.leave(petDetailForm.getLeaveTime());
+	}
+
+	public Pet findPet(Long petId) {
 		PetCanNotFindException petCanNotFindException
 				= new PetCanNotFindException(getMessage("validation.constraints.canNotFindPet.message"));
 
-		Pet pet = jpaPetRepository.findById(petDetailForm.getId())
+		Pet pet = jpaPetRepository.findById(petId)
 				.orElseThrow(() -> petCanNotFindException);
-		pet.leave(petDetailForm.getLeaveTime());
+
+		return pet;
 	}
 
 	private String getMessage(String message) {
