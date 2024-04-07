@@ -482,10 +482,16 @@
 
       return false;
     }
+    function isSameDate(id) {
+      return document.getElementById(id);
+    }
     function checkWeightData() {
       var form = document.weightForm;
       var dateVal = form.date.value;
       var weightVal = form.weight.value;
+
+      console.log(dateVal);
+      console.log(weightVal);
 
       if (isEmpty(dateVal)) {
         alert("[[#{NotNull.weightForm.date}]]");

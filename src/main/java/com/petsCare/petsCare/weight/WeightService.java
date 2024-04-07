@@ -41,6 +41,11 @@ public class WeightService {
 		weightRepository.save(new Weight(weightForm.getWeight(), weightForm.getDate(), pet));
 	}
 
+	@Transactional
+	public void deleteWeight(Long weightId) {
+		weightRepository.deleteById(weightId);
+	}
+
 	private String getMessage(String message) {
 		return messageSource.getMessage(message, null, KOREAN);
 	}
