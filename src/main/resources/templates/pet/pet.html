@@ -14,7 +14,7 @@
             <input type="hidden" name="petStatus" th:field="*{petStatus}" />
             <input type="hidden" name="bornTime" th:field="*{bornTime}" />
             <div class="text-center" th:if="*{type == null}" style="cursor:pointer">
-                <img src th:src="@{/images/pet_thumbnail.png}" class="img-thumbnail" th:alt="*{name}" />
+                <img src th:src="@{/asset/pet/pet_thumbnail.png}" class="img-thumbnail" th:alt="*{name}" />
             </div>
             <div th:if="*{type != null}" style="cursor:pointer">
                 <img th:if="*{type == T(com.petsCare.petsCare.memory.entity.MemoryType).IMAGE}" src th:src="@{|/images/*{path}|}" class="img-thumbnail" th:alt="*{name}" />

@@ -1,14 +1,20 @@
 package com.petsCare.petsCare.pet;
 
+import com.petsCare.petsCare.memory.exception.MemoryMakeException;
 import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
 import com.petsCare.petsCare.pet.dto.form.*;
 import com.petsCare.petsCare.pet.dto.validation.PetLeaveGroup;
 import com.petsCare.petsCare.pet.entity.PetGender;
+import com.petsCare.petsCare.pet.exception.PetBreedCanNotFindException;
+import com.petsCare.petsCare.pet.exception.PetCanNotFindException;
 import com.petsCare.petsCare.pet.service.PetBreedService;
 import com.petsCare.petsCare.pet.service.PetService;
 import com.petsCare.petsCare.pet.service.PetTypeService;
 import com.petsCare.petsCare.user.dto.UserDto;
+import com.petsCare.petsCare.user.exception.UserCanNotFindException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,15 +23,18 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/pets")
+@Slf4j
 public class PetController {
 
 	private final PetService petService;
 	private final PetTypeService petTypeService;
 	private final PetBreedService petBreedService;
+	private final MessageSource messageSource;
 
 	@GetMapping("/adopt")
 	public String adopt(Model model) {
@@ -53,7 +62,18 @@ public class PetController {
 			return "/pet/petAdoptForm";
 		}
 
-		petService.adopt(petAdoptForm, userDto);
+		try {
+			petService.adopt(petAdoptForm, userDto);
+		} catch (UserCanNotFindException e) {
+			bindingResult.rejectValue("petName", "user.canNotFind", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
+			return "/pet/petAdoptForm";
+		} catch (PetBreedCanNotFindException e) {
+			bindingResult.rejectValue("breedId", "breed.canNotFind", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
+			return "/pet/petAdoptForm";
+		} catch (MemoryMakeException e) {
+			bindingResult.rejectValue("thumbnail", "thumbnail.error", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
+			return "/pet/petAdoptForm";
+		}
 
 		return "redirect:/";
 	}
@@ -71,7 +91,12 @@ public class PetController {
 			return "/pet/pet";
 		}
 
-		petService.leave(petDetailForm);
+		try {
+			petService.leave(petDetailForm);
+		} catch (PetCanNotFindException e) {
+			bindingResult.rejectValue("leaveTime", "pet.canNotFind", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
+			return "/pet/pet";
+		}
 
 		return "redirect:/pets/" + petDetailForm.getId();
 	}

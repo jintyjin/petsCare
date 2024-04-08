@@ -29,7 +29,7 @@ class UserServiceTest {
         UserJoinForm userJoinForm = new UserJoinForm("testMember1234", "testMember!23", "Eseir12");
 
         Mockito.when(userRepository.findByLoginId(Mockito.any(String.class)))
-                .thenThrow(UserException.DUPLICATED_LOGIN_ID_EXCEPTION);
+                .thenThrow(UserException.USER_DUPLICATED_EXCEPTION);
 
         //when //then
         assertThatThrownBy(() -> userService.joinUser(userJoinForm))

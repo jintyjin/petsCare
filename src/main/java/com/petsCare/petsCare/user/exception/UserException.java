@@ -2,17 +2,8 @@ package com.petsCare.petsCare.user.exception;
 
 import com.petsCare.petsCare.response.message.ErrorMessage;
 
-public class UserException extends RuntimeException {
+public interface UserException {
 
-	public static final UserException DUPLICATED_LOGIN_ID_EXCEPTION = new UserException(ErrorMessage.USER_DUPLICATED_LOGIN_ID_EXCEPTION);
-	public static final UserException USER_CAN_NOT_FIND_EXCEPTION = new UserException(ErrorMessage.USER_CAN_NOT_FIND_EXCEPTION);
-
-	public UserException(String message) {
-		super(message);
-	}
-
-	@Override
-	public synchronized Throwable fillInStackTrace() {
-		return this;
-	}
+	public static final UserCanNotFindException USER_CAN_NOT_FIND_EXCEPTION = new UserCanNotFindException(ErrorMessage.USER_CAN_NOT_FIND_EXCEPTION);
+	public static final UserDuplicatedException USER_DUPLICATED_EXCEPTION = new UserDuplicatedException(ErrorMessage.USER_DUPLICATED_LOGIN_ID_EXCEPTION);
 }

@@ -26,7 +26,7 @@ public class UserService {
         userRepository
                 .findByLoginId(userJoinForm.getLoginId())
                 .ifPresent(byLoginId -> {
-                    throw UserException.DUPLICATED_LOGIN_ID_EXCEPTION;
+                    throw UserException.USER_DUPLICATED_EXCEPTION;
                 });
 
         User user = User.builder()

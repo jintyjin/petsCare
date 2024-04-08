@@ -90,7 +90,7 @@ public class MemoryService {
 			}
 		} catch (Exception e) {
 			deleteMemory(filePathList);
-			throw MemoryException.MEMORY_EXCEPTION;
+			throw MemoryException.MEMORY_MAKE_EXCEPTION;
 		}
 
 		return thumbnail;

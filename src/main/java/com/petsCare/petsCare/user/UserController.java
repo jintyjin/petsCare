@@ -1,8 +1,9 @@
 package com.petsCare.petsCare.user;
 
 import com.petsCare.petsCare.user.dto.form.UserJoinForm;
-import com.petsCare.petsCare.user.exception.UserException;
+import com.petsCare.petsCare.user.exception.UserDuplicatedException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,12 +13,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Locale;
+
 @Controller
 @RequestMapping
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+    private final MessageSource messageSource;
 
     @GetMapping("/join")
     public String join(Model model) {
@@ -33,9 +37,8 @@ public class UserController {
 
         try {
             userService.joinUser(userJoinForm);
-        } catch (UserException e) {
-            FieldError fieldError = new FieldError("userJoinForm", "loginId", e.getMessage());
-            bindingResult.addError(fieldError);
+        } catch (UserDuplicatedException e) {
+            bindingResult.rejectValue("loginId", "user.duplicated", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
             return "/user/userJoinForm";
         }
 

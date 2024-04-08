@@ -1,6 +1,6 @@
 package com.petsCare.petsCare.response.message;
 
-public class ErrorMessage {
+public interface ErrorMessage {
 	public static final String USER_DUPLICATED_LOGIN_ID_EXCEPTION = "validation.constraints.duplicatedLoginIdUser.message";
 	public static final String USER_CAN_NOT_FIND_EXCEPTION = "validation.constraints.canNotFindUser.message";
 	public static final String PET_BREED_CAN_NOT_FIND_EXCEPTION = "validation.constraints.canNotFindBreed.message";

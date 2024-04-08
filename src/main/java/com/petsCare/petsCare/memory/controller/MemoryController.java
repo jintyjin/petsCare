@@ -1,12 +1,15 @@
 package com.petsCare.petsCare.memory.controller;
 
 import com.petsCare.petsCare.memory.dto.form.MemoryForm;
+import com.petsCare.petsCare.memory.exception.MemoryMakeException;
 import com.petsCare.petsCare.memory.service.MemoryService;
 import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
+import com.petsCare.petsCare.pet.exception.PetCanNotFindException;
 import com.petsCare.petsCare.pet.service.PetService;
 import com.petsCare.petsCare.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Locale;
+
 @Controller
 @RequestMapping("/memories")
 @RequiredArgsConstructor
@@ -26,6 +31,7 @@ public class MemoryController {
 
 	private final MemoryService memoryService;
 	private final PetService petService;
+	private final MessageSource messageSource;
 
 	@GetMapping("/make")
 	public String make(Model model, @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
@@ -45,7 +51,15 @@ public class MemoryController {
 			return "/memory/addMemoryForm";
 		}
 
-		memoryService.make(memoryForm, userDto);
+		try {
+			memoryService.make(memoryForm, userDto);
+		} catch (PetCanNotFindException e) {
+			bindingResult.rejectValue("petId", "pet.canNotFind", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
+			return "/memory/addMemoryForm";
+		} catch (MemoryMakeException e) {
+			bindingResult.rejectValue("files", "files.error", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
+			return "/memory/addMemoryForm";
+		}
 
 		return "redirect:/";
 	}
