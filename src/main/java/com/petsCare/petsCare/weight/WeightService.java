@@ -1,7 +1,7 @@
 package com.petsCare.petsCare.weight;
 
 import com.petsCare.petsCare.pet.entity.Pet;
-import com.petsCare.petsCare.pet.exception.PetCanNotFindException;
+import com.petsCare.petsCare.pet.exception.PetException;
 import com.petsCare.petsCare.pet.service.PetService;
 import com.petsCare.petsCare.weight.dto.WeightForm;
 import com.petsCare.petsCare.weight.entity.Weight;
@@ -28,7 +28,7 @@ public class WeightService {
 		Pet pet = weightRepository.findPetForWeights(petId);
 
 		if (pet == null) {
-			throw new PetCanNotFindException(getMessage("validation.constraints.canNotFindPet.message"));
+			throw PetException.PET_CAN_NOT_FIND_EXCEPTION;
 		}
 
 		return new WeightForm(pet);

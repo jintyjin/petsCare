@@ -3,13 +3,12 @@ import com.petsCare.petsCare.memory.service.MemoryService;
 import com.petsCare.petsCare.pet.dto.form.*;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
+import com.petsCare.petsCare.pet.exception.PetException;
 import com.petsCare.petsCare.user.dto.UserDto;
 import com.petsCare.petsCare.user.entity.User;
-import com.petsCare.petsCare.pet.exception.PetBreedCanNotFindException;
-import com.petsCare.petsCare.pet.exception.PetCanNotFindException;
 import com.petsCare.petsCare.pet.repository.PetBreedRepository;
 import com.petsCare.petsCare.pet.repository.JpaPetRepository;
-import com.petsCare.petsCare.user.exception.UserCanNotFindException;
+import com.petsCare.petsCare.user.exception.UserException;
 import com.petsCare.petsCare.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -38,17 +37,11 @@ public class PetService {
 		int petGender = petAdoptForm.getPetGender();
 		LocalDate petBirth = petAdoptForm.getPetBirth();
 
-		UserCanNotFindException userCanNotFindException
-				= new UserCanNotFindException(getMessage("validation.constraints.canNotFindUser.message"));
-
 		User user = userRepository.findById(userDto.getId())
-				.orElseThrow(() -> userCanNotFindException);
-
-		PetBreedCanNotFindException petBreedCanNotFindException
-				= new PetBreedCanNotFindException(getMessage("validation.constraints.canNotFindBreed.message"));
+				.orElseThrow(() -> UserException.USER_CAN_NOT_FIND_EXCEPTION);
 
 		PetBreed petBreed = petBreedRepository.findById(breedId)
-				.orElseThrow(() -> petBreedCanNotFindException);
+				.orElseThrow(() -> PetException.PET_BREED_CAN_NOT_FIND_EXCEPTION);
 
 		Pet pet = Pet.builder()
 				.petName(petName)
@@ -88,11 +81,8 @@ public class PetService {
 	}
 
 	public Pet findPet(Long petId) {
-		PetCanNotFindException petCanNotFindException
-				= new PetCanNotFindException(getMessage("validation.constraints.canNotFindPet.message"));
-
 		Pet pet = jpaPetRepository.findById(petId)
-				.orElseThrow(() -> petCanNotFindException);
+				.orElseThrow(() -> PetException.PET_CAN_NOT_FIND_EXCEPTION);
 
 		return pet;
 	}

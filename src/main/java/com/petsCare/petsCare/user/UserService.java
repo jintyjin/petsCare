@@ -1,8 +1,8 @@
 package com.petsCare.petsCare.user;
 
 import com.petsCare.petsCare.user.entity.User;
-import com.petsCare.petsCare.user.exception.DuplicatedLoginIdException;
 import com.petsCare.petsCare.user.dto.form.UserJoinForm;
+import com.petsCare.petsCare.user.exception.UserException;
 import com.petsCare.petsCare.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class UserService {
         userRepository
                 .findByLoginId(userJoinForm.getLoginId())
                 .ifPresent(byLoginId -> {
-                    throw new DuplicatedLoginIdException("이미 존재하는 아이디입니다.");
+                    throw UserException.DUPLICATED_LOGIN_ID_EXCEPTION;
                 });
 
         User user = User.builder()

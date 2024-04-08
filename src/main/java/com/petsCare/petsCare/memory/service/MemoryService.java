@@ -10,9 +10,10 @@ import com.petsCare.petsCare.memory.dto.form.MemoryDetailForm;
 import com.petsCare.petsCare.memory.dto.form.MemoryForm;
 import com.petsCare.petsCare.memory.dto.form.MemorySimpleForm;
 import com.petsCare.petsCare.memory.entity.*;
+import com.petsCare.petsCare.memory.exception.MemoryException;
 import com.petsCare.petsCare.memory.repository.JpaMemoryRepository;
 import com.petsCare.petsCare.pet.entity.Pet;
-import com.petsCare.petsCare.pet.exception.PetCanNotFindException;
+import com.petsCare.petsCare.pet.exception.PetException;
 import com.petsCare.petsCare.pet.repository.JpaPetRepository;
 import com.petsCare.petsCare.user.dto.UserDto;
 import jakarta.annotation.Nullable;
@@ -53,11 +54,8 @@ public class MemoryService {
 
 	@Transactional
 	public void make(MemoryForm memoryForm, UserDto userDto) {
-		PetCanNotFindException petCanNotFindException
-				= new PetCanNotFindException(getMessage("validation.constraints.canNotFindPet.message"));
-
 		Pet pet = jpaPetRepository.findById(memoryForm.getPetId())
-				.orElseThrow(() -> petCanNotFindException);
+				.orElseThrow(() -> PetException.PET_CAN_NOT_FIND_EXCEPTION);
 
 		List<MultipartFile> files = memoryForm.getFiles();
 
@@ -91,8 +89,8 @@ public class MemoryService {
 				saveMemoryData(today, file, saveFileName, savePath, pet);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			deleteMemory(filePathList);
+			throw MemoryException.MEMORY_EXCEPTION;
 		}
 
 		return thumbnail;

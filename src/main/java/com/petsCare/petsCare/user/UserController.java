@@ -1,7 +1,7 @@
 package com.petsCare.petsCare.user;
 
-import com.petsCare.petsCare.user.exception.DuplicatedLoginIdException;
 import com.petsCare.petsCare.user.dto.form.UserJoinForm;
+import com.petsCare.petsCare.user.exception.UserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +33,7 @@ public class UserController {
 
         try {
             userService.joinUser(userJoinForm);
-        } catch (DuplicatedLoginIdException e) {
+        } catch (UserException e) {
             FieldError fieldError = new FieldError("userJoinForm", "loginId", e.getMessage());
             bindingResult.addError(fieldError);
             return "/user/userJoinForm";
