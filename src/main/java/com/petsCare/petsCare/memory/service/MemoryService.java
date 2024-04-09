@@ -104,6 +104,10 @@ public class MemoryService {
 		return memoryRepository.findMemoryWalkFormByPet(userDto, memoryWalkRequestForm);
 	}
 
+	public MemoryWalkInfoResponse showMemoryWalkInfo(UserDto userDto, Long memoryId) {
+		return memoryRepository.findMemoryWalkInfoByMemory(userDto, memoryId);
+	}
+
 	private void deleteMemory(List<String> filePathList) {
 		for (String filePath : filePathList) {
 			File file = new File(filePath);

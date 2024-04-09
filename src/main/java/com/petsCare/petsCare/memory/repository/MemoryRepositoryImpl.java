@@ -16,7 +16,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static com.petsCare.petsCare.memory.entity.QMemory.*;
-import static com.petsCare.petsCare.pet.entity.QPet.*;
 
 public class MemoryRepositoryImpl implements MemoryRepository {
 
@@ -83,11 +82,30 @@ public class MemoryRepositoryImpl implements MemoryRepository {
 				.fetch();
 	}
 
+	@Override
+	public MemoryWalkInfoResponse findMemoryWalkInfoByMemory(UserDto userDto, Long memoryId) {
+		return jpaQueryFactory
+				.select(new QMemoryWalkInfoResponse(
+						memory
+				))
+				.from(memory)
+				.where(
+						userIdEq(userDto.getId()),
+						memoryIdEq(memoryId)
+				)
+				.fetchOne();
+	}
+
 	private BooleanExpression userIdEq(Long userId) {
 		return userId == null ? null : memory.pet.user.id.eq(userId);
 	}
+
 	private BooleanExpression petIdEq(Long petId) {
 		return petId == null ? null : memory.pet.id.eq(petId);
+	}
+
+	private BooleanExpression memoryIdEq(Long memoryId) {
+		return memoryId == null ? null : memory.id.eq(memoryId);
 	}
 
 	private BooleanExpression imageTimeBetween(MemoryWalkRequestForm memoryWalkRequestForm) {

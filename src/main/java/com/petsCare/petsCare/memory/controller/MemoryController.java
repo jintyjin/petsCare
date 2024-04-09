@@ -1,6 +1,7 @@
 package com.petsCare.petsCare.memory.controller;
 
 import com.petsCare.petsCare.memory.dto.form.MemoryForm;
+import com.petsCare.petsCare.memory.dto.form.MemoryWalkInfoResponse;
 import com.petsCare.petsCare.memory.dto.form.MemoryWalkRequestForm;
 import com.petsCare.petsCare.memory.dto.form.MemoryWalkResponseForm;
 import com.petsCare.petsCare.memory.exception.MemoryMakeException;
@@ -19,10 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Locale;
@@ -99,5 +97,11 @@ public class MemoryController {
 		model.addAttribute("petIdAndNameForm", new PetIdAndNameForm(petService.findPet(petId)));
 
 		return "/memory/walk";
+	}
+
+	@GetMapping("/walk/info/{memoryId}")
+	@ResponseBody
+	public MemoryWalkInfoResponse memoryWalkInfo(@AuthenticationPrincipal CustomOAuth2User oAuth2User, @PathVariable Long memoryId) {
+		return memoryService.showMemoryWalkInfo(oAuth2User.getUserDto(), memoryId);
 	}
 }

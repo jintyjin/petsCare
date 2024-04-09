@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<body style="overflow-x: hidden; overflow-y: hidden;">
+    <div id="map" style="position:absolute; width:100%; height:100%;"></div>
+    <script th:inline="javascript">
+        window.onload = showWalkMap([[${memoryWalkResponseForms}]]);
+    </script>
+    <!-- 점 클릭 시 나오는 정보 시작 -->
+    <div class="sideBar">
+        <div>
+            <!-- 타이틀 시작 -->
+            <div class="IMbeAf">
+                <span th:text="#{detail.sideBar.header}"></span>
+                <button class="VfPpkd-Bz112c-LgbsSe yHy1rc" th:onclick="pushSideBar('360px');">
+                    <svg width="24px" height="24px" class="v1262d" viewBox="0 0 24 24">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- 타이틀 종료 -->
+            <!-- 설명 추가 시작 -->
+            <div class="Ds1Fic">
+                <div class="zE2Vqb">
+                    <div class="qURWqc">
+                        <div class="Mna4i">
+                            <input tpe="text" class="ajQY2" th:placeholder="#{walk.sideBar.explain.placeholder}" maxlength="20" />
+                            <span class="gqI68"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 설명 추가 종료 -->
+            <!-- 세부 정보 시작-->
+            <div class="Ds1Fic y1qTyb">
+                <div class="wiOkb" th:text="#{walk.sideBar.label.info}"></div>
+                <dl class="cdLvR">
+                    <div>
+                        <div class="ffq9nc Kd04rd">
+                            <dt class="dNjXAc">
+                                <svg width="24px" height="24px" class="v1262d Y0p3Ue" viewBox="0 0 24 24">
+                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 9.5a2.5 2.5 0 0 0 0 5 2.5 2.5 0 0 0 0-5z"></path>
+                                </svg>
+                            </dt>
+                            <dd class="rCexAf">
+                                <div class="R9U8ab" id="date"></div>
+                                <div class="oBMhZb">
+                                    <span class="sprMUb" id="day"></span>
+                                </div>
+                            </dd>
+                        </div>
+                    </div>
+                    <div class="ffq9nc Kd04rd">
+                        <dt class="dNjXAc">
+                            <svg width="24px" height="24px" class="v1262d Y0p3Ue" viewBox="0 0 24 24">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5-7l-3 3.72L9 13l-3 4h12l-4-5z"></path>
+                            </svg>
+                        </dt>
+                        <dd class="rCexAf">
+                            <div class="R9U8ab" id="uploadFileName"></div>
+                            <div class="oBMhZb">
+                                <span class="sprMUb" id="imageSize"></span>
+                            </div>
+                        </dd>
+                    </div>
+                    <div>
+                        <div>
+                            <div class="ffq9nc WAICmc GHWQBd">
+                                <dt class="dNjXAc">
+                                    <svg width="24px" height="24px" class="v1262d JUQOtc Y0p3Ue" viewBox="0 0 24 24">
+                                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z"></path>
+                                        <circle cx="12" cy="9" r="2.5"></circle>
+                                    </svg>
+                                </dt>
+                                <dd class="rCexAf" jsname="IvhB6d">
+                                    <div>
+                                        <div class="R9U8ab" id="address"></div>
+                                    </div>
+                                </dd>
+                                <svg width="18px" height="18px" class="v1262d JUQOtc F6wuZ" viewBox="0 0 24 24">
+                                    <path d="M20.41 4.94l-1.35-1.35c-.78-.78-2.05-.78-2.83 0L3 16.82V21h4.18L20.41 7.77c.79-.78.79-2.05 0-2.83zm-14 14.12L5 19v-1.36l9.82-9.82 1.41 1.41-9.82 9.83z"></path>
+                                </svg>
+                            </div>
+                            <div class="cFLCHe">
+                                <img id="image" src="" style="max-width:360px; max-height:360px;" />
+                            </div>
+                        </div>
+                    </div>
+                </dl>
+            </div>
+            <!-- 세부 정보 종료 -->
+        </div>
+    </div>
+    <!-- 점 클릭 시 나오는 정보 종료 -->
+    <!-- 경로 검색 창 시작 -->
+    <div class="searchBar">
+        <div>
+            <!-- 반려 동물 이름 시작 -->
+            <div class="searchPetName">
+                <span th:text="|${petIdAndNameForm.name}#{walk.searchBar.walk}|"></span>
+            </div>
+            <!-- 반려 동물 이름 종료 -->
+            <!-- 검색 일자 시작 -->
+            <div class="searchDate">
+                <label for="startTime" class="form-label" th:text="#{walk.searchBar.searchDate}">검색 일자</label>
+                <div>
+                    <input type="date" id="startTime" name="startTime" class="form-control" />
+                    &nbsp;
+                    <span>~</span>
+                    &nbsp;
+                    <input type="date" id="endTime" name="endTime" class="form-control" />
+                </div>
+            </div>
+            <div>
+                <button class="w-100 btn btn-primary" th:text="#{button.walk.search}" th:onclick="searchWalkData();"></button>
+            </div>
+            <!-- 검색 일자 종료 -->
+        </div>
+    </div>
+    <!-- 경로 검색 창 종료 -->
+    <script>
+        document.getElementById('startTime').valueAsDate = new Date();
+        document.getElementById('endTime').valueAsDate = new Date();
+    </script>
+</body>
+</html>
