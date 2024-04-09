@@ -14,4 +14,10 @@ public class MemoryWalkRequestForm {
 	private LocalDate startTime;
 
 	private LocalDate endTime;
+
+	public MemoryWalkRequestForm(Long petId) {
+		this.petId = petId;
+		this.startTime = LocalDate.now();
+		this.endTime = LocalDate.now();
+	}
 }

@@ -1,5 +1,8 @@
 package com.petsCare.petsCare.memory.dto.form;
 
+import com.petsCare.petsCare.memory.entity.Gps;
+import com.petsCare.petsCare.memory.entity.ImageSize;
+import com.petsCare.petsCare.memory.entity.Memory;
 import com.petsCare.petsCare.memory.entity.MemoryType;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
@@ -14,27 +17,21 @@ public class MemoryWalkResponseForm {
 
 	private String saveFileName;
 
-	private BigDecimal latitude;
-
-	private BigDecimal longitude;
+	private Gps gps;
 
 	private LocalDateTime imageTime;
 
-	private Integer width;
-
-	private Integer height;
+	private ImageSize imageSize;
 
 	private MemoryType memoryType;
 
 	@QueryProjection
-	public MemoryWalkResponseForm(Long memoryId, String saveFileName, BigDecimal latitude, BigDecimal longitude, LocalDateTime imageTime, Integer width, Integer height, MemoryType memoryType) {
-		this.memoryId = memoryId;
-		this.saveFileName = saveFileName;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.imageTime = imageTime;
-		this.width = width;
-		this.height = height;
-		this.memoryType = memoryType;
+	public MemoryWalkResponseForm(Memory memory) {
+		this.memoryId = memory.getId();
+		this.saveFileName = memory.getUploadFile().getSaveFileName();
+		this.gps = memory.getGps();
+		this.imageTime = memory.getManageTime().getImageTime();
+		this.imageSize = memory.getImageSize();
+		this.memoryType = memory.getMemoryType();
 	}
 }

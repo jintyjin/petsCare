@@ -70,10 +70,7 @@ public class MemoryRepositoryImpl implements MemoryRepository {
 	@Override
 	public List<MemoryWalkResponseForm> findMemoryWalkFormByPet(UserDto userDto, MemoryWalkRequestForm memoryWalkRequestForm) {
 		return jpaQueryFactory
-				.select(new QMemoryWalkResponseForm(
-						memory.id, memory.uploadFile.saveFileName, memory.gps.latitude, memory.gps.longitude, memory.manageTime.imageTime,
-						memory.imageSize.width, memory.imageSize.height, memory.memoryType
-				))
+				.select(new QMemoryWalkResponseForm(memory))
 				.from(memory)
 				.where(
 						userIdEq(userDto.getId()),

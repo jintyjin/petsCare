@@ -5,7 +5,6 @@ import com.petsCare.petsCare.memory.entity.ImageSize;
 import com.petsCare.petsCare.memory.entity.Memory;
 import com.petsCare.petsCare.memory.entity.UploadFile;
 import com.querydsl.core.annotations.QueryProjection;
-import jakarta.persistence.Column;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -20,28 +19,19 @@ public class MemoryDetailForm {
 
 	private LocalDateTime imageTime;
 
-	private String uploadFileName;
+	private UploadFile uploadFile;
 
-	private String saveFileName;
+	private ImageSize imageSize;
 
-	private Integer width;
-
-	private Integer height;
-
-	private BigDecimal latitude;
-
-	private BigDecimal longitude;
+	private Gps gps;
 
 	@QueryProjection
 	public MemoryDetailForm(Memory memory) {
 		this.id = memory.getId();
 		this.info = memory.getInfo();
 		this.imageTime = memory.getManageTime().getImageTime();
-		this.uploadFileName = memory.getUploadFile().getUploadFileName();
-		this.saveFileName = memory.getUploadFile().getSaveFileName();
-		this.width = memory.getImageSize().getWidth();
-		this.height = memory.getImageSize().getHeight();
-		this.latitude = memory.getGps().getLatitude();
-		this.longitude = memory.getGps().getLongitude();
+		this.uploadFile = memory.getUploadFile();
+		this.imageSize = memory.getImageSize();
+		this.gps = memory.getGps();
 	}
 }

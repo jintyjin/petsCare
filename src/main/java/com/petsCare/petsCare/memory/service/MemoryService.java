@@ -6,9 +6,7 @@ import com.drew.lang.GeoLocation;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.exif.GpsDirectory;
-import com.petsCare.petsCare.memory.dto.form.MemoryDetailForm;
-import com.petsCare.petsCare.memory.dto.form.MemoryForm;
-import com.petsCare.petsCare.memory.dto.form.MemorySimpleForm;
+import com.petsCare.petsCare.memory.dto.form.*;
 import com.petsCare.petsCare.memory.entity.*;
 import com.petsCare.petsCare.memory.exception.MemoryException;
 import com.petsCare.petsCare.memory.repository.JpaMemoryRepository;
@@ -19,7 +17,6 @@ import com.petsCare.petsCare.user.dto.UserDto;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +35,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.Locale.KOREAN;
-
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -47,7 +42,6 @@ public class MemoryService {
 
 	private final JpaPetRepository jpaPetRepository;
 	private final JpaMemoryRepository memoryRepository;
-	private final MessageSource messageSource;
 
 	@Value("${file.dir}")
 	private String fileDir;
@@ -90,6 +84,7 @@ public class MemoryService {
 			}
 		} catch (Exception e) {
 			deleteMemory(filePathList);
+			e.printStackTrace();
 			throw MemoryException.MEMORY_MAKE_EXCEPTION;
 		}
 
@@ -103,6 +98,10 @@ public class MemoryService {
 
 	public MemoryDetailForm showMemoryDetail(UserDto userDto, Long memoryId) {
 		return memoryRepository.findMemoryDetailById(userDto, memoryId);
+	}
+
+	public List<MemoryWalkResponseForm> showMemoryWalk(UserDto userDto, MemoryWalkRequestForm memoryWalkRequestForm) {
+		return memoryRepository.findMemoryWalkFormByPet(userDto, memoryWalkRequestForm);
 	}
 
 	private void deleteMemory(List<String> filePathList) {
@@ -194,9 +193,5 @@ public class MemoryService {
 			return true;
 		}
 		return false;
-	}
-
-	private String getMessage(String message) {
-		return messageSource.getMessage(message, null, KOREAN);
 	}
 }

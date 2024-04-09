@@ -8,11 +8,8 @@ import com.petsCare.petsCare.weight.entity.Weight;
 import com.petsCare.petsCare.weight.repository.JpaWeightRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static java.util.Locale.KOREAN;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +19,6 @@ public class WeightService {
 
 	private final JpaWeightRepository weightRepository;
 	private final PetService petService;
-	private final MessageSource messageSource;
 
 	public WeightForm findPetWeights(Long petId) {
 		Pet pet = weightRepository.findPetForWeights(petId);
@@ -44,9 +40,5 @@ public class WeightService {
 	@Transactional
 	public void deleteWeight(Long weightId) {
 		weightRepository.deleteById(weightId);
-	}
-
-	private String getMessage(String message) {
-		return messageSource.getMessage(message, null, KOREAN);
 	}
 }

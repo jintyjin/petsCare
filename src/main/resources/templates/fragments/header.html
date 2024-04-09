@@ -298,6 +298,37 @@
       text-align: center;
     }
     /* detail.html 종료 */
+    /* walk.html 시작 */
+    .searchBar {
+      position:absolute;
+      top:0;
+      /* bottom:0; */
+      left:0;
+      width:360px;
+      overflow-y:auto;
+      transform:translate3d(0, 0, 0);
+      transition:transform 0.5s linear;
+      background-color:#fff;
+      z-index:1;
+      padding:8px;
+    }
+    .searchPetName {
+      font-size:1.125rem;
+      padding:8px;
+    }
+    .searchDate {
+      padding:8px;
+    }
+    .searchDate div {
+      display:flex;
+    }
+    .searchDate input[type="date"] {
+      width:150px;
+    }
+    .searchDate span {
+      line-height:38px;
+    }
+    /* walk.html 종료 */
   </style>
   <script>
     /* 펫 등록 폼 시작 */
@@ -398,8 +429,10 @@
 	    },
       });
     }
-    function showMap(latitude, longitude) {
-      if (latitude != null && longitude != null) {
+    function showMap(gps) {
+      if (gps != null) {
+        var latitude = gps.latitude;
+        var longitude = gps.longitude;
         showAddress(latitude, longitude);  // 주소 표시 함수
         var map = makeMap(latitude, longitude);
         drawMarker(latitude, longitude, map, 'start');
@@ -514,6 +547,192 @@
       }
     }
     /* 체중 페이지 종료 */
+    /* 산책 경로 페이지 시작 */
+
+    function showWalkMap(dataList) {
+      var latitude = 37.53650277777778; // 초기값
+      var longitude = 126.950225; // 초기값
+      circles = [];
+      linePath = [];
+      if (dataList.length > 0) {
+        map = makeMap(dataList[dataList.length - 1].gps.latitude, dataList[dataList.length - 1].gps.longitude);
+        for (var index in dataList) {
+          latitude = dataList[index].gps.latitude;
+          longitude = dataList[index].gps.longitude;
+          var circle = drawCircle(new kakao.maps.LatLng(latitude, longitude), map);
+          clickPolygonEvent(map, circle, dataList[index].memoryId);
+          makeChangeColor(circle, 'red', 'blue');
+          circles.push(circle);
+          linePath.push(new kakao.maps.LatLng(latitude, longitude));
+        }
+        drawLine(linePath, map);
+      } else {
+        var map = makeMap(latitude, longitude);
+      }
+      //drawMarker(latitude, longitude, map, 'last');
+    }
+
+    function drawCircle(center, map) {
+      var circle = new kakao.maps.Circle({
+          center : center,  // 원의 중심좌표 입니다
+          radius: 8, // 미터 단위의 원의 반지름입니다
+          strokeWeight: 3, // 선의 두께입니다
+          strokeColor: 'blue', // 선의 색깔입니다
+          strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+          strokeStyle: 'line', // 선의 스타일 입니다
+          fillColor: 'blue', // 채우기 색깔입니다
+          fillOpacity: 1,  // 채우기 불투명도 입니다
+          zIndex: 2
+      });
+
+      // 지도에 원을 표시합니다
+      circle.setMap(map);
+
+      return circle;
+    }
+
+    function makeChangeColor(polygon, overColor, outColor) {
+      // 다각형에 마우스오버 이벤트가 발생했을 때 변경할 채우기 옵션입니다
+      var mouseoverOption = {
+          fillColor: overColor, // 채우기 색깔입니다
+          fillOpacity: 1 // 채우기 불투명도 입니다
+      };
+
+      // 다각형에 마우스아웃 이벤트가 발생했을 때 변경할 채우기 옵션입니다
+      var mouseoutOption = {
+          fillColor: outColor, // 채우기 색깔입니다
+          fillOpacity: 1 // 채우기 불투명도 입니다
+      };
+
+      // 다각형에 마우스오버 이벤트를 등록합니다
+      kakao.maps.event.addListener(polygon, 'mouseover', function(mouseEvent) {
+          // 다각형의 채우기 옵션을 변경합니다
+          polygon.setOptions(mouseoverOption);
+      });
+
+      kakao.maps.event.addListener(polygon, 'mouseout', function(mouseEvent) {
+          // 다각형의 채우기 옵션을 변경합니다
+          polygon.setOptions(mouseoutOption);
+      });
+    }
+
+    function moveCenter(map, polygon) {
+      map.panTo(polygon.getPosition());
+    }
+
+    function clickPolygonEvent(map, polygon, memoryId) {
+      kakao.maps.event.addListener(polygon, 'click', function() {
+        moveCenter(map, polygon);
+        showWalkInfo(memoryId);
+        showWalkSideBar(memoryId);
+      });
+    }
+
+    function showWalkSideBar(memoryId) {
+      let right = '0px';
+      let pushRight = '360px';
+      pushSideBar(right);
+      let info = document.getElementsByClassName('ajQY2')[0];
+      info.setAttribute('onchange', 'changeMemoryInfo(this.value, ' + memoryId + ')');
+    }
+
+    function hideWalkSideBar() {
+      let right = '430px';
+      let pushRight = '0px';
+      pushSideBar(right);
+      pushAsideTopMenu(pushRight);
+      pushAsideImage(pushRight);
+    }
+
+    function showWalkInfo(memoryId) {
+      $.ajax({
+        url : "/memories/walk/info/" + memoryId,
+        type : "get",
+        success : function(data) {
+          if (data == null) {
+            alert('Error');
+          } else {
+            // info 보여주기
+            let info = document.getElementsByClassName('ajQY2')[0];
+            info.value = data.info;
+            // imageTime 보여주기
+            let date = changeDateFormat(data.imageTime);
+            let dayName = getDay(data.imageTime);
+            document.getElementById('date').innerText = date;
+            document.getElementById('day').innerText = dayName;
+            // uploadFileName 보여주기
+            document.getElementById('uploadFileName').innerText = data.uploadFile.uploadFileName;
+            // imageSize 보여주기
+            if (data.imageSize != null) {
+              document.getElementById('imageSize').innerText = data.imageSize.width + 'x' + data.imageSize.height;
+            }
+            showAddress(data.gps.latitude, data.gps.longitude);
+            document.getElementById('image').src = '/images/' + data.uploadFile.saveFileName;
+            // address는 일단 보류하고 마지막에 하기
+          }
+        },
+        error: function(xhr, status, error){
+           alert(xhr.responseText);
+        },
+      });
+    }
+
+    function changeDateFormat(imageTime) {
+      if (imageTime == null) {
+        return '';
+      }
+      let date = new Date(imageTime);
+      let yearName = date.getFullYear() + '년';
+      let monthName = months[date.getMonth()];
+      let day = date.getDate() + "일";
+      let timeOpt = date.getHours() < 12 ? "오전 " : "오후 ";
+      let hour = date.getHours() > 12 ? date.getHours() == 24 ? 0 : date.getHours() - 12 : date.getHours();
+      let hourName = timeOpt + hour;
+      let minuteName = date.getMinutes();
+      let secondName = date.getSeconds();
+      return [[yearName, monthName, day].join(' '), [hourName, minuteName, secondName].join(':')].join(' ');
+    }
+
+    function getDay(imageTime) {
+      if (imageTime == null) {
+        return '';
+      }
+      let date = new Date(imageTime);
+      return days[date.getDay()];
+    }
+
+    function drawLine(linePath, map) {
+      if (linePath.length > 1) {
+        // 지도에 표시할 선을 생성합니다
+        var polyline = new kakao.maps.Polyline({
+            //endArrow: true, // 화살표 표시
+            path: linePath, // 선을 구성하는 좌표배열 입니다
+            strokeWeight: 5, // 선의 두께 입니다
+            strokeColor: 'blue', // 선의 색깔입니다
+            strokeOpacity: 0.5, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+            strokeStyle: 'solid', // 선의 스타일입니다
+            zIndex: 1
+        });
+
+        // 지도에 선을 표시합니다
+        polyline.setMap(map);
+      }
+    }
+
+    function showAddress(x, y) {
+      var geocoder = new kakao.maps.services.Geocoder();
+
+      var coord = new kakao.maps.LatLng(x, y);
+      var callback = function(result, status) {
+          if (status === kakao.maps.services.Status.OK) {
+              var address = document.getElementById('address');
+              address.innerText = result[0].address.address_name;
+          }
+      };
+
+      geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+    }
+    /* 산책 경로 페이지 종료 */
   </script>
 </head>
 <body>

@@ -24,7 +24,7 @@
          </span>
       </div>
       <div class="VmkiKe">
-         <img src th:src="|/images/${memoryDetailForm.saveFileName}|" style="max-width:100%; max-height:100%;" />
+         <img src th:src="|/images/${memoryDetailForm.uploadFile.saveFileName}|" style="max-width:100%; max-height:100%;" />
       </div>
    </div>
    <div class="sideBar" th:object="${memoryDetailForm}">
@@ -77,9 +77,9 @@
                      </svg>
                   </dt>
                   <dd class="rCexAf">
-                     <div class="R9U8ab" th:text="*{uploadFileName}"></div>
+                     <div class="R9U8ab" th:text="*{uploadFile.uploadFileName}"></div>
                      <div class="oBMhZb">
-                        <span class="sprMUb" th:text="|*{width}x*{height}|">960×720</span>
+                        <span class="sprMUb" th:text="|*{imageSize.width}x*{imageSize.height}|">960×720</span>
                      </div>
                   </dd>
                </div>
@@ -94,8 +94,8 @@
                         </dt>
                         <dd class="rCexAf" jsname="IvhB6d">
                            <div>
-                              <div class="R9U8ab" th:if="*{latitude == null}" th:text="#{detail.sideBar.noGps}"></div>
-                              <div class="R9U8ab" th:unless="*{latitude == null}" id="address"></div>
+                              <div class="R9U8ab" th:if="*{gps == null}" th:text="#{detail.sideBar.noGps}"></div>
+                              <div class="R9U8ab" th:unless="*{gps == null}" id="address"></div>
                            </div>
                         </dd>
                         <svg width="18px" height="18px" class="v1262d JUQOtc F6wuZ" viewBox="0 0 24 24">
@@ -104,7 +104,7 @@
                      </div>
                      <div class="cFLCHe" id="map"></div>
                      <script th:inline="javascript">
-                        window.onload = showMap([[*{latitude}]], [[*{longitude}]]);
+                        window.onload = showMap([[*{gps}]]);
                      </script>
                   </div>
                </div>

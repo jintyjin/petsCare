@@ -11,13 +11,10 @@ import com.petsCare.petsCare.pet.repository.JpaPetRepository;
 import com.petsCare.petsCare.user.exception.UserException;
 import com.petsCare.petsCare.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
-
-import static java.util.Locale.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -27,7 +24,6 @@ public class PetService {
 	private final JpaPetRepository jpaPetRepository;
 	private final PetBreedRepository petBreedRepository;
 	private final UserRepository userRepository;
-	private final MessageSource messageSource;
 	private final MemoryService memoryService;
 
 	@Transactional
@@ -81,13 +77,7 @@ public class PetService {
 	}
 
 	public Pet findPet(Long petId) {
-		Pet pet = jpaPetRepository.findById(petId)
+		return jpaPetRepository.findById(petId)
 				.orElseThrow(() -> PetException.PET_CAN_NOT_FIND_EXCEPTION);
-
-		return pet;
-	}
-
-	private String getMessage(String message) {
-		return messageSource.getMessage(message, null, KOREAN);
 	}
 }

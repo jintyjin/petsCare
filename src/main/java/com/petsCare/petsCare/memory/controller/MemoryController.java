@@ -1,9 +1,12 @@
 package com.petsCare.petsCare.memory.controller;
 
 import com.petsCare.petsCare.memory.dto.form.MemoryForm;
+import com.petsCare.petsCare.memory.dto.form.MemoryWalkRequestForm;
+import com.petsCare.petsCare.memory.dto.form.MemoryWalkResponseForm;
 import com.petsCare.petsCare.memory.exception.MemoryMakeException;
 import com.petsCare.petsCare.memory.service.MemoryService;
 import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
+import com.petsCare.petsCare.pet.dto.form.PetIdAndNameForm;
 import com.petsCare.petsCare.pet.exception.PetCanNotFindException;
 import com.petsCare.petsCare.pet.service.PetService;
 import com.petsCare.petsCare.user.dto.UserDto;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.Locale;
 
 @Controller
@@ -81,9 +85,19 @@ public class MemoryController {
 
 	@GetMapping("/detail/{memoryId}")
 	public String memoryDetail(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
-			@PathVariable Long memoryId, Model model) {
+							   @PathVariable Long memoryId, Model model) {
 		model.addAttribute("memoryDetailForm", memoryService.showMemoryDetail(oAuth2User.getUserDto(), memoryId));
 
 		return "/memory/detail";
+	}
+
+	@GetMapping("/walk/{petId}")
+	public String memoryWalk(@AuthenticationPrincipal CustomOAuth2User oAuth2User, @PathVariable Long petId, Model model) {
+		List<MemoryWalkResponseForm> memoryWalkResponseForms = memoryService.showMemoryWalk(oAuth2User.getUserDto(), new MemoryWalkRequestForm(petId));
+		log.info("memoryWalkResponseForms size = {}", memoryWalkResponseForms.size());
+		model.addAttribute("memoryWalkResponseForms", memoryWalkResponseForms);
+		model.addAttribute("petIdAndNameForm", new PetIdAndNameForm(petService.findPet(petId)));
+
+		return "/memory/walk";
 	}
 }
