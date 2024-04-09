@@ -2,6 +2,8 @@ package com.petsCare.petsCare.memory.repository;
 
 import com.petsCare.petsCare.memory.dto.form.MemoryDetailForm;
 import com.petsCare.petsCare.memory.dto.form.MemorySimpleForm;
+import com.petsCare.petsCare.memory.dto.form.MemoryWalkRequestForm;
+import com.petsCare.petsCare.memory.dto.form.MemoryWalkResponseForm;
 import com.petsCare.petsCare.memory.entity.*;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
@@ -23,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
@@ -121,5 +125,70 @@ class MemoryRepositoryImplTest {
 
 		//then
 		assertThat(memory.getId()).isEqualTo(memoryDetailForm.getId());
+	}
+
+	@Test
+	@DisplayName("날짜 테스트")
+	void dateTest() {
+		LocalDate now = LocalDate.now();
+		LocalDateTime start = now.atStartOfDay();
+		LocalDateTime maxTime = now.atTime(LocalTime.MAX);
+		LocalDateTime minTime = now.atTime(LocalTime.MIN);
+
+		System.out.println("start = " + start);
+		System.out.println("maxTime = " + maxTime);
+		System.out.println("minTime = " + minTime);
+	}
+
+	@Test
+	@DisplayName("산책 경로 가져오기")
+	void findWalkSuccess() {
+		//given
+		User user = User.builder()
+				.provider("naver")
+				.loginId("testMember123")
+				.username("에세이르123")
+				.profileImage("jj.png")
+				.role("ROLE_USER")
+				.build();
+		userRepository.save(user);
+
+		PetType petType = new PetType("강아지");
+		petTypeRepository.save(petType);
+
+		PetBreed petBreed = new PetBreed("닥스훈트", petType);
+		petBreedRepository.save(petBreed);
+
+		String petName = "이복댕";
+		int petGender = 1;
+		LocalDate petBirth = LocalDate.of(2014, 7, 31);
+		Pet pet = new Pet(petName, null, petBreed, petGender, petBirth, user);
+		Memory memory1 = new Memory(new UploadFile("image.jpeg", UUID.randomUUID() + ".jpeg"),
+				new Gps(new BigDecimal("0.1"), new BigDecimal("0.1")),
+				new ManageTime(LocalDateTime.now()), new ImageSize(1920, 1080), MemoryType.IMAGE, pet);
+
+		Memory memory2 = new Memory(new UploadFile("image.jpeg", UUID.randomUUID() + ".jpeg"),
+				new Gps(new BigDecimal("0.1"), new BigDecimal("0.1")),
+				new ManageTime(LocalDateTime.of(LocalDate.of(2024, 4, 8), LocalTime.MIN)), new ImageSize(1920, 1080), MemoryType.IMAGE, pet);
+
+		Memory memory3 = new Memory(new UploadFile("image.jpeg", UUID.randomUUID() + ".jpeg"),
+				new Gps(new BigDecimal("0.1"), new BigDecimal("0.1")),
+				new ManageTime(LocalDateTime.of(LocalDate.of(2024, 4, 9), LocalTime.of(23, 59, 59))), new ImageSize(1920, 1080), MemoryType.IMAGE, pet);
+
+		pet.makeMemory(memory1);
+		pet.makeMemory(memory2);
+		pet.makeMemory(memory3);
+
+		jpaPetRepository.save(pet);
+
+		//when
+		List<MemoryWalkResponseForm> findWalk1 = memoryRepository.findMemoryWalkFormByPet(new UserDto(user), new MemoryWalkRequestForm(pet.getId(), LocalDate.now(), LocalDate.now()));
+		List<MemoryWalkResponseForm> findWalk2 = memoryRepository.findMemoryWalkFormByPet(new UserDto(user), new MemoryWalkRequestForm(pet.getId(), LocalDate.of(2024, 4, 8), LocalDate.of(2024, 4, 9)));
+		List<MemoryWalkResponseForm> findWalk3 = memoryRepository.findMemoryWalkFormByPet(new UserDto(user), new MemoryWalkRequestForm(pet.getId(), LocalDate.of(2024, 4, 8), LocalDate.of(2024, 4, 8)));
+
+		//then
+		assertThat(findWalk1.size()).isEqualTo(2);
+		assertThat(findWalk2.size()).isEqualTo(3);
+		assertThat(findWalk3.size()).isEqualTo(1);
 	}
 }
