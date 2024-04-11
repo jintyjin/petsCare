@@ -57,8 +57,7 @@ public class PetController {
 		UserDto userDto = oAuth2User.getUserDto();
 
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("petTypeIdAndNameForms", petTypeService.showPetTypes());
-			model.addAttribute("petGenders", PetGender.values());
+			settingAdoptData(model);
 			return "/pet/petAdoptForm";
 		}
 
@@ -66,12 +65,15 @@ public class PetController {
 			petService.adopt(petAdoptForm, userDto);
 		} catch (UserCanNotFindException e) {
 			bindingResult.rejectValue("petName", "user.canNotFind", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
+			settingAdoptData(model);
 			return "/pet/petAdoptForm";
 		} catch (PetBreedCanNotFindException e) {
 			bindingResult.rejectValue("breedId", "breed.canNotFind", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
+			settingAdoptData(model);
 			return "/pet/petAdoptForm";
 		} catch (MemoryMakeException e) {
 			bindingResult.rejectValue("thumbnail", "thumbnail.error", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
+			settingAdoptData(model);
 			return "/pet/petAdoptForm";
 		}
 
@@ -106,5 +108,10 @@ public class PetController {
 		model.addAttribute("petsForms", petService.showPets(oAuth2User.getUserDto()));
 
 		return "/pet/pets";
+	}
+
+	private void settingAdoptData(Model model) {
+		model.addAttribute("petTypeIdAndNameForms", petTypeService.showPetTypes());
+		model.addAttribute("petGenders", PetGender.values());
 	}
 }
