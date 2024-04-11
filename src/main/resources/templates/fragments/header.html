@@ -523,12 +523,11 @@
       return document.getElementById(id);
     }
     function checkWeightData() {
+      alert("[[#{existDate.weightForm.date}]]");
+      alert("[[#{wrongDate.walkForm.walkDate}]]");
       var form = document.weightForm;
       var dateVal = form.date.value;
       var weightVal = form.weight.value;
-
-      console.log(dateVal);
-      console.log(weightVal);
 
       if (isEmpty(dateVal)) {
         alert("[[#{NotNull.weightForm.date}]]");
@@ -552,7 +551,6 @@
     }
     /* 체중 페이지 종료 */
     /* 산책 경로 페이지 시작 */
-
     function showWalkMap(dataList) {
       var latitude = 37.53650277777778; // 초기값
       var longitude = 126.950225; // 초기값
@@ -575,7 +573,6 @@
       }
       //drawMarker(latitude, longitude, map, 'last');
     }
-
     function drawCircle(center, map) {
       var circle = new kakao.maps.Circle({
           center : center,  // 원의 중심좌표 입니다
@@ -594,7 +591,6 @@
 
       return circle;
     }
-
     function makeChangeColor(polygon, overColor, outColor) {
       // 다각형에 마우스오버 이벤트가 발생했을 때 변경할 채우기 옵션입니다
       var mouseoverOption = {
@@ -619,7 +615,6 @@
           polygon.setOptions(mouseoutOption);
       });
     }
-
     function moveCenter(map, polygon) {
       map.panTo(polygon.getPosition());
     }
@@ -681,22 +676,6 @@
       });
     }
 
-    function changeDateFormat(imageTime) {
-      if (imageTime == null) {
-        return '';
-      }
-      let date = new Date(imageTime);
-      let yearName = date.getFullYear() + '년';
-      let monthName = months[date.getMonth()];
-      let day = date.getDate() + "일";
-      let timeOpt = date.getHours() < 12 ? "오전 " : "오후 ";
-      let hour = date.getHours() > 12 ? date.getHours() == 24 ? 0 : date.getHours() - 12 : date.getHours();
-      let hourName = timeOpt + hour;
-      let minuteName = date.getMinutes();
-      let secondName = date.getSeconds();
-      return [[yearName, monthName, day].join(' '), [hourName, minuteName, secondName].join(':')].join(' ');
-    }
-
     function getDay(imageTime) {
       if (imageTime == null) {
         return '';
@@ -736,6 +715,48 @@
 
       geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
     }
+
+    function searchWalkData(petId) {
+      var startTime = document.getElementById('startTime').value;
+      var endTime = document.getElementById('endTime').value;
+
+      var json = {"pet" : petId, "startTime" : startTime, "endTime" : endTime}
+
+      if (startTime > endTime) {
+        alert("[[#{wrongDate.walkForm.walkDate}]]");
+      } else {
+        $.ajax({
+          url : "/memories/walk",
+          type : "post",
+        data : JSON.stringify(json),
+          contentType:"application/json;charset=UTF-8",
+          async: false,
+          success : function(data) {
+            showWalkMap(data);
+          },
+          error: function(xhr, status, error){
+             alert(xhr.responseText);
+          },
+        });
+      }
+    }
+
+    function changeDateFormat(imageTime) {
+      if (imageTime == null) {
+        return '';
+      }
+      let date = new Date(imageTime);
+      let yearName = date.getFullYear() + '년';
+      let monthName = months[date.getMonth()];
+      let day = date.getDate() + "일";
+      let timeOpt = date.getHours() < 12 ? "오전 " : "오후 ";
+      let hour = date.getHours() > 12 ? date.getHours() == 24 ? 0 : date.getHours() - 12 : date.getHours();
+      let hourName = timeOpt + hour;
+      let minuteName = date.getMinutes();
+      let secondName = date.getSeconds();
+      return [[yearName, monthName, day].join(' '), [hourName, minuteName, secondName].join(':')].join(' ');
+    }
+
     /* 산책 경로 페이지 종료 */
   </script>
 </head>

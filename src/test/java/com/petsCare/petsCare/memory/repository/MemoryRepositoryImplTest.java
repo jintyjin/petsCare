@@ -1,9 +1,6 @@
 package com.petsCare.petsCare.memory.repository;
 
-import com.petsCare.petsCare.memory.dto.form.MemoryDetailForm;
-import com.petsCare.petsCare.memory.dto.form.MemorySimpleForm;
-import com.petsCare.petsCare.memory.dto.form.MemoryWalkRequestForm;
-import com.petsCare.petsCare.memory.dto.form.MemoryWalkResponseForm;
+import com.petsCare.petsCare.memory.dto.form.*;
 import com.petsCare.petsCare.memory.entity.*;
 import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.entity.PetBreed;
@@ -169,7 +166,7 @@ class MemoryRepositoryImplTest {
 
 		Memory memory2 = new Memory(new UploadFile("image.jpeg", UUID.randomUUID() + ".jpeg"),
 				new Gps(new BigDecimal("0.1"), new BigDecimal("0.1")),
-				new ManageTime(LocalDateTime.of(LocalDate.of(2024, 4, 8), LocalTime.MIN)), new ImageSize(1920, 1080), MemoryType.IMAGE, pet);
+				new ManageTime(LocalDateTime.of(LocalDate.of(2024, 4, 11), LocalTime.MIN)), new ImageSize(1920, 1080), MemoryType.IMAGE, pet);
 
 		Memory memory3 = new Memory(new UploadFile("image.jpeg", UUID.randomUUID() + ".jpeg"),
 				new Gps(new BigDecimal("0.1"), new BigDecimal("0.1")),
@@ -182,9 +179,9 @@ class MemoryRepositoryImplTest {
 		jpaPetRepository.save(pet);
 
 		//when
-		List<MemoryWalkResponseForm> findWalk1 = memoryRepository.findMemoryWalkFormByPet(new UserDto(user), new MemoryWalkRequestForm(pet.getId(), LocalDate.now(), LocalDate.now()));
-		List<MemoryWalkResponseForm> findWalk2 = memoryRepository.findMemoryWalkFormByPet(new UserDto(user), new MemoryWalkRequestForm(pet.getId(), LocalDate.of(2024, 4, 8), LocalDate.of(2024, 4, 9)));
-		List<MemoryWalkResponseForm> findWalk3 = memoryRepository.findMemoryWalkFormByPet(new UserDto(user), new MemoryWalkRequestForm(pet.getId(), LocalDate.of(2024, 4, 8), LocalDate.of(2024, 4, 8)));
+		List<MemoryWalkAbstractResponse> findWalk1 = memoryRepository.findMemoryWalkFormByPet(new UserDto(user), new MemoryWalkRequestForm(pet.getId(), LocalDate.now(), LocalDate.now()));
+		List<MemoryWalkAbstractResponse> findWalk2 = memoryRepository.findMemoryWalkFormByPet(new UserDto(user), new MemoryWalkRequestForm(pet.getId(), LocalDate.of(2024, 4, 9), LocalDate.of(2024, 4, 11)));
+		List<MemoryWalkAbstractResponse> findWalk3 = memoryRepository.findMemoryWalkFormByPet(new UserDto(user), new MemoryWalkRequestForm(pet.getId(), LocalDate.of(2024, 4, 9), LocalDate.of(2024, 4, 9)));
 
 		//then
 		assertThat(findWalk1.size()).isEqualTo(2);

@@ -2,7 +2,6 @@ package com.petsCare.petsCare.memory.repository;
 
 import com.petsCare.petsCare.memory.dto.form.*;
 import com.petsCare.petsCare.memory.entity.MemoryType;
-import com.petsCare.petsCare.pet.entity.QPet;
 import com.petsCare.petsCare.user.dto.UserDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -67,17 +66,17 @@ public class MemoryRepositoryImpl implements MemoryRepository {
 	}
 
 	@Override
-	public List<MemoryWalkResponseForm> findMemoryWalkFormByPet(UserDto userDto, MemoryWalkRequestForm memoryWalkRequestForm) {
+	public List<MemoryWalkAbstractResponse> findMemoryWalkFormByPet(UserDto userDto, MemoryWalkAbstractRequest memoryWalkAbstractRequest) {
 		return jpaQueryFactory
-				.select(new QMemoryWalkResponseForm(memory))
+				.select(new QMemoryWalkAbstractResponse(memory))
 				.from(memory)
 				.where(
 						userIdEq(userDto.getId()),
-						petIdEq(memoryWalkRequestForm.getPetId()),
+						petIdEq(memoryWalkAbstractRequest.getPetId()),
 						memory.gps.latitude.isNotNull(),
 						memory.gps.longitude.isNotNull(),
 						memory.memoryType.eq(MemoryType.IMAGE),
-						imageTimeBetween(memoryWalkRequestForm)
+						imageTimeBetween(memoryWalkAbstractRequest)
 				)
 				.fetch();
 	}
@@ -108,7 +107,7 @@ public class MemoryRepositoryImpl implements MemoryRepository {
 		return memoryId == null ? null : memory.id.eq(memoryId);
 	}
 
-	private BooleanExpression imageTimeBetween(MemoryWalkRequestForm memoryWalkRequestForm) {
-		return memory.manageTime.imageTime.between(memoryWalkRequestForm.getStartTime().atStartOfDay(), memoryWalkRequestForm.getEndTime().atTime(LocalTime.MAX));
+	private BooleanExpression imageTimeBetween(MemoryWalkAbstractRequest memoryWalkAbstractRequest) {
+		return memory.manageTime.imageTime.between(memoryWalkAbstractRequest.getStartTime().atStartOfDay(), memoryWalkAbstractRequest.getEndTime().atTime(LocalTime.MAX));
 	}
 }

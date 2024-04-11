@@ -12,7 +12,7 @@ public interface MemoryRepository {
 
 	MemoryDetailForm findMemoryDetailById(UserDto userDto, Long memoryId);
 
-	List<MemoryWalkResponseForm> findMemoryWalkFormByPet(UserDto userDto, MemoryWalkRequestForm memoryWalkRequestForm);
+	List<MemoryWalkAbstractResponse> findMemoryWalkFormByPet(UserDto userDto, MemoryWalkAbstractRequest memoryWalkAbstractRequest);
 
 	MemoryWalkInfoResponse findMemoryWalkInfoByMemory(UserDto userDto, Long memoryId);
 }

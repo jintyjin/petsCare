@@ -1,9 +1,6 @@
 package com.petsCare.petsCare.memory.controller;
 
-import com.petsCare.petsCare.memory.dto.form.MemoryForm;
-import com.petsCare.petsCare.memory.dto.form.MemoryWalkInfoResponse;
-import com.petsCare.petsCare.memory.dto.form.MemoryWalkRequestForm;
-import com.petsCare.petsCare.memory.dto.form.MemoryWalkResponseForm;
+import com.petsCare.petsCare.memory.dto.form.*;
 import com.petsCare.petsCare.memory.exception.MemoryMakeException;
 import com.petsCare.petsCare.memory.service.MemoryService;
 import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
@@ -91,12 +88,20 @@ public class MemoryController {
 
 	@GetMapping("/walk/{petId}")
 	public String memoryWalk(@AuthenticationPrincipal CustomOAuth2User oAuth2User, @PathVariable Long petId, Model model) {
-		List<MemoryWalkResponseForm> memoryWalkResponseForms = memoryService.showMemoryWalk(oAuth2User.getUserDto(), new MemoryWalkRequestForm(petId));
+		List<MemoryWalkAbstractResponse> memoryWalkResponseForms = memoryService.showMemoryWalk(oAuth2User.getUserDto(), new MemoryWalkRequestForm(petId));
 		log.info("memoryWalkResponseForms size = {}", memoryWalkResponseForms.size());
 		model.addAttribute("memoryWalkResponseForms", memoryWalkResponseForms);
 		model.addAttribute("petIdAndNameForm", new PetIdAndNameForm(petService.findPet(petId)));
 
 		return "/memory/walk";
+	}
+
+	@PostMapping("/walk")
+	@ResponseBody
+	public List<MemoryWalkAbstractResponse> memoryWalk(@AuthenticationPrincipal CustomOAuth2User oAuth2User, @RequestBody MemoryWalkRequest memoryWalkRequest) {
+		List<MemoryWalkAbstractResponse> memoryWalkAbstractResponses = memoryService.showMemoryWalk(oAuth2User.getUserDto(), memoryWalkRequest);
+
+		return memoryWalkAbstractResponses;
 	}
 
 	@GetMapping("/walk/info/{memoryId}")

@@ -112,7 +112,7 @@
                 </div>
             </div>
             <div>
-                <button class="w-100 btn btn-primary" th:text="#{button.walk.search}" th:onclick="searchWalkData();"></button>
+                <button class="w-100 btn btn-primary" th:text="#{button.walk.search}" th:onclick="searchWalkData('${petIdAndNameForm.id}');"></button>
             </div>
             <!-- 검색 일자 종료 -->
         </div>

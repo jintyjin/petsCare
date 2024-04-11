@@ -100,8 +100,8 @@ public class MemoryService {
 		return memoryRepository.findMemoryDetailById(userDto, memoryId);
 	}
 
-	public List<MemoryWalkResponseForm> showMemoryWalk(UserDto userDto, MemoryWalkRequestForm memoryWalkRequestForm) {
-		return memoryRepository.findMemoryWalkFormByPet(userDto, memoryWalkRequestForm);
+	public List<MemoryWalkAbstractResponse> showMemoryWalk(UserDto userDto, MemoryWalkAbstractRequest memoryWalkAbstractRequest) {
+		return memoryRepository.findMemoryWalkFormByPet(userDto, memoryWalkAbstractRequest);
 	}
 
 	public MemoryWalkInfoResponse showMemoryWalkInfo(UserDto userDto, Long memoryId) {
