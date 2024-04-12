@@ -5,10 +5,7 @@ import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
 import com.petsCare.petsCare.pet.dto.form.*;
 import com.petsCare.petsCare.pet.dto.validation.PetLeaveGroup;
 import com.petsCare.petsCare.pet.entity.PetGender;
-import com.petsCare.petsCare.pet.exception.PetBirthCanNotAfterTodayException;
-import com.petsCare.petsCare.pet.exception.PetBreedCanNotFindException;
-import com.petsCare.petsCare.pet.exception.PetCanNotFindException;
-import com.petsCare.petsCare.pet.exception.PetLeaveCanNotBeforeBirthException;
+import com.petsCare.petsCare.pet.exception.*;
 import com.petsCare.petsCare.pet.service.PetBreedService;
 import com.petsCare.petsCare.pet.service.PetService;
 import com.petsCare.petsCare.pet.service.PetTypeService;
@@ -94,7 +91,7 @@ public class PetController {
 	}
 
 	@PostMapping("/{petId}")
-	public String pet(@Validated(PetLeaveGroup.class) PetDetailForm petDetailForm, BindingResult bindingResult) {
+	public String leave(@Validated(PetLeaveGroup.class) PetDetailForm petDetailForm, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return "/pet/pet";
 		}
@@ -106,6 +103,9 @@ public class PetController {
 			return "/pet/pet";
 		} catch (PetLeaveCanNotBeforeBirthException e) {
 			bindingResult.rejectValue("leaveTime", "pet.leaveCanNotBeforeBirth", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
+			return "/pet/pet";
+		} catch (PetLeaveCanNotAfterTodayException e) {
+			bindingResult.rejectValue("leaveTime", "pet.leaveCanNotAfterToday", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
 			return "/pet/pet";
 		}
 

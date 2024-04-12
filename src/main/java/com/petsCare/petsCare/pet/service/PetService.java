@@ -78,6 +78,11 @@ public class PetService {
 		if (petDetailForm.getLeaveTime().isBefore(petDetailForm.getBornTime())) {
 			throw PetException.PET_LEAVE_CAN_NOT_BEFORE_BIRTH_EXCEPTION;
 		}
+
+		if (petDetailForm.getLeaveTime().isAfter(LocalDate.now())) {
+			throw PetException.PET_LEAVE_CAN_NOT_AFTER_TODAY_EXCEPTION;
+		}
+
 		Pet pet = findPet(petDetailForm.getId());
 
 		pet.leave(petDetailForm.getLeaveTime());
