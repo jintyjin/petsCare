@@ -14,10 +14,13 @@
    ![Static Badge](https://img.shields.io/badge/H2-grey)
 
  ### 🎁 반려 동물 보기 데모 페이지
-<img width="1100" alt="image" src="https://github.com/jintyjin/petsCare/assets/55868356/b109b7d5-2007-4860-a497-21d0370d7821">
+   <img width="1100" alt="image" src="https://github.com/jintyjin/petsCare/assets/55868356/b109b7d5-2007-4860-a497-21d0370d7821">
 
  ### 💾 반려 동물 상세 보기 데모 페이지
-   <img width="1100" alt="image" src="https://github.com/jintyjin/petsCare/assets/55868356/1c5bfdae-1df6-4b9d-8f44-5c1a66427f7a">
+   <img width="1496" alt="image" src="https://github.com/jintyjin/petsCare/assets/55868356/7b904481-0d6c-43a9-b12a-36e15338b51a">
+   
+ ### 💾 반려 동물 체중 변화 보기 데모 페이지
+   <img width="1496" alt="image" src="https://github.com/jintyjin/petsCare/assets/55868356/44ebac68-5d7e-40b0-a45f-7f619c52d7ce">
 
  ### 📁 추억 상세 보기 데모 페이지
    <img width="1100" alt="image" src="https://github.com/jintyjin/petsCare/assets/55868356/363f7706-879e-459f-af88-8b2ae0c29534">
