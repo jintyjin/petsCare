@@ -5,8 +5,10 @@ import com.petsCare.petsCare.oAuth2.dto.CustomOAuth2User;
 import com.petsCare.petsCare.pet.dto.form.*;
 import com.petsCare.petsCare.pet.dto.validation.PetLeaveGroup;
 import com.petsCare.petsCare.pet.entity.PetGender;
+import com.petsCare.petsCare.pet.exception.PetBirthCanNotAfterTodayException;
 import com.petsCare.petsCare.pet.exception.PetBreedCanNotFindException;
 import com.petsCare.petsCare.pet.exception.PetCanNotFindException;
+import com.petsCare.petsCare.pet.exception.PetLeaveCanNotBeforeBirthException;
 import com.petsCare.petsCare.pet.service.PetBreedService;
 import com.petsCare.petsCare.pet.service.PetService;
 import com.petsCare.petsCare.pet.service.PetTypeService;
@@ -71,6 +73,10 @@ public class PetController {
 			bindingResult.rejectValue("breedId", "breed.canNotFind", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
 			settingAdoptData(model);
 			return "/pet/petAdoptForm";
+		} catch (PetBirthCanNotAfterTodayException e) {
+			bindingResult.rejectValue("petBirth", "breed.birthCanNotAfterToday", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
+			settingAdoptData(model);
+			return "/pet/petAdoptForm";
 		} catch (MemoryMakeException e) {
 			bindingResult.rejectValue("thumbnail", "thumbnail.error", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
 			settingAdoptData(model);
@@ -97,6 +103,9 @@ public class PetController {
 			petService.leave(petDetailForm);
 		} catch (PetCanNotFindException e) {
 			bindingResult.rejectValue("leaveTime", "pet.canNotFind", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
+			return "/pet/pet";
+		} catch (PetLeaveCanNotBeforeBirthException e) {
+			bindingResult.rejectValue("leaveTime", "pet.leaveCanNotBeforeBirth", messageSource.getMessage(e.getMessage(), null, Locale.KOREAN));
 			return "/pet/pet";
 		}
 

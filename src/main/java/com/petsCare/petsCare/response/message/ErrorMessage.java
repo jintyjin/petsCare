@@ -5,6 +5,8 @@ public interface ErrorMessage {
 	public static final String USER_CAN_NOT_FIND_EXCEPTION = "validation.constraints.canNotFindUser.message";
 	public static final String PET_BREED_CAN_NOT_FIND_EXCEPTION = "validation.constraints.canNotFindBreed.message";
 	public static final String PET_CAN_NOT_FIND_EXCEPTION = "validation.constraints.canNotFindPet.message";
+	public static final String PET_BIRTH_CAN_NOT_AFTER_TODAY_EXCEPTION = "validation.constraints.canNotAfterTodayPetBirth.message";
+	public static final String PET_LEAVE_CAN_NOT_BEFORE_BIRTH_EXCEPTION = "validation.constraints.canNotBeforeBirthPetLeave.message";
 	public static final String MEMORY_EXCEPTION = "validation.constraints.memory.message";
 	public static final String MEMORY_DUPLICATED_MEMORY_PATH_EXCEPTION = "validation.constraints.duplicatedPathMemory.message";
 }

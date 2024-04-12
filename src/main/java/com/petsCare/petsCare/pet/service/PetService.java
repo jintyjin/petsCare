@@ -39,6 +39,10 @@ public class PetService {
 		PetBreed petBreed = petBreedRepository.findById(breedId)
 				.orElseThrow(() -> PetException.PET_BREED_CAN_NOT_FIND_EXCEPTION);
 
+		if (petBirth.isAfter(LocalDate.now())) {
+			throw PetException.PET_BIRTH_CAN_NOT_AFTER_TODAY_EXCEPTION;
+		}
+
 		Pet pet = Pet.builder()
 				.petName(petName)
 				.petBreed(petBreed)
@@ -71,6 +75,9 @@ public class PetService {
 
 	@Transactional
 	public void leave(PetDetailForm petDetailForm) {
+		if (petDetailForm.getLeaveTime().isBefore(petDetailForm.getBornTime())) {
+			throw PetException.PET_LEAVE_CAN_NOT_BEFORE_BIRTH_EXCEPTION;
+		}
 		Pet pet = findPet(petDetailForm.getId());
 
 		pet.leave(petDetailForm.getLeaveTime());
