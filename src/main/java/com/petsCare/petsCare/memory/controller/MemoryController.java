@@ -74,8 +74,18 @@ public class MemoryController {
 	public String memories(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
 						   @PathVariable Long petId, Model model, Pageable pageable) {
 		model.addAttribute("reminiscences", memoryService.reminisce(oAuth2User.getUserDto(), petId, pageable));
+		model.addAttribute("petId", petId);
+		model.addAttribute("pageSize", pageable.getPageSize());
 
 		return "/memory/memories";
+	}
+
+	@GetMapping("/api/{petId}")
+	@ResponseBody
+	public List<MemorySimpleForm> memories(@AuthenticationPrincipal CustomOAuth2User oAuth2User, Pageable pageable,
+										   @PathVariable Long petId) {
+
+		return memoryService.reminisce(oAuth2User.getUserDto(), petId, pageable);
 	}
 
 	@GetMapping("/detail/{memoryId}")

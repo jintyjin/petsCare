@@ -2,7 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
 <body>
-<div layout:fragment="content" class="container-fluid px-3 py-3 d-flex justify-content-center flex-wrap">
+<div layout:fragment="content" id="memories" class="container-fluid px-3 py-3 d-flex justify-content-center flex-wrap">
+    <script>
+        document.addEventListener('scroll', function() {
+            checkScroll([[${pageSize}]], [[${petId}]]);
+        });
+    </script>
     <div class="px-3 py-3" th:each="reminiscence : ${reminiscences}">
         <div th:if="${reminiscence.type != null}">
             <a th:if="${reminiscence.type == T(com.petsCare.petsCare.memory.entity.MemoryType).IMAGE}" href="#" th:href="@{|/memories/detail/${reminiscence.memoryId}|}">
@@ -13,6 +18,8 @@
             </video>
         </div>
     </div>
+    <input type="hidden" id="page" value=1 />
+    <input type="hidden" id="isLoading" value=false />
 </div>
 </body>
 </html>

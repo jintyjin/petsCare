@@ -381,6 +381,60 @@
       parent.getElementsByClassName('SxgK2b')[0].style.opacity = 0;
     }
     /* 펫별 메모리 페이지 종료 */
+    /* 메모리 페이지 시작 */
+    function readMemories(page, size, petId, pageSize, isLoading) {
+      $.ajax({
+        url : "/memories/api/" + petId + "?page=" + page + "&size=" + size,
+        type : "get",
+        contentType:"application/json;charset=UTF-8",
+        async: true,
+        success : function(data) {
+          if (data.length > 0) {
+            var fragment = document.createDocumentFragment();
+
+            data.forEach(memorySimpleForm => {
+
+            });
+
+            if (data.length < size) {
+              isLoading.value = true;
+              return;
+            }
+
+            isLoading.value = false;
+            pageSize.value = parseInt(pageSize.value) + 1;
+            return;
+          }
+
+          isLoading.value = true;
+          return;
+        },
+        error: function(xhr, status, error){
+           alert(xhr.responseText);
+        },
+      });
+    }
+
+    function checkScroll(pageSize, petId) {
+      var page = document.getElementById("page");
+      var isLoading = document.getElementById("isLoading");
+
+      // 문서의 전체 높이
+      var documentHeight = document.documentElement.scrollHeight;
+
+      // 현재 스크롤 위치
+      var scrollTop = document.documentElement.scrollTop;
+
+      // 브라우저의 높이
+      var height = document.documentElement.clientHeight;
+
+      // 스크롤이 맨 아래로 내려갔는지 확인
+      if (scrollTop + height >= documentHeight && isLoading.value === "false") {
+          isLoading.value = "true";
+          readMemories(page.value, pageSize, petId, page, isLoading);
+      }
+    }
+    /* 메모리 페이지 종료 */
     /* 메모리 상세 페이지 시작 */
     function showDetailSideBar() {
       let right = '0px';
@@ -423,15 +477,15 @@
         type : "post",
         data : JSON.stringify(json),
         contentType:"application/json;charset=UTF-8",
-	    async: false,
-	    success : function(data) {
-	      if (data == null) {
-	        alert('Error');
-	      }
-	    },
-	    error: function(xhr, status, error){
-	       alert(xhr.responseText);
-	    },
+        async: false,
+        success : function(data) {
+          if (data == null) {
+            alert('Error');
+          }
+        },
+        error: function(xhr, status, error){
+           alert(xhr.responseText);
+        },
       });
     }
     function showMap(gps) {
@@ -500,8 +554,8 @@
           },
           axisY: {
             title: "",
-		    suffix: " kg",
-		    includeZero: true
+            suffix: " kg",
+            includeZero: true
         },
         data: [{
           type: "spline",

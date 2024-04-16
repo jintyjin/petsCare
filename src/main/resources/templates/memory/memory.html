@@ -6,7 +6,7 @@
     <div class="px-3 py-3" th:each="petsForm : ${petsForms}" style="position:relative;">
         <div th:if="${petsForm.type == null}" th:id="${petsForm.id}" th:onmouseover="|showImageMenu('${petsForm.id}');|" th:onmouseout="|hideImageMenu('${petsForm.id}');|">
             <div class="SxgK2b">
-                <a href="#" th:href="@{|/memories/${petsForm.id}|}">
+                <a href="#" th:href="@{|/memories/${petsForm.id}?page=0&size=20|}">
                     <svg width="24px" height="24px" class="Cwtbxf JUQOtc" viewBox="0 0 24 24" style="fill:black;">
                         <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5-7l-3 3.72L9 13l-3 4h12l-4-5z"></path>
                     </svg>
@@ -17,11 +17,11 @@
                     </svg>
                 </a>
             </div>
-            <img href="#" th:href="@{|/memories/${petsForm.id}|}" src th:src="@{/asset/pet/pet_thumbnail.png}" class="img-thumbnail" th:alt="${petsForm.name}" />
+            <img href="#" src th:src="@{/asset/pet/pet_thumbnail.png}" class="img-thumbnail" th:alt="${petsForm.name}" />
         </div>
         <div th:if="${petsForm.type != null}" th:id="${petsForm.id}" th:onmouseover="|showImageMenu('${petsForm.id}');|" th:onmouseout="|hideImageMenu('${petsForm.id}');|" >
             <div class="SxgK2b">
-                <a href="#" th:href="@{|/memories/${petsForm.id}|}">
+                <a href="#" th:href="@{|/memories/${petsForm.id}?page=0&size=20|}">
                     <svg width="24px" height="24px" class="Cwtbxf JUQOtc" viewBox="0 0 24 24">
                         <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5-7l-3 3.72L9 13l-3 4h12l-4-5z"></path>
                     </svg>
@@ -32,13 +32,13 @@
                     </svg>
                 </a>
             </div>
-            <img th:if="${petsForm.type == T(com.petsCare.petsCare.memory.entity.MemoryType).IMAGE}" href="#" th:href="@{|/memories/${petsForm.id}|}" src th:src="@{|/images/${petsForm.path}|}" class="img-thumbnail" th:alt="${petsForm.name}" />
+            <img th:if="${petsForm.type == T(com.petsCare.petsCare.memory.entity.MemoryType).IMAGE}" src th:src="@{|/images/${petsForm.path}|}" class="img-thumbnail" th:alt="${petsForm.name}" />
             <video controls th:if="${petsForm.type == T(com.petsCare.petsCare.memory.entity.MemoryType).VIDEO}">
                 <source src th:src="@{|/images/${petsForm.path}|}">
             </video>
         </div>
         <div class="text-center">
-            <a href="#" th:href="@{|/memories/${petsForm.id}|}" th:text="${petsForm.name}">
+            <a href="#" th:href="@{|/memories/${petsForm.id}?page=0&size=20|}" th:text="${petsForm.name}">
                 펫
             </a>
         </div>
