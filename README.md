@@ -22,6 +22,9 @@
  ### :chocolate_bar: 반려 동물 체중 변화 보기 데모 페이지
    <img width="1496" alt="image" src="https://github.com/jintyjin/petsCare/assets/55868356/44ebac68-5d7e-40b0-a45f-7f619c52d7ce">
 
+ ### :books: 추억 보기 데모 페이지
+   [<video controls><source src=""></video>](https://github.com/jintyjin/petsCare/assets/55868356/9c9d04a5-b3ce-41b6-8e52-dcd221fbcc74)
+
  ### :open_file_folder: 추억 상세 보기 데모 페이지
    <img width="1100" alt="image" src="https://github.com/jintyjin/petsCare/assets/55868356/363f7706-879e-459f-af88-8b2ae0c29534">
 
