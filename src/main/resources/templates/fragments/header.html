@@ -393,8 +393,37 @@
             var fragment = document.createDocumentFragment();
 
             data.forEach(memorySimpleForm => {
+              var memoryId = memorySimpleForm.memoryId;
+              var type = memorySimpleForm.type;
+              var path = memorySimpleForm.path;
 
+              var outerDiv = document.createElement("div");
+              outerDiv.class = "px-3 py-3";
+              var innerDiv = document.createElement("div");
+              var anchor = document.createElement("a");
+              anchor.href = "/memories/detail/" + memoryId;
+
+              if (type == "IMAGE") {
+                var img = document.createElement("img");
+                img.class = "img-thumbnail";
+                img.alt = type;
+                img.src = "/images/" + path;
+                anchor.appendChild(img);
+                innerDiv.appendChild(anchor);
+              } else {
+                var video = document.createElement("video");
+                video.controls = true;
+                var source = document.createElement("source");
+                source.src = "/images/" + path;
+                video.appendChild(source);
+                innerDiv.appendChild(video);
+              }
+
+              outerDiv.appendChild(innerDiv);
+              fragment.appendChild(outerDiv);
             });
+
+            document.getElementById("memories").appendChild(fragment);
 
             if (data.length < size) {
               isLoading.value = true;
