@@ -62,6 +62,8 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	// 메타데이터
 	implementation 'com.drewnoakes:metadata-extractor:2.19.0'
+	// 웹소켓
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 tasks.named('test') {
