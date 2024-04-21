@@ -20,6 +20,8 @@
           src="http://code.jquery.com/jquery-1.11.3.min.js">
   </script>
   <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f03997c9ab3ebbb5b7ec9d5eab20e0e3&libraries=services"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
   <style>
     a {
         color: black;
@@ -42,6 +44,22 @@
     video {
         max-height:225px;
     }
+    /* layout.html 시작 */
+    .notice-div {
+      position: absolute;
+      width: 300px;
+      border: 1px solid black;
+      background: white;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      transform:translate3d(-300px, 0, 0);
+      transition:transform 0.2s linear;
+      z-index: 1;
+      bottom: 50px;
+      left: 5px;
+    }
+    /* layout.html 종료 */
     /* memory.html 시작 */
     .SxgK2b {
       border-radius: 28px;
@@ -838,8 +856,27 @@
       let secondName = date.getSeconds();
       return [[yearName, monthName, day].join(' '), [hourName, minuteName, secondName].join(':')].join(' ');
     }
-
     /* 산책 경로 페이지 종료 */
+    /* 웹소켓 시작 */
+    var websocketUrl = '/websocket-api';
+    var socket = new SockJS(websocketUrl);
+	var stompClient = Stomp.over(socket);
+
+	stompClient.connect({}, function(frame) {
+	  /* 메모리 등록 시작 */
+	  stompClient.subscribe('/adopt/notice', function(message) {
+	    var notice = document.getElementById("notice");
+	    notice.textContent = message.body;
+        notice.style.transform = 'translate3d(' + 0 + ', 0, 0)';
+
+        setTimeout(function() {
+            notice.style.transform = 'translate3d(-' + notice.width + ', 0, 0)';
+        }, 5000);
+
+	  });
+	  /* 메모리 등록 종료 */
+	});
+    /* 웹소켓 종료 */
   </script>
 </head>
 <body>

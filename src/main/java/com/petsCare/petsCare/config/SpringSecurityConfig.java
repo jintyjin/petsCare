@@ -54,7 +54,7 @@ public class SpringSecurityConfig {
                         )
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/join", "oauth2/**", "/login", "asset/**").permitAll()
+                        .requestMatchers("/", "/join", "oauth2/**", "/login", "asset/**", "websocket-api/**").permitAll()
                         .anyRequest().authenticated()
                 )
         ;

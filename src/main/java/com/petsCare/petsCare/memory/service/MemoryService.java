@@ -14,6 +14,7 @@ import com.petsCare.petsCare.pet.entity.Pet;
 import com.petsCare.petsCare.pet.exception.PetException;
 import com.petsCare.petsCare.pet.repository.JpaPetRepository;
 import com.petsCare.petsCare.user.dto.UserDto;
+import com.petsCare.petsCare.websocket.WebSocketService;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +41,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MemoryService {
 
+	private final WebSocketService webSocketService;
 	private final JpaPetRepository jpaPetRepository;
 	private final JpaMemoryRepository memoryRepository;
 
@@ -68,6 +70,9 @@ public class MemoryService {
 		String thumbnail = "";
 
 		try {
+			int count = 1;
+			int totalCount = files.size();
+
 			for (MultipartFile file : files) {
 				String saveFileName = UUID.randomUUID().toString().replaceAll("-", "_") + "." + file.getContentType().split("/")[1];
 
@@ -81,9 +86,14 @@ public class MemoryService {
 				thumbnail = saveFileName;
 
 				saveMemoryData(today, file, saveFileName, savePath, pet);
+
+				webSocketService.makeNotice("/adopt/notice" ,count, totalCount);
+
+				count++;
 			}
 		} catch (Exception e) {
 			deleteMemory(filePathList);
+			webSocketService.exceptionNotice("/adopt/notice");
 			e.printStackTrace();
 			throw MemoryException.MEMORY_MAKE_EXCEPTION;
 		}
