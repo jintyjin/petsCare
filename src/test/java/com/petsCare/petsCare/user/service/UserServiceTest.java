@@ -2,6 +2,7 @@ package com.petsCare.petsCare.user.service;
 
 import com.petsCare.petsCare.user.UserService;
 import com.petsCare.petsCare.user.dto.form.UserJoinForm;
+import com.petsCare.petsCare.user.exception.UserDuplicatedException;
 import com.petsCare.petsCare.user.exception.UserException;
 import com.petsCare.petsCare.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,6 @@ class UserServiceTest {
 
         //when //then
         assertThatThrownBy(() -> userService.joinUser(userJoinForm))
-                .isExactlyInstanceOf(UserException.class);
+                .isExactlyInstanceOf(UserDuplicatedException.class);
     }
 }
