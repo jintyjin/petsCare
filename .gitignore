@@ -170,5 +170,6 @@ gradle-app.setting
 # Custom
 application.yml
 application.properties
+application-secret.yml
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,java,gradle
