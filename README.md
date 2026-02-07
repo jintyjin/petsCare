@@ -1,8 +1,8 @@
 # Pet's Care
 반려인 1000만 시대, 지친 여러분들과 함께 반려동물을 돌봐줄 돌봄이
  ### 📚 기술 스택
-   - ![Static Badge](https://img.shields.io/badge/JDK-17-green) 
-   - ![Static Badge](https://img.shields.io/badge/Spring_Boot-3-green?logo=springboot&amp;logoColor=white)
+   - ![Static Badge](https://img.shields.io/badge/JDK-21-green) 
+   - ![Static Badge](https://img.shields.io/badge/Spring_Boot-4-green?logo=springboot&amp;logoColor=white)
    ![Static Badge](https://img.shields.io/badge/Spring_Security-grey?logo=springsecurity&amp;logoColor=white)
    - ![Static Badge](https://img.shields.io/badge/Spring_Data_JPA-grey)
    ![Static Badge](https://img.shields.io/badge/QueryDSL-3-007396)
